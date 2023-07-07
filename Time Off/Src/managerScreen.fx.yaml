@@ -1,0 +1,1469 @@
+"managerScreen As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =UpdateContext({approvalDialog:false});ClearCollect(_timeOffRequests,'Time Off Requests')
+    Orientation: =If(managerScreen.Width < managerScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= managerScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    "balancesAvailable As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        Height: =126
+        Items: |-
+            =If(
+                LookUp(
+                    EmployeeList,
+                    Employee.Email = TeamGallery.Selected.Employee.Email
+                ).'Residency State'.Value = "Idaho",
+                Filter(
+                    'Time Off Balances',
+                    TeamGallery.Selected.Title = Title,
+                    TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "Floating Holiday" || TimeOffTypes.Value = "*Bereavement"
+                ),
+                Filter(
+                    'Time Off Balances',
+                    TeamGallery.Selected.Title = Title,
+                    TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "Floating Holiday" || TimeOffTypes.Value = "*Bereavement" || TimeOffTypes.Value = "*Sick Leave"
+                )
+            )
+        Layout: =Layout.Vertical
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =123
+        Width: =470
+        WrapCount: =5
+        X: =890
+        Y: =582
+        ZIndex: =1
+
+        Rectangle1 As rectangle:
+            BorderThickness: =1
+            DisabledFill: =Rectangle1.Fill
+            Fill: =RGBA(0, 0, 0, 0)
+            HoverFill: =Rectangle1.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Rectangle1.Fill
+            Width: =87
+            X: =(Title2_2.X + (Title2_2.Width / 2)) - Rectangle1.Width/2
+            Y: =14
+            ZIndex: =1
+
+        Title17 As label:
+            Align: =Align.Center
+            FontWeight: =FontWeight.Bold
+            Height: =48
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =8.5
+            Text: =ThisItem.TimeOffTypes.Value
+            Underline: =true
+            VerticalAlign: =VerticalAlign.Top
+            Width: =85
+            X: =(Title2_2.X+(Title2_2.Width/2))-Title17.Width/2
+            Y: =67
+            ZIndex: =2
+
+        Title2_2 As label:
+            Align: =LayoutAlignItems.Center
+            Color: =RGBA(0, 18, 107, 1)
+            FocusedBorderColor: =Title2_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =38
+            HoverBorderColor: =Title2_2.BorderColor
+            HoverColor: =Title2_2.Color
+            HoverFill: =Title2_2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title2_2.BorderColor
+            PressedColor: =Title2_2.Color
+            PressedFill: =Title2_2.Fill
+            TabIndex: =9
+            Text: |-
+                =If(
+                    Or(
+                        ThisItem.TimeOffTypes.Value = "*Bereavement",
+                        ThisItem.TimeOffTypes.Value = "*Jury Duty"
+                    ),
+                    If(
+                        IsBlank(ThisItem.RequestedTimeOff),
+                        0,
+                        ThisItem.RequestedTimeOff
+                    ),
+                    hoursAvailable_1 - ThisItem.RequestedTimeOff
+                )
+            VerticalAlign: =VerticalAlign.Top
+            Width: =71
+            X: =11
+            Y: =28
+            ZIndex: =3
+
+        hoursAvailable_1 As label:
+            Align: =LayoutAlignItems.Center
+            Color: =RGBA(0, 18, 107, 1)
+            FocusedBorderColor: =hoursAvailable_1.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =38
+            HoverBorderColor: =hoursAvailable_1.BorderColor
+            HoverColor: =hoursAvailable_1.Color
+            HoverFill: =hoursAvailable_1.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =hoursAvailable_1.BorderColor
+            PressedColor: =hoursAvailable_1.Color
+            PressedFill: =hoursAvailable_1.Fill
+            Size: =10
+            TabIndex: =9
+            Text: |-
+                =Round(
+                    If(
+                    /*Evaluating how many years old in the company current user is.*/
+                        DateDiff(
+                            DateValue(
+                                LookUp(
+                                    EmployeeList,
+                                    Employee.Email = curUserEmail
+                                ).'Hire Date'
+                            ),
+                            Today(),
+                            TimeUnit.Years
+                        ) + 1 < 10,
+                    //If less than 10 years
+                        LookUp(
+                            'Time Off Types',
+                            Title = ThisItem.TimeOffTypes.Value
+                        ).AllottedHrs + /*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                        If(
+                    /*Evaluating how many years old in the company current user is.*/
+                            DateDiff(
+                                DateValue(
+                                    LookUp(
+                                        EmployeeList,
+                                        Employee.Email = curUserEmail
+                                    ).'Hire Date'
+                                ),
+                                Today(),
+                                TimeUnit.Years
+                            ) + 1 < 20,
+                    //If less than 20 years
+                            LookUp(
+                                'Time Off Types',
+                                Title = ThisItem.TimeOffTypes.Value
+                            ).AllottedHrs_10yr_Employee + /*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                            If(
+                    /*Evaluating how many years old in the company current user is.*/
+                                DateDiff(
+                                    DateValue(
+                                        LookUp(
+                                            EmployeeList,
+                                            Employee.Email = curUserEmail
+                                        ).'Hire Date'
+                                    ),
+                                    Today(),
+                                    TimeUnit.Years
+                                ) + 1 < 30,
+                    //If less than 30 years
+                                LookUp(
+                                    'Time Off Types',
+                                    Title = ThisItem.TimeOffTypes.Value
+                                ).AllottedHrs_20yr_Employee + /*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                    //Over 30 years
+                                LookUp(
+                                    'Time Off Types',
+                                    Title = ThisItem.TimeOffTypes.Value
+                                ).AllottedHrs_30yr_Employee + /*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time'
+                            )
+                        )
+                    ),
+                    1
+                )
+            Visible: =false
+            Width: =91
+            X: =3
+            Y: =28
+            ZIndex: =4
+
+    "galleryAllRequests_1 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        AccessibleLabel: ="Pending Requests Gallery"
+        BorderThickness: =1
+        DisabledBorderColor: =galleryAllRequests_1.BorderColor
+        DisabledFill: =galleryAllRequests_1.Fill
+        Height: =595
+        HoverBorderColor: =galleryAllRequests_1.BorderColor
+        HoverFill: =galleryAllRequests_1.Fill
+        Items: |-
+            =SortByColumns(
+                Filter(
+                    'Time Off Requests',
+                    TeamGallery.Selected.Employee.Email = Title
+                ),
+                "Created",
+                SortOrder.Descending
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =galleryAllRequests_1.BorderColor
+        OnSelect: =Set(selectedItem,ThisItem)
+        PressedBorderColor: =galleryAllRequests_1.BorderColor
+        PressedFill: =galleryAllRequests_1.Fill
+        TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(153, 207, 236, 1), -2%), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =75
+        Transition: =Transition.Pop
+        Width: =440
+        X: =441
+        Y: =145
+        ZIndex: =2
+
+        Title6 As label:
+            Height: =41
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =18
+            Text: =ThisItem.TimeOffType.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =297
+            X: =59
+            Y: =18
+            ZIndex: =1
+
+        Subtitle1 As label:
+            Height: =34
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Created
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =false
+            Width: =222
+            X: =59
+            Y: =58
+            ZIndex: =2
+
+        Separator2 As rectangle:
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        Icon4_1 As icon.Calendar:
+            DisabledFill: =Icon4_1.Fill
+            Height: =38
+            HoverBorderColor: =ColorFade(Icon4_1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon4_1.Color, 20%)
+            HoverFill: =Icon4_1.Fill
+            Icon: =Icon.AddToCalendar
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(Icon4_1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon4_1.Color, -20%)
+            PressedFill: =Icon4_1.Fill
+            Visible: =false
+            Width: =38
+            X: =13
+            Y: =57
+            ZIndex: =5
+
+        Icon6_1 As icon.Airplane:
+            DisabledFill: =Icon6_1.Fill
+            Height: =38
+            HoverBorderColor: =ColorFade(Icon6_1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon6_1.Color, 20%)
+            HoverFill: =Icon6_1.Fill
+            Icon: |-
+                =If(
+                    ThisItem.TimeOffType.Value = "*Bereavement",
+                    Icon.EmojiSad,
+                    ThisItem.TimeOffType.Value = "Sick Leave",
+                    Icon.Weather,
+                    ThisItem.TimeOffType.Value = "Floating Holiday",
+                    Icon.CalendarBlank,
+                    ThisItem.TimeOffType.Value = "*Jury Duty",
+                    Icon.Person,
+                    ThisItem.TimeOffType.Value = "Vacation",
+                    Icon.Airplane
+                )
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(Icon6_1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon6_1.Color, -20%)
+            PressedFill: =Icon6_1.Fill
+            Width: =38
+            X: =13
+            Y: =14
+            ZIndex: =6
+
+        Title6_6 As label:
+            Align: =Align.Right
+            Color: |-
+                =If(
+                    ThisItem.Status.Value = "Approved",
+                    Color.Green,
+                    ThisItem.Status.Value = "Pending",
+                    Color.DarkOrange,
+                    ThisItem.Status.Value = "Declined",
+                    Color.Red,
+                    ThisItem.Status.Value = "Cancel",
+                    Color.Peru
+                )
+            FocusedBorderColor: =Title6_6.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =28
+            HoverBorderColor: =Title6_6.BorderColor
+            HoverColor: =Title6_6.Color
+            HoverFill: =Title6_6.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =25
+            PaddingTop: =0
+            PressedBorderColor: =Title6_6.BorderColor
+            PressedColor: =Title6_6.Color
+            PressedFill: =Title6_6.Fill
+            Size: =16
+            TabIndex: =7
+            Text: =ThisItem.Status.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =159
+            X: =220
+            Y: =24
+            ZIndex: =7
+
+        Icon6_3 As icon.Check:
+            AccessibleLabel: ="Approve Check Mark"
+            DisabledFill: =Icon6_3.Fill
+            FocusedBorderColor: =Icon6_3.BorderColor
+            Height: =38
+            HoverBorderColor: =ColorFade(Icon6_3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon6_3.Color, 20%)
+            HoverFill: =Icon6_3.Fill
+            Icon: |-
+                =If(
+                    ThisItem.Status.Value = "Approved",
+                    Icon.Check,
+                    ThisItem.Status.Value = "Declined",
+                    Icon.CancelBadge,
+                    ThisItem.Status.Value = "Pending",
+                    Icon.Warning,
+                    ThisItem.Status.Value = "Cancel",
+                    Icon.Cancel
+                )
+            OnSelect: =
+            PressedBorderColor: =ColorFade(Icon6_3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon6_3.Color, -20%)
+            PressedFill: =Icon6_3.Fill
+            TabIndex: =11
+            Width: =38
+            X: =365
+            Y: =19
+            ZIndex: =8
+
+    "TeamGallery As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        BorderThickness: =1
+        Height: =595
+        Items: |-
+            =Filter(
+                'Employee List',
+                Manager.Email = curUserEmail
+            )
+        Layout: =Layout.Vertical
+        TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(153, 207, 236, 1), -2%), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =Min(96, Self.Height - 60)
+        Transition: =Transition.Pop
+        Width: =424
+        X: =7
+        Y: =145
+        ZIndex: =3
+
+        Title9 As label:
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Employee.DisplayName
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =32
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =1
+
+        NextArrow2 As icon.ChevronRight:
+            AccessibleLabel: =Self.Tooltip
+            DisabledFill: =NextArrow2.Fill
+            Height: =60
+            HoverBorderColor: =ColorFade(NextArrow2.BorderColor, 20%)
+            HoverColor: =ColorFade(NextArrow2.Color, 20%)
+            HoverFill: =NextArrow2.Fill
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =ColorFade(NextArrow2.BorderColor, -20%)
+            PressedColor: =ColorFade(NextArrow2.Color, -20%)
+            PressedFill: =NextArrow2.Fill
+            TabIndex: =0
+            Tooltip: ="View item details"
+            Width: =60
+            X: =Parent.TemplateWidth - Self.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+            ZIndex: =2
+
+        Separator3 As rectangle:
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =3
+
+        Image9 As image:
+            Height: =40
+            HoverBorderColor: =ColorFade(Image9.BorderColor, 20%)
+            HoverFill: =ColorFade(Image9.Fill, 20%)
+            Image: |-
+                ="data:image/svg+xml," & 
+                 EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                  <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                   <path fill='orange'
+                d='M960 2048q132 0 255 -34.5t229.5 -97t194 -150t150 -194t97 -229.5t34.5 -255t-34.5 -255t-97 -229.5t-150 -194t-194 -150t-229.5 -97t-255 -34.5t-255 34.5t-229.5 97t-194 150t-150 194t-97 229t-34.5 255.5q0 132 34.5 255t97 229.5t150 194t194 150t229 97t255.5 34.5zM1024 1280h-128v-640h128v640zM1024 1536h-128v-128h128v128z' />
+                  </g>
+                
+                </svg>"
+                )
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(Image9.BorderColor, -20%)
+            PressedFill: =ColorFade(Image9.Fill, -20%)
+            Visible: =!IsEmpty(Filter(_timeOffRequests,And(ThisItem.Employee.Email=Title,Status.Value="Pending")))
+            Width: =40
+            X: =312
+            Y: =28
+            ZIndex: =4
+
+    RectQuickActionBar2_2 As rectangle:
+        DisabledFill: =RectQuickActionBar2_2.Fill
+        FocusedBorderColor: =RectQuickActionBar2_2.BorderColor
+        Height: =64
+        HoverFill: =RectQuickActionBar2_2.Fill
+        PressedFill: =RectQuickActionBar2_2.Fill
+        Width: =Parent.Width
+        ZIndex: =4
+
+    Title1_2 As label:
+        Align: =Align.Center
+        FocusedBorderColor: =Title1_2.BorderColor
+        Height: =64
+        HoverBorderColor: =Title1_2.BorderColor
+        HoverColor: =Title1_2.Color
+        HoverFill: =Title1_2.Fill
+        PaddingRight: =10
+        PressedBorderColor: =Title1_2.BorderColor
+        PressedColor: =Title1_2.Color
+        PressedFill: =Title1_2.Fill
+        Text: ="Manager Screen"
+        Width: =Parent.Width
+        ZIndex: =5
+
+    RqstDetails As formViewer:
+        BorderThickness: =1
+        DataSource: ='Time Off Requests'
+        Height: =408
+        Item: =galleryAllRequests_1.Selected
+        NumberOfColumns: =1
+        Width: =472
+        X: =890
+        Y: =145
+        ZIndex: =6
+
+        Created_DataCard2 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Created"
+            Default: =ThisItem.Created
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"Created")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =439
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey7 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue7.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue7 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Height: =27
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey7.X + DataCardKey7.Width
+                Y: =10
+                ZIndex: =2
+
+        "'Created By_DataCard3' As typedDataCard.comboBoxViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Author"
+            Default: =ThisItem.'Created By'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"Author")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue12.Selected
+            Width: =439
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey12 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue12.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue12 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["DisplayName","Email","Picture"]
+                DisplayMode: =Parent.DisplayMode
+                HoverBorderColor: =ColorFade(DataCardValue12.BorderColor, 15%)
+                Items: =Choices([@'Time Off Requests'].'Created By')
+                MoreItemsButtonColor: =Self.ChevronBackground
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =DataCardValue12.HoverBorderColor
+                SearchFields: =["DisplayName"]
+                SearchItems: =Choices('Time Off Requests'.'Created By',DataCardValue12.SearchText)
+                SelectMultiple: =false
+                Template: =ListItemTemplate.Person
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey12.X + DataCardKey12.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage7 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue12.Y + DataCardValue12.Height
+                ZIndex: =3
+
+            StarVisible7 As label:
+                Align: =Align.Center
+                Height: =DataCardKey12.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey12.Y
+                ZIndex: =4
+
+        From_DataCard3 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="From"
+            Default: =ThisItem.From
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"From")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =439
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey13 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue13.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue13 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Height: =27
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey13.X + DataCardKey13.Width
+                Y: =10
+                ZIndex: =2
+
+        To_DataCard3 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="To"
+            Default: =ThisItem.To
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"To")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =439
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey15 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue15.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue15 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Height: =27
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey15.X + DataCardKey15.Width
+                Y: =10
+                ZIndex: =2
+
+        Hours_DataCard2 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Hours"
+            Default: =ThisItem.Hours
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"Hours")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =440
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey16 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue16.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue16 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Height: =27
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey16.X + DataCardKey16.Width
+                Y: =10
+                ZIndex: =2
+
+        Status_DataCard2 As typedDataCard.comboBoxViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Status"
+            Default: =ThisItem.Status
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"Status")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue18.Selected
+            Width: =440
+            X: =0
+            Y: =5
+            ZIndex: =1
+
+            DataCardKey18 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue18.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue18 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                HoverBorderColor: =ColorFade(DataCardValue18.BorderColor, 15%)
+                Items: =Choices([@'Time Off Requests'].Status)
+                MoreItemsButtonColor: =Self.ChevronBackground
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =DataCardValue18.HoverBorderColor
+                SearchFields: =["Value"]
+                SearchItems: =Choices('Time Off Requests'.Status,DataCardValue18.SearchText)
+                SelectMultiple: =false
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey18.X + DataCardKey18.Width
+                Y: =10
+                ZIndex: =2
+
+            ErrorMessage9 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue18.Y + DataCardValue18.Height
+                ZIndex: =3
+
+            StarVisible9 As label:
+                Align: =Align.Center
+                Height: =DataCardKey18.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey18.Y
+                ZIndex: =4
+
+        Reason_DataCard1 As typedDataCard.textualViewCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="Reason"
+            Default: =ThisItem.Reason
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"Reason")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =40
+            Required: =false
+            Width: =440
+            X: =0
+            Y: =6
+            ZIndex: =1
+
+            DataCardKey20 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =(Parent.Width - 60) * 0.4
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue20.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue20 As label:
+                AutoHeight: =true
+                DisplayMode: =Parent.DisplayMode
+                Height: =27
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =(Parent.Width - 60) * 0.6
+                X: =DataCardKey20.X + DataCardKey20.Width
+                Y: =10
+                ZIndex: =2
+
+        "'Supervisor Comment_DataCard1' As typedDataCard.textualViewCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="SupervisorComment"
+            Default: =ThisItem.'Supervisor Comment'
+            DisplayMode: =DisplayMode.View
+            DisplayName: =DataSourceInfo([@'Time Off Requests'],DataSourceInfo.DisplayName,"SupervisorComment")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =75
+            Required: =false
+            Width: =440
+            X: =0
+            Y: =7
+            ZIndex: =1
+
+            DataCardKey19 As label:
+                Align: =Align.Center
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =388
+                Wrap: =false
+                X: =30
+                Y: =10 + (DataCardValue19.Height / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            DataCardValue19 As label:
+                DisplayMode: =Parent.DisplayMode
+                Height: =18
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Default
+                Width: =375
+                X: =40
+                Y: =40
+                ZIndex: =2
+
+    Label3 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Size: =20
+        Text: ="Team"
+        Width: =TeamGallery.Width
+        X: =TeamGallery.X
+        Y: =105
+        ZIndex: =7
+
+    Label5 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Size: =20
+        Text: ="Requests"
+        Width: =galleryAllRequests_1.Width
+        X: =galleryAllRequests_1.X
+        Y: =105
+        ZIndex: =8
+
+    Label7 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Size: =20
+        Text: ="Request Details"
+        Width: =RqstDetails.Width
+        X: =RqstDetails.X
+        Y: =105
+        ZIndex: =9
+
+    Button2 As button:
+        BorderColor: =ColorFade(Button2.Fill, -15%)
+        Height: =26
+        HoverBorderColor: =ColorFade(Button2.BorderColor, 20%)
+        OnSelect: |-
+            =UpdateContext({approvalDialog:true})
+        PressedBorderColor: =Button2.Fill
+        PressedColor: =Button2.Fill
+        PressedFill: =Button2.Color
+        Text: ="Approve"
+        Visible: =false//If(galleryAllRequests_1.Selected.Status.Value = "Pending",true,false)
+        Width: =105
+        X: =913
+        Y: =513
+        ZIndex: =10
+
+    Button2_1 As button:
+        BorderColor: =ColorFade(Button2_1.Fill, -15%)
+        Height: =26
+        HoverBorderColor: =ColorFade(Button2_1.BorderColor, 20%)
+        OnSelect: |-
+            =UpdateContext({approvalDialog:true})
+        PressedBorderColor: =Button2_1.Fill
+        PressedColor: =Button2_1.Fill
+        PressedFill: =Button2_1.Color
+        Text: ="Reject"
+        Visible: =false//If(galleryAllRequests_1.Selected.Status.Value = "Pending",true,false)
+        Width: =105
+        X: =1072
+        Y: =513
+        ZIndex: =11
+
+    Label4 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =27
+        Size: =18
+        Text: ="Available Balances"
+        Underline: =true
+        Width: =balancesAvailable.Width
+        X: =890
+        Y: =560
+        ZIndex: =12
+
+    Label4_1 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Semibold
+        Height: =32
+        Italic: =true
+        Size: =10
+        Text: ="*Jury Duty and Bereavement only accumulate time."
+        Width: =balancesAvailable.Width
+        X: =890
+        Y: =708
+        ZIndex: =13
+
+    "'Back Button Container_5' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =14
+
+        Button6_6 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_6.Fill, -15%)
+            Color: =If(btn_Overlay_6.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_6.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_6.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_6.Fill
+            PressedColor: =Button6_6.Fill
+            PressedFill: =Button6_6.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_6 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_6.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_6.Fill
+            Fill: =If(btn_Overlay_6.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_6.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_6.Color, 20%)
+            HoverFill: =Icon15_6.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_6.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_6.Color, -20%)
+            PressedFill: =Icon15_6.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_6 As button:
+            BorderColor: =ColorFade(btn_Overlay_6.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_6.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(Welcome_Screen)
+            PressedBorderColor: =btn_Overlay_6.Fill
+            PressedColor: =btn_Overlay_6.Fill
+            PressedFill: =btn_Overlay_6.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    "'Calendar Container' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Visible: =false
+        Width: =193
+        X: =1143
+        Y: =5
+        ZIndex: =15
+
+        Button6_13 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_13.Fill, -15%)
+            Color: =If(btn_Overlay_13.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_13.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_13.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_13.Fill
+            PressedColor: =Button6_13.Fill
+            PressedFill: =Button6_13.Color
+            Size: =20
+            Text: ="Calendar"
+            Width: =175
+            ZIndex: =1
+
+        Icon15_13 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_13.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_13.Fill
+            Fill: =If(btn_Overlay_13.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_13.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_13.Color, 20%)
+            HoverFill: =Icon15_13.Fill
+            Icon: =Icon.CalendarBlank
+            PressedBorderColor: =ColorFade(Icon15_13.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_13.Color, -20%)
+            PressedFill: =Icon15_13.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_13 As button:
+            BorderColor: =ColorFade(btn_Overlay_13.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_13.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Launch(
+                    "https://apps.powerapps.com/play/e/default-101ce67d-13f2-447a-bb65-0989b89dfdb4/a/7962c932-49f2-492f-907a-1c672c323043?tenantId=101ce67d-13f2-447a-bb65-0989b89dfdb4&CalendarScreen=Calendar",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =btn_Overlay_13.Fill
+            PressedColor: =btn_Overlay_13.Fill
+            PressedFill: =btn_Overlay_13.Color
+            Text: =""
+            Width: =193
+            ZIndex: =3
+
+    Button2_2 As button:
+        BorderColor: =ColorFade(Button2_2.Fill, -15%)
+        Height: =26
+        HoverBorderColor: =ColorFade(Button2_2.BorderColor, 20%)
+        OnSelect: |-
+            =Set(cancelVacation,galleryAllRequests_1.Selected);
+            Set(_selectedTeamMember,TeamGallery.Selected);
+            UpdateContext({cancelDialog:true})
+        PressedBorderColor: =Button2_2.Fill
+        PressedColor: =Button2_2.Fill
+        PressedFill: =Button2_2.Color
+        Text: ="Cancel"
+        Visible: |-
+            =If(
+                Or(
+                    galleryAllRequests_1.Selected.Status.Value = "Pending",
+                    galleryAllRequests_1.Selected.Status.Value = "Approved"
+                ),
+                true,
+                false
+            )
+        Width: =105
+        X: =1236
+        Y: =513
+        ZIndex: =16
+
+    approvalDialog As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =23
+
+        Rectangle10_3 As rectangle:
+            DisabledFill: =Rectangle10_3.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10_3.Fill
+            PressedFill: =Rectangle10_3.Fill
+            Visible: =approvalDialog
+            Width: =1366
+            ZIndex: =17
+
+        Rectangle3_2 As rectangle:
+            AccessibleLabel: ="Rectangle"
+            BorderThickness: =1
+            DisabledFill: =Rectangle3_2.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle3_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =210
+            HoverFill: =Rectangle3_2.Fill
+            PressedFill: =Rectangle3_2.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =440
+            X: =440
+            Y: =285
+            ZIndex: =18
+
+        iconCancel_2 As icon.Cancel:
+            AccessibleLabel: ="Cancel"
+            Color: =RGBA(39, 67, 125, 1)
+            DisabledFill: =iconCancel_2.Fill
+            FocusedBorderColor: =iconCancel_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =50
+            HoverBorderColor: =ColorFade(iconCancel_2.BorderColor, 20%)
+            HoverColor: =ColorFade(iconCancel_2.Color, 20%)
+            HoverFill: =iconCancel_2.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =UpdateContext({approvalDialog:false});Reset(tbApprovalNotes_2)
+            PressedBorderColor: =ColorFade(iconCancel_2.BorderColor, -20%)
+            PressedColor: =ColorFade(iconCancel_2.Color, -20%)
+            PressedFill: =iconCancel_2.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =28
+            X: =834
+            Y: =295
+            ZIndex: =19
+
+        btnSubmit_2 As button:
+            BorderColor: =ColorFade(btnSubmit_2.Fill, -15%)
+            FocusedBorderColor: =btnSubmit_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =33
+            HoverBorderColor: =ColorFade(btnSubmit_2.BorderColor, 20%)
+            OnSelect: |-
+                =Patch(
+                    'Time Off Balances',
+                    LookUp(
+                        'Time Off Balances',
+                        Employee.Email = selectedItem.'Created By'.Email && TimeOffTypes.Value = selectedItem.TimeOffType.Value
+                    ),
+                    {
+                        RequestedTimeOff: LookUp(
+                            'Time Off Balances',
+                            Employee.Email = selectedItem.'Created By'.Email && TimeOffTypes.Value = selectedItem.TimeOffType.Value
+                        ).RequestedTimeOff + selectedItem.Days
+                    }
+                );
+                //Get all Items
+                ClearCollect(
+                    DateRange,
+                    AddColumns(
+                        FirstN(
+                            [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                                6,
+                                7,
+                                8,
+                                9,
+                                10,
+                                11,
+                                12,
+                                13,
+                                14,
+                                15,
+                                16,
+                                17,
+                                18,
+                                19,
+                                20,
+                                21,
+                                22,
+                                23,
+                                24,
+                                25,
+                                26,
+                                27,
+                                28,
+                                29
+                            ],
+                            DateDiff(
+                                selectedItem.From,
+                                selectedItem.To,
+                                TimeUnit.Days
+                            ) + 1
+                        ),
+                        "Day",
+                        "Day " & (Value + 1),
+                        "Date",
+                        DateAdd(
+                            selectedItem.From,
+                            Value,
+                            TimeUnit.Days
+                        ),
+                        "Type",
+                        selectedItem.TimeOffType.Value,
+                        "Hours",
+                        "8",
+                        "Person",
+                        curUser
+                    )
+                );
+                ForAll(
+                    DateRange,//Add this to the Shared SharePoint Calendar
+                    Patch(
+                        'Time Off Calendar',
+                        Defaults('Time Off Calendar'),
+                        {
+                            Title: selectedItem.'Created By'.DisplayName & " - " & selectedItem.TimeOffType.Value,
+                            Start: Date,
+                            End: Date
+                        }
+                    )
+                );
+                Refresh('Time Off Balances');
+                Refresh('Time Off Calendar');
+                UpdateContext({approvalDialog: false});
+                Reset(tbApprovalNotes_2)
+            PressedBorderColor: =btnSubmit_2.Fill
+            PressedColor: =btnSubmit_2.Fill
+            PressedFill: =btnSubmit_2.Color
+            TabIndex: =8
+            Text: ="Submit"
+            Visible: =approvalDialog
+            Width: =100
+            X: =761
+            Y: =447
+            ZIndex: =20
+
+        tbApprovalNotes_2 As text:
+            AccessibleLabel: ="Approval Notes Text Box"
+            Default: =""
+            FocusedBorderColor: =tbApprovalNotes_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =88
+            HintText: ="Enter approve or decline notes here"
+            PressedBorderColor: =tbApprovalNotes_2.HoverBorderColor
+            PressedColor: =tbApprovalNotes_2.Color
+            PressedFill: =tbApprovalNotes_2.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =403
+            X: =457
+            Y: =346
+            ZIndex: =21
+
+        Label3_2 As label:
+            FocusedBorderColor: =Label3_2.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =52
+            HoverBorderColor: =Label3_2.BorderColor
+            HoverColor: =Label3_2.Color
+            HoverFill: =Label3_2.Fill
+            PressedBorderColor: =Label3_2.BorderColor
+            PressedColor: =Label3_2.Color
+            PressedFill: =Label3_2.Fill
+            Size: =24
+            TabIndex: =8
+            Text: |-
+                ="Comments (optional):"
+            Visible: =approvalDialog
+            Width: =340
+            X: =455
+            Y: =295
+            ZIndex: =22
+
+    Image9_1 As image:
+        Height: =48
+        HoverBorderColor: =ColorFade(Image9_1.BorderColor, 20%)
+        HoverFill: =ColorFade(Image9_1.Fill, 20%)
+        Image: |-
+            ="data:image/svg+xml," & 
+             EncodeUrl(
+                "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+              <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+               <path fill='green'
+            d='M1024 2048q141 0 272 -36.5t244.5 -103.5t207 -160.5t160.5 -207t103.5 -244.5t36.5 -272t-36.5 -272t-103.5 -244.5t-160.5 -207t-207 -160.5t-244.5 -103.5t-272 -36.5t-272 36.5t-244.5 103.5t-207 160.5t-160.5 207t-103.5 244.5t-36.5 272t36.5 272t103.5 244.5t160.5 207t207 160.5t244.5 103.5t272 36.5zM1152 512v256h-256v-256h256zM1152 896v640h-256v-640h256z' />
+              </g>
+            
+            </svg>"
+            )
+        OnSelect: =
+        PressedBorderColor: =ColorFade(Image9_1.BorderColor, -20%)
+        PressedFill: =ColorFade(Image9_1.Fill, -20%)
+        Visible: =
+        Width: =56
+        X: =331
+        Y: =64
+        ZIndex: =29
+
+    cancelDialog As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =29
+
+        Rectangle10_4 As rectangle:
+            DisabledFill: =Rectangle10_4.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10_4.Fill
+            PressedFill: =Rectangle10_4.Fill
+            Visible: =cancelDialog
+            Width: =1366
+            ZIndex: =23
+
+        Rectangle3_3 As rectangle:
+            AccessibleLabel: ="Rectangle"
+            BorderThickness: =1
+            DisabledFill: =Rectangle3_3.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle3_3.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =210
+            HoverFill: =Rectangle3_3.Fill
+            PressedFill: =Rectangle3_3.Fill
+            TabIndex: =8
+            Visible: =cancelDialog
+            Width: =440
+            X: =440
+            Y: =285
+            ZIndex: =24
+
+        iconCancel_3 As icon.Cancel:
+            AccessibleLabel: ="Cancel"
+            Color: =RGBA(39, 67, 125, 1)
+            DisabledFill: =iconCancel_3.Fill
+            FocusedBorderColor: =iconCancel_3.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =50
+            HoverBorderColor: =ColorFade(iconCancel_3.BorderColor, 20%)
+            HoverColor: =ColorFade(iconCancel_3.Color, 20%)
+            HoverFill: =iconCancel_3.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =UpdateContext({cancelDialog:false});Reset(tbApprovalNotes_3)
+            PressedBorderColor: =ColorFade(iconCancel_3.BorderColor, -20%)
+            PressedColor: =ColorFade(iconCancel_3.Color, -20%)
+            PressedFill: =iconCancel_3.Fill
+            TabIndex: =8
+            Visible: =cancelDialog
+            Width: =28
+            X: =834
+            Y: =295
+            ZIndex: =25
+
+        btnSubmit_3 As button:
+            BorderColor: =ColorFade(btnSubmit_3.Fill, -15%)
+            FocusedBorderColor: =btnSubmit_3.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =33
+            HoverBorderColor: =ColorFade(btnSubmit_3.BorderColor, 20%)
+            OnSelect: |-
+                =If(//Evaluating if record to be cancel status is either pending or approved.
+                    cancelVacation.Status.Value = "Pending",
+                    //If pending update status to cancel.
+                    Patch(
+                        'Time Off Requests',
+                        LookUp(
+                            'Time Off Requests',
+                            ID = cancelVacation.ID
+                        ),
+                        {Status: {Value: "Cancel"}}
+                    ),
+                    If(
+                        cancelVacation.Status.Value = "Approved",
+                        //If status is approved deduct requested hours from current balance to give back those hours to employee.
+                        Patch(
+                            'Time Off Balances',
+                            LookUp(//Identifying which record to be updated.
+                                'Time Off Balances',
+                                Title = _selectedTeamMember.Title && TimeOffTypes.Value = cancelVacation.TimeOffType.Value
+                            ),
+                            {
+                                RequestedTimeOff: LookUp(
+                                    'Time Off Balances',
+                                    Title = _selectedTeamMember.Title && TimeOffTypes.Value = cancelVacation.TimeOffType.Value
+                                ).RequestedTimeOff - cancelVacation.Hours
+                            }
+                        )
+                    )
+                );
+                If(//Evaluating if record to be cancel status is either pending or approved.
+                    cancelVacation.Status.Value = "Approved",
+                    //Updating status to cancel.
+                    Patch(
+                        'Time Off Requests',
+                        LookUp(
+                            'Time Off Requests',
+                            ID = cancelVacation.ID
+                        ),
+                        {Status: {Value: "Cancel"}}
+                    )
+                );
+                Refresh('Time Off Balances');
+                Refresh('Time Off Calendar');
+                UpdateContext({cancelDialog: false});
+                Reset(tbApprovalNotes_3)
+            PressedBorderColor: =btnSubmit_3.Fill
+            PressedColor: =btnSubmit_3.Fill
+            PressedFill: =btnSubmit_3.Color
+            TabIndex: =8
+            Text: ="Submit"
+            Visible: =cancelDialog
+            Width: =100
+            X: =761
+            Y: =447
+            ZIndex: =26
+
+        tbApprovalNotes_3 As text:
+            AccessibleLabel: ="Approval Notes Text Box"
+            Default: =""
+            FocusedBorderColor: =tbApprovalNotes_3.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =88
+            HintText: ="Enter cancelation notes here"
+            PressedBorderColor: =tbApprovalNotes_3.HoverBorderColor
+            PressedColor: =tbApprovalNotes_3.Color
+            PressedFill: =tbApprovalNotes_3.Fill
+            TabIndex: =8
+            Visible: =cancelDialog
+            Width: =403
+            X: =457
+            Y: =346
+            ZIndex: =27
+
+        Label3_3 As label:
+            FocusedBorderColor: =Label3_3.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =52
+            HoverBorderColor: =Label3_3.BorderColor
+            HoverColor: =Label3_3.Color
+            HoverFill: =Label3_3.Fill
+            PressedBorderColor: =Label3_3.BorderColor
+            PressedColor: =Label3_3.Color
+            PressedFill: =Label3_3.Fill
+            Size: =24
+            TabIndex: =8
+            Text: |-
+                ="Comments (optional):"
+            Visible: =cancelDialog
+            Width: =340
+            X: =455
+            Y: =295
+            ZIndex: =28
+

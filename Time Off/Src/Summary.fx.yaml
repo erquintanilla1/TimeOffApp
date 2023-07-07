@@ -1,0 +1,1189 @@
+"Summary As screen.'phoneLayout_FluidGridWithHeaderPageLayout_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =Set(
+            _selectedApprover,
+            EmployeeManager
+        );
+        If(
+            Value(lblNewBalance.Text) < 0,
+            Notify(
+                "You don't have more balance available!",
+                NotificationType.Warning
+            )
+        )
+    Width: =Max(App.Width, App.DesignWidth)
+
+    RectQuickActionBar4 As rectangle:
+        AccessibleLabel: ="Rectangle"
+        Height: =64
+        TabIndex: =2
+        Width: =Parent.Width
+        ZIndex: =1
+
+    LblAppName2 As label:
+        Align: =Align.Center
+        FocusedBorderThickness: =.5
+        Height: =64
+        TabIndex: =3
+        Text: ="Summary"
+        Width: =Parent.Width
+        ZIndex: =2
+
+    Canvas1 As fluidGrid.fluidGridWithBlankCard:
+        AcceptsFocus: =false
+        BorderThickness: =0
+        Height: =688
+        Width: =1366
+        Y: =79
+        ZIndex: =3
+
+        DataCard1 As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =93
+            Width: =1366
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            Rectangle5 As rectangle:
+                AccessibleLabel: ="Rectangle"
+                BorderColor: =RGBA(179, 179, 179, 1)
+                BorderThickness: =1
+                DisabledFill: =Rectangle5.Fill
+                Fill: =RGBA(0, 0, 0, 0)
+                HoverFill: =Rectangle5.Fill
+                PressedFill: =Rectangle5.Fill
+                TabIndex: =12
+                Width: =299
+                ZIndex: =1
+
+            Rectangle5_1 As rectangle:
+                AccessibleLabel: ="Rectangle"
+                BorderColor: =RGBA(179, 179, 179, 1)
+                BorderThickness: =1
+                DisabledFill: =Rectangle5_1.Fill
+                Fill: =RGBA(0, 0, 0, 0)
+                HoverFill: =Rectangle5_1.Fill
+                PressedFill: =Rectangle5_1.Fill
+                TabIndex: =12
+                Width: =299
+                X: =299
+                ZIndex: =2
+
+            Rectangle5_2 As rectangle:
+                AccessibleLabel: ="Rectangle"
+                BorderColor: =RGBA(179, 179, 179, 1)
+                BorderThickness: =1
+                DisabledFill: =Rectangle5_2.Fill
+                Fill: =RGBA(0, 0, 0, 0)
+                HoverFill: =Rectangle5_2.Fill
+                PressedFill: =Rectangle5_2.Fill
+                TabIndex: =12
+                Width: =299
+                X: =598
+                ZIndex: =3
+
+            Rectangle5_3 As rectangle:
+                AccessibleLabel: ="Rectangle"
+                BorderColor: =RGBA(179, 179, 179, 1)
+                BorderThickness: =1
+                DisabledFill: =Rectangle5_3.Fill
+                Fill: =RGBA(0, 0, 0, 0)
+                HoverFill: =Rectangle5_3.Fill
+                PressedFill: =Rectangle5_3.Fill
+                TabIndex: =12
+                Width: =469
+                X: =897
+                ZIndex: =4
+
+            lblDaysTotal As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderThickness: =.5
+                FontWeight: =FontWeight.Bold
+                Height: =54
+                Size: =20
+                TabIndex: =4
+                Text: ="Requested Hours"
+                Width: =260
+                X: =20
+                ZIndex: =5
+
+            lblAvailableDays As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderThickness: =.5
+                FontWeight: =FontWeight.Bold
+                Height: =54
+                Size: =20
+                TabIndex: =7
+                Text: ="Available Hours"
+                Width: =260
+                X: =319
+                ZIndex: =6
+
+            lblBalance As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderThickness: =.5
+                FontWeight: =FontWeight.Bold
+                Height: =54
+                Size: =20
+                TabIndex: =10
+                Text: ="New Balance"
+                Width: =260
+                X: =618
+                ZIndex: =7
+
+            lblVacationDaysTotalVal As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderThickness: =.5
+                Height: =54
+                Size: =20
+                TabIndex: =5
+                Text: |-
+                    =Sum(
+                        filteredDateRage,
+                        Hours
+                    )/*
+                        If(
+                        Toggle1.Value = false,
+                        Sum(
+                            Filter(
+                                DateRange,
+                                Weekday = 2 || Weekday = 3 || Weekday = 4 || Weekday = 5 || Weekday = 6
+                            ),
+                            Hours
+                        ),
+                        Sum(
+                            DateRange,
+                            Hours
+                        )*/
+                    //Sum(DateRange, Hours) //daysRequested
+                Width: =185
+                X: =(Rectangle5.X+Rectangle5.Width/2)-(lblVacationDaysTotalVal.Width/2)
+                Y: =46
+                ZIndex: =8
+
+            lblDaysAvailable As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderThickness: =.5
+                Height: =54
+                Size: =20
+                TabIndex: =8
+                Text: |-
+                    =If(
+                        Or(
+                            selectedType.Title = "*Jury Duty",
+                            selectedType.Title = "*Bereavement"
+                        ),
+                        "N/A",
+                        Text(_balance
+                        )
+                    )
+                Width: =192
+                X: =(Rectangle5_1.X+Rectangle5_1.Width/2)-(lblDaysAvailable.Width/2)
+                Y: =46
+                ZIndex: =9
+
+            lblNewBalance As label:
+                Align: =LayoutAlignItems.Center
+                Color: =If(Value(Self.Text)< 0,RGBA(255,0,0,1),RGBA(0, 0, 0, 1))
+                FocusedBorderThickness: =.5
+                FontWeight: =If(Value(Self.Text) < 0,FontWeight.Bold,FontWeight.Normal)
+                Height: =54
+                Size: =20
+                TabIndex: =11
+                Text: |-
+                    =If(
+                        Or(
+                            selectedType.Title = "*Jury Duty",
+                            selectedType.Title = "*Bereavement"
+                        ),
+                        "N/A",
+                        lblDaysAvailable.Text - lblVacationDaysTotalVal.Text
+                    )
+                Visible: |-
+                    =If(
+                        IsMatch(
+                            lblDaysAvailable.Text,
+                            "0"
+                        ),
+                        false,
+                        true
+                    )
+                Width: =168
+                X: =(Rectangle5_2.X+Rectangle5_2.Width/2)-(lblNewBalance.Width/2)
+                Y: =46
+                ZIndex: =10
+
+            Label10 As label:
+                FontWeight: =FontWeight.Bold
+                Height: =54
+                Size: =20
+                Text: |-
+                    ="Submit Request to:"
+                Width: =302
+                X: =909
+                ZIndex: =11
+
+            Image8 As image:
+                Height: =40
+                HoverBorderColor: =ColorFade(Image8.BorderColor, 20%)
+                HoverFill: =ColorFade(Image8.Fill, 20%)
+                Image: =If(IsBlank(_selectedApprover.Approvers.Picture),EmployeeManager.Picture,_selectedApprover.Approvers.Picture)
+                PressedBorderColor: =ColorFade(Image8.BorderColor, -20%)
+                PressedFill: =ColorFade(Image8.Fill, -20%)
+                RadiusBottomLeft: =20
+                RadiusBottomRight: =20
+                RadiusTopLeft: =20
+                RadiusTopRight: =20
+                Width: =40
+                X: =945
+                Y: =52
+                ZIndex: =12
+
+            Label12 As label:
+                FontWeight: =FontWeight.Bold
+                PaddingLeft: =10
+                Size: =15
+                Text: =If(IsBlank(_selectedApprover.Approvers.DisplayName),EmployeeManager.DisplayName,_selectedApprover.Approvers.DisplayName)
+                Width: =225
+                X: =985
+                Y: =52
+                ZIndex: =13
+
+            Button9 As button:
+                BorderColor: =ColorFade(Button9.Fill, -15%)
+                Color: =RGBA(56, 96, 178, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =30
+                HoverBorderColor: =ColorFade(Button9.BorderColor, 20%)
+                HoverColor: =Button9.Color
+                HoverFill: =ColorFade(Button9.BorderColor, -20%)
+                OnSelect: =Set(varChangeRequestTo,true)
+                PressedBorderColor: =Button9.Fill
+                PressedColor: =Button9.Fill
+                PressedFill: =Button9.Color
+                Size: =13
+                Text: ="Change"
+                Tooltip: ="Change approving manager"
+                Width: =81
+                X: =1210
+                Y: =58
+                ZIndex: =14
+
+        DataCard2 As dataCard.blankCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =80
+            Width: =1366
+            X: =0
+            Y: =1
+            ZIndex: =2
+
+            Rectangle8 As rectangle:
+                BorderThickness: =1
+                DisabledFill: =Rectangle8.Fill
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =45
+                HoverFill: =Rectangle8.Fill
+                PressedFill: =Rectangle8.Fill
+                Width: =417
+                X: =10
+                Y: =19
+                ZIndex: =1
+
+            Toggle1 As toggleSwitch:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                FalseHoverFill: =ColorFade(Toggle1.FalseFill, 15%)
+                FalseText: ="No"
+                HoverBorderColor: =ColorFade(Toggle1.BorderColor, 15%)
+                OnCheck: |-
+                    =ClearCollect(
+                        filteredDateRage,
+                        DateRange
+                    );
+                    Set(
+                        addedHours,
+                        Sum(
+                            filteredDateRage,
+                            Hours
+                        )
+                    );
+                    If(
+                        _balance - addedHours <= 0,
+                        Set(
+                            SentnoMoreBalance,
+                            false
+                        )
+                    )
+                OnUncheck: |-
+                    =ClearCollect(
+                        filteredDateRage,
+                        Filter(
+                            DateRange,
+                            Weekday = 2 || Weekday = 3 || Weekday = 4 || Weekday = 5 || Weekday = 6
+                        )
+                    );
+                    Set(
+                        addedHours,
+                        Sum(
+                            filteredDateRage,
+                            Hours
+                        )
+                    );
+                    If(
+                        _balance - addedHours <= 0,
+                        Set(
+                            SentnoMoreBalance,
+                            false
+                        ),
+                            Set(
+                            SentnoMoreBalance,
+                            true
+                        )
+                    )
+                PressedBorderColor: =ColorFade(Toggle1.BorderColor, -15%)
+                ShowLabel: =false
+                Size: =20
+                TrueHoverFill: =ColorFade(Toggle1.TrueFill, 15%)
+                TrueText: ="Yes"
+                Width: =50
+                X: =320
+                Y: =28
+                ZIndex: =4
+
+            Label5_8 As label:
+                FocusedBorderThickness: =.5
+                Height: =28
+                Size: =20
+                TabIndex: =13
+                Text: ="Include Weekends?"
+                Width: =260
+                X: =10
+                Y: =28
+                ZIndex: =5
+
+            Label5_9 As label:
+                FocusedBorderThickness: =.5
+                Height: =28
+                Size: =20
+                TabIndex: =13
+                Text: ="No"
+                Width: =50
+                X: =270
+                Y: =28
+                ZIndex: =6
+
+            Label5_10 As label:
+                FocusedBorderThickness: =.5
+                Height: =28
+                Size: =20
+                TabIndex: =13
+                Text: ="Yes"
+                Width: =55
+                X: =372
+                Y: =28
+                ZIndex: =7
+
+            Label15 As label:
+                Color: =RGBA(255, 0, 0, 1)
+                FontWeight: =FontWeight.Bold
+                Height: =45
+                Size: =25
+                Text: ="You are about to submit a request for next year."
+                Visible: |-
+                    =If(
+                        IsEmpty(
+                            Filter(
+                                DateRange,
+                                Year(Date) = (Year(Today()) + 1)
+                            )
+                        ),
+                        false,
+                        true
+                    )
+                Width: =820
+                X: =491
+                Y: =19
+                ZIndex: =8
+
+        DataCard3 As dataCard.blankCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =508
+            Visible: =true
+            Width: =1366
+            X: =0
+            Y: =2
+            ZIndex: =3
+
+            "galleryDays As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+                AccessibleLabel: ="Gallery Time Off Days Requested Summary"
+                BorderThickness: =1
+                Height: =502
+                Items: |-
+                    =filteredDateRage/*If(
+                        Toggle1.Value = false,
+                        Filter(
+                            DateRange,
+                            Weekday = 2 || Weekday = 3 || Weekday = 4 || Weekday = 5 || Weekday = 6
+                        ),
+                        DateRange
+                    )*/
+                Layout: =Layout.Vertical
+                TabIndex: =15
+                TemplatePadding: =0
+                TemplateSize: =101
+                Width: =1358
+                X: =4
+                Y: =1
+                ZIndex: =1
+
+                Title12 As label:
+                    FocusedBorderThickness: =.5
+                    Height: =Self.Size * 1.8
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    TabIndex: =16
+                    Text: =Text(ThisItem.Date,DateTimeFormat.LongDate)
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =Parent.TemplateWidth - 804
+                    X: =16
+                    Y: =12
+                    ZIndex: =1
+
+                Subtitle5 As label:
+                    FocusedBorderThickness: =.5
+                    Height: =39
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    TabIndex: =17
+                    Text: |-
+                        ="Type: " & ThisItem.Type
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =500
+                    X: =16
+                    Y: =48
+                    ZIndex: =2
+
+                NextArrow5 As icon.ChevronRight:
+                    AccessibleLabel: =Self.Tooltip
+                    DisabledFill: =NextArrow5.Fill
+                    Height: =60
+                    HoverBorderColor: =ColorFade(NextArrow5.BorderColor, 20%)
+                    HoverColor: =ColorFade(NextArrow5.Color, 20%)
+                    HoverFill: =NextArrow5.Fill
+                    Icon: =Icon.Trash
+                    OnSelect: =Select(Parent);Remove(filteredDateRage,ThisItem)
+                    PaddingBottom: =10
+                    PaddingLeft: =10
+                    PaddingRight: =10
+                    PaddingTop: =10
+                    PressedBorderColor: =ColorFade(NextArrow5.BorderColor, -20%)
+                    PressedColor: =ColorFade(NextArrow5.Color, -20%)
+                    PressedFill: =NextArrow5.Fill
+                    TabIndex: =20
+                    Tooltip: ="View item details"
+                    Width: =60
+                    X: =1209
+                    Y: =12
+                    ZIndex: =3
+
+                Separator7 As rectangle:
+                    Height: =1
+                    OnSelect: =Select(Parent)
+                    Width: =Parent.TemplateWidth
+                    Y: =Parent.TemplateHeight - 1
+                    ZIndex: =4
+
+                Label6 As label:
+                    FocusedBorderThickness: =.5
+                    Height: =50
+                    OnSelect: =Select(Parent)
+                    TabIndex: =19
+                    Text: ="HRS"
+                    Visible: |-
+                        =If(
+                            selectedType.Title = "Floating Holiday",
+                            false,
+                            true
+                        )
+                    Width: =77
+                    X: =1121
+                    Y: =22
+                    ZIndex: =6
+
+                TextInput2 As text:
+                    Default: =""
+                    Height: =36
+                    HintText: ="Specify the time(s) you will not be working."
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =TextInput2.HoverBorderColor
+                    PressedColor: =TextInput2.Color
+                    PressedFill: =TextInput2.Fill
+                    Visible: =If(Dropdown2.SelectedText.Value <> "8",true,false)
+                    Width: =373
+                    X: =435
+                    Y: =36
+                    ZIndex: =7
+
+                Dropdown2 As dropdown:
+                    Default: =ThisItem.Hours
+                    Height: =50
+                    HoverBorderColor: =ColorFade(Dropdown2.BorderColor, 15%)
+                    Items: |-
+                        =Table(
+                            {Hours: 0.5},
+                            {Hours: 1},
+                            {Hours: 0.5},
+                            {Hours: 1.5},
+                            {Hours: 2},
+                            {Hours: 2.5},
+                            {Hours: 3},
+                            {Hours: 3.5},
+                            {Hours: 4},
+                            {Hours: 4.5},
+                            {Hours: 5},
+                            {Hours: 5.5},
+                            {Hours: 6},
+                            {Hours: 6.5},
+                            {Hours: 7},
+                            {Hours: 7.5},
+                            {Hours: 8},
+                            {Hours: 8.5},
+                            {Hours: 9},
+                            {Hours: 9.5},
+                            {Hours: 10}
+                        )
+                    OnChange: |-
+                        =UpdateIf(DateRange,Date = ThisItem.Date, {Hours:Dropdown2.SelectedText.Value})
+                        ;Set(
+                            
+                                daysRequested, DateDiff(
+                                    Calendar_1.StartDate,
+                                    Calendar_1.EndDate,
+                                    TimeUnit.Days
+                                ) + 1
+                            
+                        );
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =Dropdown2.HoverBorderColor
+                    Size: =16
+                    Visible: |-
+                        =If(
+                            selectedType.Title = "Floating Holiday",
+                            false,
+                            true
+                        )
+                    Width: =80
+                    X: =1013
+                    Y: =22
+                    ZIndex: =8
+
+    Icon8 As icon.Send:
+        AccessibleLabel: ="Confirm Time Off Submission"
+        Color: =RGBA(230, 230, 230, 1)
+        DisabledFill: =Icon8.Fill
+        Height: =40
+        HoverBorderColor: =ColorFade(Icon8.BorderColor, 20%)
+        HoverColor: =ColorFade(Icon8.Color, 20%)
+        HoverFill: =Icon8.Fill
+        Icon: =Icon.Send
+        OnSelect: |-
+            =//Add the Request to the SP List
+            Set(
+                RQST_ItemID,
+                Patch(
+                    'Time Off Requests',
+                    Defaults('Time Off Requests'),
+                    {
+                        Title: curUserEmail,
+                        From: First(DateRange).Date,
+                        To: Last(DateRange).Date,
+                        TimeOffType: {
+                            Id: selectedType.ID,
+                            Value: selectedType.Title,
+                            '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedReference"
+                        },
+                        Status: {Value: "Pending"},
+                        Days: Sum(
+                            DateRange,
+                            Hours
+                        ),
+                        Hours: Sum(
+                            DateRange,
+                            Hours
+                        ),
+                        Reason: tbReasonforLeaveNotes.Text
+                    }
+                )
+            );
+            Set(
+                Balance_ItemID,
+                LookUp(
+                    'Time Off Balances',
+                    Employee.Email = curUserEmail && TimeOffTypes.Value = selectedType.Title
+                ).ID
+            );
+            Set(
+                Rmng_BAL,
+                Value(
+                    If(
+                        lblDaysAvailable.Text = "N/A",
+                        0,
+                        lblDaysAvailable.Text
+                    )
+                )
+            );
+            Set(
+                ReasonforLeaveNotes,
+                tbReasonforLeaveNotes.Text
+            );
+            Navigate(SuccessScreen);
+            Reset(tbReasonforLeaveNotes);
+            LeaveRequest_ApprovalProcess.Run(
+                RQST_ItemID.ID,
+                Balance_ItemID,
+                Rmng_BAL,
+                ReasonforLeaveNotes,
+                _selectedManager,
+                _isNextYear
+            )
+            //If you want to skip approval process and automatically reduce balance uncomment this
+            //Patch('Time Off Balances',LookUp('Time Off Balances',Employee.Email=curUserEmail&&TimeOffType.Value=selectedType.Title),{RequestedTimeOff:LookUp('Time Off Balances',Employee.Email=curUserEmail&&TimeOffType.Value=selectedType.Title).RequestedTimeOff+daysRequested});
+        PressedBorderColor: =ColorFade(Icon8.BorderColor, -20%)
+        PressedColor: =ColorFade(Icon8.Color, -20%)
+        PressedFill: =Icon8.Fill
+        TabIndex: =2
+        Visible: =false
+        Width: =40
+        X: =1010
+        Y: =23
+        ZIndex: =4
+
+    "'Back Button Container_3' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =5
+
+        Button6_4 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_4.Fill, -15%)
+            Color: =If(btn_Overlay_4.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_4.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_4.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_4.Fill
+            PressedColor: =Button6_4.Fill
+            PressedFill: =Button6_4.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_4 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_4.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_4.Fill
+            Fill: =If(btn_Overlay_4.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_4.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_4.Color, 20%)
+            HoverFill: =Icon15_4.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_4.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_4.Color, -20%)
+            PressedFill: =Icon15_4.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_4 As button:
+            BorderColor: =ColorFade(btn_Overlay_4.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_4.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(CalendarScreen);Set(noMoreBalance,Blank());Set(SentnoMoreBalance,Blank());Reset(Toggle1)
+            PressedBorderColor: =btn_Overlay_4.Fill
+            PressedColor: =btn_Overlay_4.Fill
+            PressedFill: =btn_Overlay_4.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    "'SendRequest Container' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Visible: =true//SentnoMoreBalance
+        Width: =123
+        X: =1204
+        Y: =5
+        ZIndex: =6
+
+        Button6_12 As button:
+            Align: =Align.Left
+            BorderColor: =ColorFade(Button6_12.Fill, -15%)
+            Color: =If(Value(lblNewBalance.Text) < 0,RGBA(255,0,0,1),If(btn_Overlay_12.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1)))
+            Fill: =If(btn_Overlay_12.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_12.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_12.Fill
+            PressedColor: =Button6_12.Fill
+            PressedFill: =Button6_12.Color
+            Size: =20
+            Text: ="Send"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_12 As icon.ChevronLeft:
+            Color: =If(Value(lblNewBalance.Text) < 0,RGBA(255,0,0,1),If(btn_Overlay_12.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1)))
+            DisabledFill: =Icon15_12.Fill
+            Fill: =If(btn_Overlay_12.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_12.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_12.Color, 20%)
+            HoverFill: =Icon15_12.Fill
+            Icon: =Icon.Send
+            PressedBorderColor: =ColorFade(Icon15_12.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_12.Color, -20%)
+            PressedFill: =Icon15_12.Fill
+            Width: =46
+            X: =74
+            Y: =11
+            ZIndex: =2
+
+        btn_Overlay_12 As button:
+            BorderColor: =ColorFade(btn_Overlay_12.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(Value(lblNewBalance.Text) < 0, DisplayMode.Disabled,DisplayMode.Edit)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_12.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =//Add the Request to the SP List
+                Set(
+                    RQST_ItemID,
+                    Patch(
+                        'Time Off Requests',
+                        Defaults('Time Off Requests'),
+                        {
+                            Title: curUserEmail,
+                            From: First(DateRange).Date,
+                            To: Last(DateRange).Date,
+                            TimeOffType: {
+                                Id: selectedType.ID,
+                                Value: selectedType.Title,
+                                '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedReference"
+                            },
+                            Status: {Value: "Pending"},
+                            Days: addedHours,
+                            Hours: addedHours,
+                            Reason: tbReasonforLeaveNotes.Text
+                        }
+                    )
+                );
+                Set(
+                    RQST_ItemID_Clean,
+                    RQST_ItemID.ID
+                );
+                Set(
+                    Balance_ItemID,
+                    LookUp(
+                        'Time Off Balances',
+                        Employee.Email = curUserEmail && TimeOffTypes.Value = selectedType.Title
+                    ).ID
+                );
+                Set(
+                    Rmng_BAL,
+                    Value(
+                        If(
+                            lblDaysAvailable.Text = "N/A",
+                            0,
+                            lblDaysAvailable.Text
+                        )
+                    )
+                );
+                Set(
+                    ReasonforLeaveNotes,
+                    tbReasonforLeaveNotes.Text
+                );
+                If(
+                    IsBlank(_selectedApprover.Approvers.DisplayName),
+                    Set(
+                        _selectedManager,
+                        EmployeeManager.Email
+                    ),
+                    Set(
+                        _selectedManager,
+                        _selectedApprover.Approvers.Email
+                    )
+                );
+                Set(
+                    _isNextYear,
+                    If(
+                        IsEmpty(
+                            Filter(
+                                DateRange,
+                                Year(Date) = (Year(Today()) + 1)
+                            )
+                        ),
+                        false,
+                        true
+                    )
+                );
+                Navigate(SuccessScreen);
+                Reset(tbReasonforLeaveNotes);
+                LeaveRequest_ApprovalProcess.Run(
+                    RQST_ItemID_Clean,
+                    Balance_ItemID,
+                    Rmng_BAL,
+                    ReasonforLeaveNotes,
+                    _selectedManager,
+                    _isNextYear
+                )
+                /*LeaveRequest_ApprovalProcess.Run(
+                    RQST_ItemID.ID,
+                    Balance_ItemID,
+                    Rmng_BAL,
+                    ReasonforLeaveNotes,
+                    _selectedManager,
+                    _isNextYear
+                )*/
+                //If you want to skip approval process and automatically reduce balance uncomment this
+                //Patch('Time Off Balances',LookUp('Time Off Balances',Employee.Email=curUserEmail&&TimeOffType.Value=selectedType.Title),{RequestedTimeOff:LookUp('Time Off Balances',Employee.Email=curUserEmail&&TimeOffType.Value=selectedType.Title).RequestedTimeOff+daysRequested});
+            PressedBorderColor: =btn_Overlay_12.Fill
+            PressedColor: =btn_Overlay_12.Fill
+            PressedFill: =btn_Overlay_12.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    ChangeRequestTo As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =14
+
+        Rectangle10_2 As rectangle:
+            DisabledFill: =Rectangle10_2.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10_2.Fill
+            PressedFill: =Rectangle10_2.Fill
+            Visible: =varChangeRequestTo
+            Width: =1366
+            ZIndex: =7
+
+        Rectangle6 As rectangle:
+            DisabledFill: =Rectangle6.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =674
+            HoverFill: =Rectangle6.Fill
+            PressedFill: =Rectangle6.Fill
+            Visible: =varChangeRequestTo
+            Width: =762
+            X: =302
+            Y: =47
+            ZIndex: =8
+
+        Label13 As label:
+            Align: =Align.Center
+            Fill: =RGBA(230, 230, 230, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =70
+            Size: =25
+            Text: ="Submit to"
+            Visible: =varChangeRequestTo
+            Width: =762
+            X: =302
+            Y: =47
+            ZIndex: =9
+
+        "'Cancel Button Container_3' As groupContainer.manualLayoutContainer":
+            Height: =53
+            Visible: =varChangeRequestTo
+            Width: =148
+            X: =902
+            Y: =55
+            ZIndex: =10
+
+            Button6_17 As button:
+                Align: =Align.Right
+                BorderColor: =ColorFade(Button6_17.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 1)
+                Fill: =If(btn_Overlay_17.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+                FontWeight: =FontWeight.Bold
+                Height: =53
+                HoverBorderColor: =ColorFade(Button6_17.BorderColor, 20%)
+                HoverColor: =RGBA(39, 113, 194, 1)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+                PressedBorderColor: =Button6_17.Fill
+                PressedColor: =Button6_17.Fill
+                PressedFill: =Button6_17.Color
+                Size: =20
+                Text: ="Cancel"
+                Width: =120
+                X: =18
+                ZIndex: =1
+
+            Icon15_17 As icon.ChevronLeft:
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledFill: =Icon15_17.Fill
+                Fill: =If(btn_Overlay_17.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+                Height: =35
+                HoverBorderColor: =ColorFade(Icon15_17.BorderColor, 20%)
+                HoverColor: =ColorFade(Icon15_17.Color, 20%)
+                HoverFill: =Icon15_17.Fill
+                Icon: =Icon.Cancel
+                PressedBorderColor: =ColorFade(Icon15_17.BorderColor, -20%)
+                PressedColor: =ColorFade(Icon15_17.Color, -20%)
+                PressedFill: =Icon15_17.Fill
+                Width: =46
+                Y: =9
+                ZIndex: =2
+
+            btn_Overlay_17 As button:
+                BorderColor: =ColorFade(btn_Overlay_17.Fill, -15%)
+                BorderStyle: =BorderStyle.None
+                Color: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(0, 0, 0, 0)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =53
+                HoverBorderColor: =ColorFade(btn_Overlay_17.BorderColor, 20%)
+                HoverColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+                OnSelect: =Set(varChangeRequestTo,false)
+                PressedBorderColor: =btn_Overlay_17.Fill
+                PressedColor: =btn_Overlay_17.Fill
+                PressedFill: =btn_Overlay_17.Color
+                Text: =""
+                Width: =148
+                ZIndex: =3
+
+        TextInput1 As text:
+            BorderColor: =RGBA(204, 204, 204, 1)
+            BorderThickness: =1
+            Default: =""
+            Height: =55
+            HoverBorderColor: =TextInput1.BorderColor
+            HoverFill: =ColorFade(RGBA(190, 202, 226, 1), 30%)
+            PaddingLeft: =60
+            PressedBorderColor: =TextInput1.HoverBorderColor
+            PressedColor: =TextInput1.Color
+            PressedFill: =TextInput1.Fill
+            Visible: =varChangeRequestTo
+            Width: =762
+            X: =302
+            Y: =139
+            ZIndex: =11
+
+        Icon7 As icon.Search:
+            DisabledFill: =Icon7.Fill
+            Height: =55
+            HoverBorderColor: =ColorFade(Icon7.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon7.Color, 20%)
+            HoverFill: =Icon7.Fill
+            Icon: =Icon.Search
+            PressedBorderColor: =ColorFade(Icon7.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon7.Color, -20%)
+            PressedFill: =Icon7.Fill
+            Visible: =varChangeRequestTo
+            Width: =55
+            X: =302
+            Y: =139
+            ZIndex: =12
+
+        "Gallery3 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+            DelayItemLoading: =true
+            Height: =508
+            Items: |-
+                =Filter(
+                    TimeOffApprovers,
+                    StartsWith(
+                        Approvers.DisplayName,
+                        TextInput1.Text
+                    ) || StartsWith(
+                        Approvers.Email,
+                        TextInput1.Text
+                    )
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: |-
+                =Set(
+                    _selectedApprover,
+                    ThisItem
+                );
+                Set(
+                    varChangeRequestTo,
+                    false
+                )
+            TemplatePadding: =0
+            TemplateSize: =Min(104, Self.Height - 60)
+            Visible: =varChangeRequestTo
+            Width: =762
+            X: =302
+            Y: =213
+            ZIndex: =13
+
+            Title23 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Approvers.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 104
+                X: =32
+                Y: =16
+                ZIndex: =1
+
+            Subtitle12 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Approvers.Email
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 104
+                X: =32
+                Y: =Title23.Y + Title23.Height + 4
+                ZIndex: =2
+
+            Separator17 As rectangle:
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =4
+
+            Button13 As button:
+                BorderColor: =ColorFade(Button13.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =72
+                HoverBorderColor: =ColorFade(Button13.BorderColor, 20%)
+                HoverFill: =ColorFade(Button13.Fill, -20%)
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Button13.Fill
+                PressedColor: =Button13.Fill
+                PressedFill: =Button13.Color
+                Text: ="Button"
+                Width: =694
+                X: =32
+                Y: =16
+                ZIndex: =5
+
+    Time_Limit_Message As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =29
+
+        Rectangle10_7 As rectangle:
+            DisabledFill: =Rectangle10_7.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10_7.Fill
+            PressedFill: =Rectangle10_7.Fill
+            Visible: =noMoreBalance
+            Width: =1366
+            ZIndex: =22
+
+        Rectangle11_1 As rectangle:
+            DisabledFill: =Rectangle11_1.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =254
+            HoverFill: =Rectangle11_1.Fill
+            PressedFill: =Rectangle11_1.Fill
+            Visible: =noMoreBalance
+            Width: =522
+            X: =424
+            Y: =257
+            ZIndex: =23
+
+        Label11_1 As label:
+            Align: =Align.Center
+            Height: =171
+            Size: =20
+            Text: ="You don't have time available to book your " & selectedType.Title & " for the current year."// Are you planning to utilize your " & selectedType.Title &" time after January 1st of next year?"
+            Visible: =noMoreBalance
+            Width: =396
+            X: =543
+            Y: =269
+            ZIndex: =24
+
+        Image4_1 As image:
+            Height: =102
+            HoverBorderColor: =ColorFade(Image4_1.BorderColor, 20%)
+            HoverFill: =ColorFade(Image4_1.Fill, 20%)
+            Image: |-
+                ="data:image/svg+xml," & 
+                 EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                  <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                   <path fill='red'
+                d='M1920 128h-1920l960 1920zM207 256h1506l-753 1506zM1024 1280v-640h-128v640h128zM896 512h128v-128h-128v128z' />
+                  </g>
+                
+                </svg>"
+                )
+            PressedBorderColor: =ColorFade(Image4_1.BorderColor, -20%)
+            PressedFill: =ColorFade(Image4_1.Fill, -20%)
+            Visible: =noMoreBalance
+            Width: =118
+            X: =425
+            Y: =274
+            ZIndex: =25
+
+        Button12_1 As button:
+            BorderColor: =ColorFade(Button12_1.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button12_1.BorderColor, 20%)
+            OnSelect: =Set(noMoreBalance,false);Navigate(Landing)
+            PressedBorderColor: =Button12_1.Fill
+            PressedColor: =Button12_1.Fill
+            PressedFill: =Button12_1.Color
+            Text: ="Back"
+            Visible: =noMoreBalance
+            X: =605
+            Y: =447
+            ZIndex: =27
+

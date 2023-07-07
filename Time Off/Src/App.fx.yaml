@@ -1,0 +1,86 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(
+            curUser,
+            User()
+        );
+        Set(
+            curUserPhoto,
+            Office365Users.UserPhoto(curUser.Email)
+        );
+        Set(
+            curUserEmail,
+            User().Email
+        );
+        Set(
+            isApprover,
+            !IsBlank(
+                LookUp(
+                    TimeOffApprovers,
+                    Approvers.Email = curUserEmail
+                ).Approvers.Email
+            )
+        );
+        If(
+            !IsBlank(Param("ID")),
+            Set(
+                selectedItem,
+                LookUp(
+                    'Time Off Requests',
+                    ID = Value(Param("ID"))
+                )
+            );
+            
+        );
+        Set(
+            EmployeeID,
+            LookUp(
+                'Employee List',
+                Employee.Email = curUserEmail
+            ).Title
+        );
+        Set(
+            EmployeeManager,
+            LookUp(
+                'Employee List',
+                Employee.Email = curUserEmail
+            ).Manager
+        );
+        NewForm(EmployeeForm);
+        NewForm(MolexHolidaysForm);
+        NewForm(EmployeeForm_3);
+        NewForm(VacationTypesForm);
+        Set(
+            varGalDefault,
+            {}
+        );
+        Set(
+            varEmployeeListScreen,
+            false
+        );
+        Set(
+            varApprovers,
+            false
+        );
+        Set(
+            varVacationTypes,
+            false
+        );
+        Set(
+            varMolexHolidays,
+            false
+        )
+    StartScreen: |-
+        =If(
+            Param("CalendarScreen") = "Calendar",
+            TeamCalendar
+        )
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

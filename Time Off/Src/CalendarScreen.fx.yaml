@@ -1,0 +1,535 @@
+"CalendarScreen As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =ClearCollect(
+            _myholidays,
+            MolexUSAHolidaySchedule
+        )
+    Orientation: =If(CalendarScreen.Width < CalendarScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= CalendarScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    rectBGCal As rectangle:
+        AccessibleLabel: ="background"
+        DisabledFill: =rectBGCal.Fill
+        FocusedBorderColor: =rectBGCal.BorderColor
+        Height: =64
+        HoverFill: =rectBGCal.Fill
+        PressedFill: =rectBGCal.Fill
+        TabIndex: =2
+        Width: =Parent.Width
+        ZIndex: =1
+
+    lblTimeOffHeader As label:
+        Align: =Align.Center
+        FocusedBorderColor: =lblTimeOffHeader.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =64
+        HoverBorderColor: =lblTimeOffHeader.BorderColor
+        HoverColor: =lblTimeOffHeader.Color
+        HoverFill: =lblTimeOffHeader.Fill
+        PaddingRight: =10
+        PressedBorderColor: =lblTimeOffHeader.BorderColor
+        PressedColor: =lblTimeOffHeader.Color
+        PressedFill: =lblTimeOffHeader.Fill
+        TabIndex: =3
+        Text: ="Select Time Off"
+        Width: =Parent.Width
+        ZIndex: =2
+
+    Calendar_1 As Calendar:
+        DefaultEndDate: =Blank()
+        DefaultStartDate: =Blank()
+        Height: =548
+        Width: =1270
+        X: =48
+        Y: =75
+        ZIndex: =3
+
+    btnCalContinue As button:
+        BorderColor: =ColorFade(btnCalContinue.Fill, -15%)
+        FocusedBorderColor: =btnCalContinue.BorderColor
+        Height: =52
+        HoverBorderColor: =ColorFade(btnCalContinue.BorderColor, 20%)
+        OnSelect: |-
+            =Set(
+                daysRequested,
+                DateDiff(
+                    Calendar_1.StartDate,
+                    Calendar_1.EndDate,
+                    TimeUnit.Days
+                ) + 1
+            );
+            ClearCollect(
+                DateRange,
+                AddColumns(
+                    FirstN(
+                        [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6,
+                            7,
+                            8,
+                            9,
+                            10,
+                            11,
+                            12,
+                            13,
+                            14,
+                            15,
+                            16,
+                            17,
+                            18,
+                            19,
+                            20,
+                            21,
+                            22,
+                            23,
+                            24,
+                            25,
+                            26,
+                            27,
+                            28,
+                            29
+                        ],
+                        DateDiff(
+                            Calendar_1.StartDate,
+                            Calendar_1.EndDate,
+                            TimeUnit.Days
+                        ) + 1
+                    ),
+                    "Day",
+                    "Day " & (Value + 1),
+                    "Date",
+                    DateAdd(
+                        Calendar_1.StartDate,
+                        Value,
+                        TimeUnit.Days
+                    ),
+                    "Weekday",
+                    Weekday(
+                        DateAdd(
+                            Calendar_1.StartDate,
+                            Value,
+                            TimeUnit.Days
+                        )
+                    ),
+                    "Type",
+                    selectedType.Title,
+                    "Hours",
+                    "8",
+                    "Person",
+                    curUser
+                )
+            );
+            ForAll(
+                _myholidays,
+                RemoveIf(
+                    DateRange,
+                    Date = 'Holiday Date'
+                )
+            );
+            Set(
+                _balance,
+                Round(
+                    If(//Evaluating if Employee has less than 10 years of hire.
+                        DateDiff(
+                            LookUp(
+                                'Employee List',
+                                Employee.Email = curUserEmail
+                            ).'Hire Date',
+                            Today(),
+                            TimeUnit.Years
+                        ) + 1 < 10,
+                            //Looking for vacation hours given for employees less than 10 years older in the company.
+                        (LookUp(
+                            'Time Off Types',
+                            Title = selectedType.Title
+                        ).AllottedHrs +/*Adding any accrued time from last year ->>*/ LookUp(
+                            'Time Off Balances',
+                            EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                        ).'Rollover Time') -/*Deducting any requested time up to date ->>*/ LookUp(
+                            'Time Off Balances',
+                            EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                        ).RequestedTimeOff,
+                        If(//Evuluating if Employee has less than 20 years of hire but more than 10.
+                            DateDiff(
+                                LookUp(
+                                    'Employee List',
+                                    Employee.Email = curUserEmail
+                                ).'Hire Date',
+                                Today(),
+                                TimeUnit.Years
+                            ) + 1 < 20,
+                                //Looking for vacation hours given for employees less than 20 years older in the company.
+                            (LookUp(
+                                'Time Off Types',
+                                Title = selectedType.Title
+                            ).AllottedHrs_10yr_Employee +/*Adding any accrued time from last year ->>*/ LookUp(
+                                'Time Off Balances',
+                                EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                            ).'Rollover Time') -/*Deducting any requested time up to date ->>*/ LookUp(
+                                'Time Off Balances',
+                                EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                            ).RequestedTimeOff,
+                            If(//Evluating if Employee has more less than 30 years of hire but more than 20.
+                                DateDiff(
+                                    LookUp(
+                                        'Employee List',
+                                        Employee.Email = curUserEmail
+                                    ).'Hire Date',
+                                    Today(),
+                                    TimeUnit.Years
+                                ) + 1 < 30,
+                                    //Looking for vacation hours given for employees less than 30 years older in the company.
+                                (LookUp(
+                                    'Time Off Types',
+                                    Title = selectedType.Title
+                                ).AllottedHrs_20yr_Employee +/*Adding any accrued time from last year ->>*/ LookUp(
+                                    'Time Off Balances',
+                                    EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                                ).'Rollover Time') -/*Deducting any requested time up to date ->>*/ LookUp(
+                                    'Time Off Balances',
+                                    EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                                ).RequestedTimeOff,
+                                    //Looking for vacation hours given for employees over 30 years older in the company.
+                                (LookUp(
+                                    'Time Off Types',
+                                    Title = selectedType.Title
+                                ).AllottedHrs_30yr_Employee +/*Adding any accrued time from last year ->>*/ LookUp(
+                                    'Time Off Balances',
+                                    EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                                ).'Rollover Time') -/*Deducting any requested time up to date ->>*/ LookUp(
+                                    'Time Off Balances',
+                                    EmployeeID = Title && TimeOffTypes.Value = selectedType.Title
+                                ).RequestedTimeOff
+                            )
+                        )
+                    ),
+                    1
+                )
+            );
+            ClearCollect(
+                filteredDateRage,
+                Filter(
+                    DateRange,
+                    Weekday = 2 || Weekday = 3 || Weekday = 4 || Weekday = 5 || Weekday = 6
+                )
+            );
+            Set(
+                addedHours,
+                Sum(
+                    filteredDateRage,
+                    Hours
+                )
+            );
+            Set(
+                noMoreBalance,
+                If(
+                    _balance = 0,
+                    IsEmpty(
+                        Filter(
+                            DateRange,
+                            Year(Date) = (Year(Today()) + 1)
+                        )
+                    ),
+                    false
+                )
+            );
+            Set(
+                SentnoMoreBalance,
+                If(
+                    Or(noMoreBalance = true,_balance-addedHours <= 0),
+                    false,
+                    true
+                )
+            );
+            Navigate(Summary)
+        PressedBorderColor: =btnCalContinue.Fill
+        PressedColor: =btnCalContinue.Fill
+        PressedFill: =btnCalContinue.Color
+        TabIndex: =6
+        Text: ="Continue"
+        X: =606
+        Y: =688
+        ZIndex: =5
+
+    lblDaysSelectedCal As label:
+        Align: =Align.Right
+        FocusedBorderColor: =lblDaysSelectedCal.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =70
+        HoverBorderColor: =lblDaysSelectedCal.BorderColor
+        HoverColor: =lblDaysSelectedCal.Color
+        HoverFill: =lblDaysSelectedCal.Fill
+        PressedBorderColor: =lblDaysSelectedCal.BorderColor
+        PressedColor: =lblDaysSelectedCal.Color
+        PressedFill: =lblDaysSelectedCal.Fill
+        Size: =18
+        TabIndex: =7
+        Text: |-
+            =DateDiff(
+                        Calendar_1.StartDate,
+                        Calendar_1.EndDate,
+                        TimeUnit.Days
+                    ) + 1 & " days Selected"
+        Width: =347
+        X: =971
+        Y: =679
+        ZIndex: =6
+
+    lblToFromCal As label:
+        FocusedBorderColor: =lblToFromCal.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =70
+        HoverBorderColor: =lblToFromCal.BorderColor
+        HoverColor: =lblToFromCal.Color
+        HoverFill: =lblToFromCal.Fill
+        PressedBorderColor: =lblToFromCal.BorderColor
+        PressedColor: =lblToFromCal.Color
+        PressedFill: =lblToFromCal.Fill
+        Size: =18
+        TabIndex: =4
+        Text: =Text(Calendar_1.StartDate,DateTimeFormat.LongDate) & " to " & Text(Calendar_1.EndDate,DateTimeFormat.LongDate)
+        Width: =378
+        X: =81
+        Y: =679
+        ZIndex: =7
+
+    Holidays_Container As groupContainer.manualLayoutContainer:
+        Fill: =RGBA(169, 169, 169, .65)
+        Height: =704
+        Visible: =ShowPopup
+        Width: =1366
+        Y: =64
+        ZIndex: =11
+
+        Holidays_Container_2 As groupContainer.manualLayoutContainer:
+            BorderColor: =RGBA(50, 86, 160, 1)
+            BorderThickness: =5
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =415
+            X: =436
+            Y: =144
+            ZIndex: =1
+
+            "Gallery2 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+                Height: =361
+                Items: =MolexUSAHolidaySchedule
+                Layout: =Layout.Vertical
+                TemplatePadding: =0
+                TemplateSize: =75
+                Width: =492
+                X: =4
+                ZIndex: =1
+
+                Title4 As label:
+                    Align: =Align.Center
+                    Height: =33
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =ThisItem.Title
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =500
+                    Y: =7
+                    ZIndex: =2
+
+                Subtitle2 As label:
+                    Align: =Align.Center
+                    Height: =33
+                    OnSelect: =Select(Parent)
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Text(DateValue(ThisItem.'Holiday Date'),"mmmm dd, yyyy")
+                    VerticalAlign: =VerticalAlign.Top
+                    Width: =500
+                    Y: =40
+                    ZIndex: =3
+
+                Separator5 As rectangle:
+                    Height: =1
+                    OnSelect: =Select(Parent)
+                    Width: =Parent.TemplateWidth
+                    Y: =Parent.TemplateHeight + 7
+                    ZIndex: =5
+
+            Button8 As button:
+                BorderColor: =ColorFade(Button8.Fill, -15%)
+                HoverBorderColor: =ColorFade(Button8.BorderColor, 20%)
+                OnSelect: |-
+                    =UpdateContext({ShowPopup: false});
+                PressedBorderColor: =Button8.Fill
+                PressedColor: =Button8.Fill
+                PressedFill: =Button8.Color
+                Text: ="Close"
+                X: =170
+                Y: =361
+                ZIndex: =2
+
+    Button10 As button:
+        BorderColor: =RGBA(56,96,178,1)
+        BorderThickness: =4
+        Color: =RGBA(56, 96, 178, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =ColorFade(Button10.BorderColor, 20%)
+        OnSelect: |-
+            =UpdateContext({ShowPopup : true});
+        PressedBorderColor: =Button10.Fill
+        PressedColor: =Button10.Fill
+        PressedFill: =Button10.Color
+        Text: ="Holidays"
+        X: =868
+        Y: =92
+        ZIndex: =12
+
+    "'Back Button Container_2' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =13
+
+        Button6_3 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_3.Fill, -15%)
+            Color: =If(btn_Overlay_3.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_3.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_3.BorderColor, 20%)
+            HoverColor: =RGBA(39, 113, 194, 1)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_3.Fill
+            PressedColor: =Button6_3.Fill
+            PressedFill: =Button6_3.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_3 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_3.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_3.Fill
+            Fill: =If(btn_Overlay_3.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_3.Color, 20%)
+            HoverFill: =Icon15_3.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_3.Color, -20%)
+            PressedFill: =Icon15_3.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_3 As button:
+            BorderColor: =ColorFade(btn_Overlay_3.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_3.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(Type)
+            PressedBorderColor: =btn_Overlay_3.Fill
+            PressedColor: =btn_Overlay_3.Fill
+            PressedFill: =btn_Overlay_3.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    "'Cancel Button Container_2' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =148
+        X: =1204
+        Y: =5
+        ZIndex: =14
+
+        Button6_15 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_15.Fill, -15%)
+            Color: =If(btn_Overlay_15.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_15.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_15.BorderColor, 20%)
+            HoverColor: =RGBA(39, 113, 194, 1)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_15.Fill
+            PressedColor: =Button6_15.Fill
+            PressedFill: =Button6_15.Color
+            Size: =20
+            Text: ="Cancel"
+            Width: =120
+            X: =18
+            ZIndex: =1
+
+        Icon15_15 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_15.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_15.Fill
+            Fill: =If(btn_Overlay_15.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_15.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_15.Color, 20%)
+            HoverFill: =Icon15_15.Fill
+            Icon: =Icon.Cancel
+            PressedBorderColor: =ColorFade(Icon15_15.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_15.Color, -20%)
+            PressedFill: =Icon15_15.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_15 As button:
+            BorderColor: =ColorFade(btn_Overlay_15.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_15.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Navigate(Landing);
+                Reset(tbReasonforLeaveNotes);
+                UpdateContext(
+                    {
+                        typeGallery: true,
+                        OthersTypeLeave: false,
+                        messageText: true,
+                        approvalDialog: false
+                    }
+                )
+            PressedBorderColor: =btn_Overlay_15.Fill
+            PressedColor: =btn_Overlay_15.Fill
+            PressedFill: =btn_Overlay_15.Color
+            Text: =""
+            Width: =123
+            ZIndex: =3
+
+    Label14 As label:
+        Align: =Align.Center
+        Height: =56
+        Size: =20
+        Text: ="Double click the initial date of your request."
+        VerticalAlign: =VerticalAlign.Bottom
+        Width: =1270
+        X: =48
+        Y: =623
+        ZIndex: =15
+
