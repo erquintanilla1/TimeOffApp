@@ -21,7 +21,7 @@ Welcome_Screen As screen:
         PressedFill: =lblHeader_1.Fill
         Size: =40
         TabIndex: =3
-        Text: ="Time Off Request 1"
+        Text: ="Time Off Request"
         Width: =547
         X: =411
         Y: =9

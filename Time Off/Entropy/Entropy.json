@@ -571,7 +571,7 @@
   "DoesTestStepsMetadataExist": true,
   "FunctionParamsInvariantScripts": {},
   "FunctionParamsInvariantScriptsOnInstances": {},
-  "HeaderLastSavedDateTimeUTC": "07/07/2023 20:13:17",
+  "HeaderLastSavedDateTimeUTC": "07/07/2023 20:18:56",
   "IsLegacyComponentAllowGlobalScopeCase": false,
   "LocalConnectionIDReferences": {
     "37eddf09-9829-4ae2-917e-180072d3d409": "\"/providers/microsoft.powerapps/apis/shared_teams/connections/shared-teams-3f0ea864-e321-45a9-988c-8ba210a07c95\"",
