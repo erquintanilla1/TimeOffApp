@@ -1,0 +1,633 @@
+"Type As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =UpdateContext({typeGallery:true,messageText:true})
+    Orientation: =If(Type.Width < Type.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Type.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    RectQuickActionBar1 As rectangle:
+        AccessibleLabel: ="background"
+        DisabledFill: =RectQuickActionBar1.Fill
+        FocusedBorderColor: =RectQuickActionBar1.BorderColor
+        Height: =64
+        HoverFill: =RectQuickActionBar1.Fill
+        PressedFill: =RectQuickActionBar1.Fill
+        TabIndex: =0
+        Width: =Parent.Width
+        ZIndex: =1
+
+    Title3 As label:
+        Align: =Align.Center
+        FocusedBorderColor: =Title3.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =64
+        HoverBorderColor: =Title3.BorderColor
+        HoverColor: =Title3.Color
+        HoverFill: =Title3.Fill
+        PaddingRight: =10
+        PressedBorderColor: =Title3.BorderColor
+        PressedColor: =Title3.Color
+        PressedFill: =Title3.Fill
+        TabIndex: =1
+        Text: ="Submit Time Off"
+        Width: =Parent.Width
+        ZIndex: =2
+
+    "galleryTimeOffTypes As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+        AccessibleLabel: ="Vacation Type Gallery"
+        DisabledBorderColor: =galleryTimeOffTypes.BorderColor
+        DisabledFill: =galleryTimeOffTypes.Fill
+        Height: =603
+        HoverBorderColor: =galleryTimeOffTypes.BorderColor
+        HoverFill: =galleryTimeOffTypes.Fill
+        Items: |-
+            =If(//Evaluating if user was hired after June 30th.
+                LookUp(
+                    'Employee List',
+                    Employee.Email = curUserEmail
+                ).'Hire Date' > Date(
+                    Year(Now()),
+                    6,
+                    30
+                ),
+                If(//Evaluating if user resides in Idaho
+                    LookUp(
+                        'Employee List',
+                        Employee.Email = curUserEmail
+                    ).'Residency State'.Value = "Idaho",
+                    Filter(//User lives in Idaho we are excluding Sick Leave from the vacation types available.
+                        'Time Off Types',
+                        Title = "Vacation" || Title = "*Jury Duty" || Title = "*Bereavement" || Title = "Others"
+                    ),
+                    Filter(
+                        'Time Off Types',
+                        Title = "Vacation" || Title = "*Jury Duty" || Title = "*Bereavement" || Title = "Others" || Title = "Sick Leave"
+                    )
+                ),
+                If(//Evaluating if user resides in Idaho
+                    LookUp(
+                        'Employee List',
+                        Employee.Email = curUserEmail
+                    ).'Residency State'.Value = "Idaho",
+                    Filter(//User lives in Idaho we are excluding Sick Leave from the vacation types available.
+                        'Time Off Types',
+                        Title = "Vacation" || Title = "*Jury Duty" || Title = "Floating Holiday" || Title = "*Bereavement" || Title = "Others"
+                    ),
+                    Filter(
+                        'Time Off Types',
+                        Title = "Vacation" || Title = "*Jury Duty" || Title = "Floating Holiday" || Title = "*Bereavement" || Title = "Others" || Title = "Sick Leave"
+                    )
+                )
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =galleryTimeOffTypes.BorderColor
+        OnSelect: |-
+            =Set(
+                selectedType,
+                ThisItem
+            );
+            ClearCollect(
+                selectedBalance,
+                LookUp(
+                    'Time Off Balances',
+                    Employee.Email = curUserEmail && TimeOffTypes.Value = selectedType.Title
+                )
+            );
+            //Navigate(CalendarScreen)
+        PressedBorderColor: =galleryTimeOffTypes.BorderColor
+        PressedFill: =galleryTimeOffTypes.Fill
+        TabIndex: =4
+        TemplatePadding: =0
+        TemplateSize: =114
+        Transition: =Transition.Pop
+        Visible: =typeGallery
+        Width: =1251
+        WrapCount: =2
+        X: =60
+        Y: =144
+        ZIndex: =3
+
+        Button3 As button:
+            BorderColor: =ColorFade(Button3.Fill, -15%)
+            BorderThickness: =0
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: |
+                =Icon5.Height
+            HoverBorderColor: =ColorFade(Button3.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Select(Parent);
+                If(
+                    ThisItem.Title = "Others",
+                    UpdateContext({typeGallery: false,messageText: false,OthersTypeLeave:true}),
+                    UpdateContext({approvalDialog: true})
+                )
+            PressedBorderColor: =Button3.Fill
+            PressedColor: =Button3.Fill
+            PressedFill: =Button3.Color
+            Size: =28
+            Text: =ThisItem.Title
+            Width: =580
+            X: =40
+            Y: =Icon5.Y
+            ZIndex: =2
+
+        Icon5 As icon.Add:
+            AccessibleLabel: ="Time Off Icon"
+            DisabledFill: =Icon5.Fill
+            FocusedBorderColor: =Icon5.BorderColor
+            HoverBorderColor: =ColorFade(Icon5.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon5.Color, 20%)
+            HoverFill: =Icon5.Fill
+            Icon: =If(ThisItem.Title = "*Bereavement",Icon.EmojiSad, ThisItem.Title = "Sick Leave", Icon.Weather, ThisItem.Title = "Floating Holiday", Icon.CalendarBlank, ThisItem.Title = "*Jury Duty", Icon.Person, ThisItem.Title = "Vacation", Icon.Airplane,ThisItem.Title = "Others", Icon.Enhance)
+            OnSelect: |-
+                =Select(Parent);UpdateContext({approvalDialog:true})
+            PressedBorderColor: =ColorFade(Icon5.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon5.Color, -20%)
+            PressedFill: =Icon5.Fill
+            TabIndex: =5
+            X: =40
+            Y: =27
+            ZIndex: =3
+
+        NextArrow3 As icon.ChevronRight:
+            AccessibleLabel: =NextArrow3.Tooltip
+            DisabledFill: =NextArrow3.Fill
+            FocusedBorderColor: =NextArrow3.BorderColor
+            Height: =60
+            HoverBorderColor: =ColorFade(NextArrow3.BorderColor, 20%)
+            HoverColor: =ColorFade(NextArrow3.Color, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            Icon: =Icon.ChevronRight
+            OnSelect: |-
+                =Select(Parent);UpdateContext({approvalDialog:true})
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =ColorFade(NextArrow3.BorderColor, -20%)
+            PressedColor: =ColorFade(NextArrow3.Color, -20%)
+            PressedFill: =NextArrow3.Fill
+            TabIndex: =7
+            Tooltip: ="View item details"
+            Visible: =false
+            Width: =60
+            X: =Parent.TemplateWidth - NextArrow3.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (NextArrow3.Height / 2)
+            ZIndex: =4
+
+    lblSelectType As label:
+        Align: =LayoutAlignItems.Center
+        FocusedBorderColor: =lblSelectType.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =97
+        HoverBorderColor: =lblSelectType.BorderColor
+        HoverColor: =lblSelectType.Color
+        HoverFill: =lblSelectType.Fill
+        PressedBorderColor: =lblSelectType.BorderColor
+        PressedColor: =lblSelectType.Color
+        PressedFill: =lblSelectType.Fill
+        Size: =18
+        TabIndex: =3
+        Text: ="Select the type of time off you need from the options below"
+        Visible: =messageText
+        Width: =1366
+        Y: =64
+        ZIndex: =4
+
+    grpApprovalNotes_1 As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =12
+
+        Rectangle3_1 As rectangle:
+            AccessibleLabel: ="Rectangle"
+            DisabledFill: =Rectangle3_1.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Rectangle3_1.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =232
+            HoverFill: =Rectangle3_1.Fill
+            PressedFill: =Rectangle3_1.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =901
+            X: =232
+            Y: =478
+            ZIndex: =7
+
+        iconCancel_1 As icon.Cancel:
+            AccessibleLabel: ="Cancel"
+            Color: =RGBA(39, 67, 125, 1)
+            DisabledFill: =iconCancel_1.Fill
+            FocusedBorderColor: =iconCancel_1.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =60
+            HoverBorderColor: =ColorFade(iconCancel_1.BorderColor, 20%)
+            HoverColor: =ColorFade(iconCancel_1.Color, 20%)
+            HoverFill: =iconCancel_1.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =UpdateContext({approvalDialog:false});Reset(tbReasonforLeaveNotes)
+            PressedBorderColor: =ColorFade(iconCancel_1.BorderColor, -20%)
+            PressedColor: =ColorFade(iconCancel_1.Color, -20%)
+            PressedFill: =iconCancel_1.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =60
+            X: =1062
+            Y: =490
+            ZIndex: =8
+
+        btnSubmit_1 As button:
+            BorderColor: =ColorFade(btnSubmit_1.Fill, -15%)
+            FocusedBorderColor: =btnSubmit_1.BorderColor
+            FocusedBorderThickness: =.5
+            HoverBorderColor: =ColorFade(btnSubmit_1.BorderColor, 20%)
+            OnSelect: |-
+                =UpdateContext({approvalDialog:false});Navigate(CalendarScreen)
+            PressedBorderColor: =btnSubmit_1.Fill
+            PressedColor: =btnSubmit_1.Fill
+            PressedFill: =btnSubmit_1.Color
+            TabIndex: =8
+            Text: ="Next"
+            Visible: =approvalDialog
+            X: =962
+            Y: =672
+            ZIndex: =9
+
+        tbReasonforLeaveNotes As text:
+            AccessibleLabel: ="Approval Notes Text Box"
+            Default: =""
+            FocusedBorderColor: =tbReasonforLeaveNotes.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =106
+            HintText: ="Describe reason for request."
+            PressedBorderColor: =tbReasonforLeaveNotes.HoverBorderColor
+            PressedColor: =tbReasonforLeaveNotes.Color
+            PressedFill: =tbReasonforLeaveNotes.Fill
+            TabIndex: =8
+            Visible: =approvalDialog
+            Width: =878
+            X: =244
+            Y: =552
+            ZIndex: =10
+
+        Label3_1 As label:
+            FocusedBorderColor: =Label3_1.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =62
+            HoverBorderColor: =Label3_1.BorderColor
+            HoverColor: =Label3_1.Color
+            HoverFill: =Label3_1.Fill
+            PressedBorderColor: =Label3_1.BorderColor
+            PressedColor: =Label3_1.Color
+            PressedFill: =Label3_1.Fill
+            Size: =24
+            TabIndex: =8
+            Text: |-
+                =selectedType.Title&" Reason (optional):"
+            Visible: =approvalDialog
+            Width: =551
+            X: =244
+            Y: =490
+            ZIndex: =11
+
+    lblVersion_3 As label:
+        FocusedBorderThickness: =5
+        Height: =33
+        TabIndex: =1
+        Text: ="*Jury Duty and Bereavement only accumulate time."
+        Width: =426
+        X: =60
+        Y: =714
+        ZIndex: =13
+
+    "'Back Button Container_1' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =14
+
+        Button6_1 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_1.Fill, -15%)
+            Color: =If(btn_Overlay_1.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_1.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_1.BorderColor, 20%)
+            HoverColor: =RGBA(39, 113, 194, 1)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_1.Fill
+            PressedColor: =Button6_1.Fill
+            PressedFill: =Button6_1.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_1 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_1.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_1.Fill
+            Fill: =If(btn_Overlay_1.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_1.Color, 20%)
+            HoverFill: =Icon15_1.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_1.Color, -20%)
+            PressedFill: =Icon15_1.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_1 As button:
+            BorderColor: =ColorFade(btn_Overlay_1.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_1.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Navigate(Landing);
+                Reset(tbReasonforLeaveNotes);
+                UpdateContext(
+                    {
+                        typeGallery: true,
+                        OthersTypeLeave: false,
+                        messageText: true,
+                        approvalDialog: false
+                    }
+                )
+            PressedBorderColor: =btn_Overlay_1.Fill
+            PressedColor: =btn_Overlay_1.Fill
+            PressedFill: =btn_Overlay_1.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    "'Cancel Button Container_1' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =148
+        X: =1204
+        Y: =5
+        ZIndex: =15
+
+        Button6_2 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_2.Fill, -15%)
+            Color: =If(btn_Overlay_2.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_2.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_2.BorderColor, 20%)
+            HoverColor: =RGBA(39, 113, 194, 1)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_2.Fill
+            PressedColor: =Button6_2.Fill
+            PressedFill: =Button6_2.Color
+            Size: =20
+            Text: ="Cancel"
+            Width: =120
+            X: =18
+            ZIndex: =1
+
+        Icon15_2 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_2.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_2.Fill
+            Fill: =If(btn_Overlay_2.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_2.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_2.Color, 20%)
+            HoverFill: =Icon15_2.Fill
+            Icon: =Icon.Cancel
+            PressedBorderColor: =ColorFade(Icon15_2.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_2.Color, -20%)
+            PressedFill: =Icon15_2.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_2 As button:
+            BorderColor: =ColorFade(btn_Overlay_2.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_2.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Navigate(Landing);
+                Reset(tbReasonforLeaveNotes);
+                UpdateContext(
+                    {
+                        typeGallery: true,
+                        OthersTypeLeave: false,
+                        messageText: true,
+                        approvalDialog: false
+                    }
+                )
+            PressedBorderColor: =btn_Overlay_2.Fill
+            PressedColor: =btn_Overlay_2.Fill
+            PressedFill: =btn_Overlay_2.Color
+            Text: =""
+            Width: =123
+            ZIndex: =3
+
+    OtherTypes_TimeOff As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =25
+
+        Rectangle2 As rectangle:
+            DisabledFill: =Rectangle2.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =547
+            HoverFill: =Rectangle2.Fill
+            PressedFill: =Rectangle2.Fill
+            Visible: =OthersTypeLeave
+            Width: =882
+            X: =242
+            Y: =129
+            ZIndex: =16
+
+        Button5 As button:
+            BorderColor: =ColorFade(Button5.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_sick_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5.Fill
+            PressedColor: =Button5.Fill
+            PressedFill: =Button5.Color
+            Text: ="I am unable to work due to my own serious health condition, surgery or injury"
+            Visible: =OthersTypeLeave
+            Width: =791
+            X: =284
+            Y: =221
+            ZIndex: =17
+
+        Button5_1 As button:
+            BorderColor: =ColorFade(Button5_1.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_1.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_mat_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_1.Fill
+            PressedColor: =Button5_1.Fill
+            PressedFill: =Button5_1.Color
+            Text: ="I am giving birth"
+            Visible: =OthersTypeLeave
+            Width: =792
+            X: =284
+            Y: =288
+            ZIndex: =18
+
+        Button5_2 As button:
+            BorderColor: =ColorFade(Button5_2.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_2.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_ppl_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_2.Fill
+            PressedColor: =Button5_2.Fill
+            PressedFill: =Button5_2.Color
+            Text: ="I need to take time to bond with an new child, including adoption and foster"
+            Visible: =OthersTypeLeave
+            Width: =792
+            X: =284
+            Y: =355
+            ZIndex: =19
+
+        Button5_3 As button:
+            BorderColor: =ColorFade(Button5_3.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_3.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_sickfam_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_3.Fill
+            PressedColor: =Button5_3.Fill
+            PressedFill: =Button5_3.Color
+            Text: ="I need to care for a sick family member with a serious health condition"
+            Visible: =OthersTypeLeave
+            Width: =792
+            X: =284
+            Y: =422
+            ZIndex: =20
+
+        Button5_4 As button:
+            BorderColor: =ColorFade(Button5_4.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_4.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_mil_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_4.Fill
+            PressedColor: =Button5_4.Fill
+            PressedFill: =Button5_4.Color
+            Text: ="I am going on active or inactive military duty"
+            Visible: =OthersTypeLeave
+            Width: =792
+            X: =284
+            Y: =489
+            ZIndex: =21
+
+        Button5_5 As button:
+            BorderColor: =ColorFade(Button5_5.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =71
+            HoverBorderColor: =ColorFade(Button5_5.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/kochhr?id=hr_loa_milfam_q1",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_5.Fill
+            PressedColor: =Button5_5.Fill
+            PressedFill: =Button5_5.Color
+            Text: ="I have a family member on active military duty or I had a family member injured while serving"
+            Visible: =OthersTypeLeave
+            Width: =792
+            X: =283
+            Y: =557
+            ZIndex: =22
+
+        Label1 As label:
+            Height: =48
+            Size: =20
+            Text: ="What is the reason for your leave?"
+            Visible: =OthersTypeLeave
+            Width: =487
+            X: =442
+            Y: =152
+            ZIndex: =23
+
+        Icon9 As icon.BackArrow:
+            DisabledFill: =Icon9.Fill
+            HoverBorderColor: =ColorFade(Icon9.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon9.Color, 20%)
+            HoverFill: =Icon9.Fill
+            Icon: =Icon.BackArrow
+            OnSelect: |-
+                =UpdateContext({OthersTypeLeave:false,typeGallery:true,messageText:true})
+            PressedBorderColor: =ColorFade(Icon9.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon9.Color, -20%)
+            PressedFill: =Icon9.Fill
+            Visible: =OthersTypeLeave
+            X: =219
+            Y: =129
+            ZIndex: =24
+

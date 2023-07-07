@@ -1,0 +1,633 @@
+"TeamCalendar As screen.'tabletLayout_Calendar_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =/*retrieves calendar events for all days in current month view and selected calendar 
+        _minDate and _maxDate act as markers to prevent duplicate data collection*/         
+        If(IsBlank(_userDomain),         
+        	UpdateContext({_showLoading: true});         
+        	Set(_userDomain, Right(User().Email, Len(User().Email) - Find("@", User().Email)));         
+        	Set(_dateSelected, Today());         
+        	Set(_firstDayOfMonth, DateAdd(Today(), 1 - Day(Today()), TimeUnit.Days));         
+        	Set(_firstDayInView, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days));         
+        	Set(_lastDayOfMonth, DateAdd(DateAdd(_firstDayOfMonth, 1, TimeUnit.Months), -1, TimeUnit.Days))         
+        );         
+        Set(_calendarVisible, false);         
+        UpdateContext({_showLoading: true});         
+        Set(_myCalendar, dropdownCalendarSelection1.Selected);         
+        Set(_minDate, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days));         
+        Set(_maxDate, DateAdd(DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days), 40, TimeUnit.Days));         
+        ClearCollect(MyCalendarEvents,'Time Off Calendar');         
+        UpdateContext({_showLoading: false});         
+        Set(_calendarVisible, true)
+    Orientation: =If(TeamCalendar.Width < TeamCalendar.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= TeamCalendar.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    RectMeetingBkg1 As rectangle:
+        DisabledFill: =RectMeetingBkg1.Fill
+        FocusedBorderColor: =RectMeetingBkg1.BorderColor
+        Height: =42
+        HoverFill: =RectMeetingBkg1.Fill
+        PressedFill: =RectMeetingBkg1.Fill
+        Visible: =_calendarVisible
+        Width: =Parent.Width - RectMeetingBkg1.X
+        X: =422
+        Y: =RectQuickActionBar3.Height
+        ZIndex: =1
+
+    RectQuickActionBar3 As rectangle:
+        DisabledFill: =RectQuickActionBar3.Fill
+        FocusedBorderColor: =RectQuickActionBar3.BorderColor
+        Height: =64
+        HoverFill: =RectQuickActionBar3.Fill
+        PressedFill: =RectQuickActionBar3.Fill
+        Width: =Parent.Width
+        ZIndex: =2
+
+    LblResetToday1 As label:
+        Align: =Align.Center
+        Color: =iconCalendar1.Color
+        FocusedBorderColor: =LblResetToday1.BorderColor
+        FontWeight: =FontWeight.Bold
+        Height: =iconCalendar1.Height
+        HoverBorderColor: =LblResetToday1.BorderColor
+        HoverColor: =LblResetToday1.Color
+        HoverFill: =LblResetToday1.Fill
+        PaddingTop: =12
+        PressedBorderColor: =LblResetToday1.BorderColor
+        PressedColor: =LblResetToday1.Color
+        PressedFill: =LblResetToday1.Fill
+        Size: =11
+        Text: =DateDiff(Date(Year(Today()), Month(Today()), 1), Today(), TimeUnit.Days) + 1
+        Width: =iconCalendar1.Width
+        X: =iconCalendar1.X
+        Y: =iconCalendar1.Y
+        ZIndex: =4
+
+    iconCalendar1 As icon.CalendarBlank:
+        AccessibleLabel: ="Go to today button"
+        DisabledFill: =iconCalendar1.Fill
+        FocusedBorderColor: =iconCalendar1.BorderColor
+        Height: =40
+        HoverBorderColor: =ColorFade(iconCalendar1.BorderColor, 20%)
+        HoverColor: =ColorFade(iconCalendar1.Color, 20%)
+        HoverFill: =iconCalendar1.Fill
+        Icon: =Icon.CalendarBlank
+        OnSelect: |-
+            =/*resets calendar view and date selection to today*/
+            Set(_dateSelected, Today());
+            Set(_firstDayOfMonth, DateAdd(Today(), 1 - Day(Today()), TimeUnit.Days));
+            Set(_firstDayInView, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days));
+            Set(_lastDayOfMonth, DateAdd(DateAdd(_firstDayOfMonth, 1, TimeUnit.Months), -1, TimeUnit.Days))
+        PressedBorderColor: =ColorFade(iconCalendar1.BorderColor, -20%)
+        PressedColor: =ColorFade(iconCalendar1.Color, -20%)
+        PressedFill: =iconCalendar1.Fill
+        TabIndex: =0
+        Tooltip: ="Reset selected date to today"
+        Width: =40
+        X: =395 - iconCalendar1.Width
+        Y: =dropdownCalendarSelection1.Y
+        ZIndex: =5
+
+    dropdownCalendarSelection1 As dropdown:
+        AccessibleLabel: ="Calendar Type Dropdown - Not needed"
+        Default: ="PTO"
+        FocusedBorderColor: =dropdownCalendarSelection1.BorderColor
+        HoverBorderColor: =ColorFade(dropdownCalendarSelection1.BorderColor, 15%)
+        Items: =["PTO"]
+        OnChange: =Select(dropdownCalendarSelection1)
+        OnSelect: |-
+            =/*retrieves calendar events for all days in current month view and selected calendar 
+            _minDate and _maxDate act as markers to prevent duplicate data collection*/         
+            If(IsBlank(_userDomain),         
+            	UpdateContext({_showLoading: true});         
+            	Set(_userDomain, Right(User().Email, Len(User().Email) - Find("@", User().Email)));         
+            	Set(_dateSelected, Today());         
+            	Set(_firstDayOfMonth, DateAdd(Today(), 1 - Day(Today()), TimeUnit.Days));         
+            	Set(_firstDayInView, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days));         
+            	Set(_lastDayOfMonth, DateAdd(DateAdd(_firstDayOfMonth, 1, TimeUnit.Months), -1, TimeUnit.Days))         
+            );         
+            Set(_calendarVisible, false);         
+            UpdateContext({_showLoading: true});         
+            Set(_myCalendar, dropdownCalendarSelection1.Selected);         
+            Set(_minDate, DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days));         
+            Set(_maxDate, DateAdd(DateAdd(_firstDayOfMonth, -(Weekday(_firstDayOfMonth) - 2 + 1), TimeUnit.Days), 40, TimeUnit.Days));         
+            ClearCollect(MyCalendarEvents,'Time Off Calendar');         
+            UpdateContext({_showLoading: false});         
+            Set(_calendarVisible, true)
+        PressedBorderColor: =dropdownCalendarSelection1.HoverBorderColor
+        Tooltip: ="Select a calendar"
+        Visible: =false
+        Width: =307
+        X: =32
+        Y: =RectQuickActionBar3.Height + 24
+        ZIndex: =6
+
+    LblMonthSelected1 As label:
+        Align: =Align.Center
+        FocusedBorderColor: =LblMonthSelected1.BorderColor
+        Height: =50
+        HoverBorderColor: =LblMonthSelected1.BorderColor
+        HoverColor: =LblMonthSelected1.Color
+        HoverFill: =LblMonthSelected1.Fill
+        PressedBorderColor: =LblMonthSelected1.BorderColor
+        PressedColor: =LblMonthSelected1.Color
+        PressedFill: =LblMonthSelected1.Fill
+        Size: =18
+        Text: =Text(_firstDayOfMonth, "mmmm yyyy")
+        Visible: =_calendarVisible
+        Width: =419
+        Wrap: =false
+        Y: =dropdownCalendarSelection1.Y + dropdownCalendarSelection1.Height + 40
+        ZIndex: =7
+
+    iconPrevMonth1 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous Month"
+        DisabledFill: =iconPrevMonth1.Fill
+        FocusedBorderColor: =iconPrevMonth1.BorderColor
+        Height: =50
+        HoverBorderColor: =ColorFade(iconPrevMonth1.BorderColor, 20%)
+        HoverColor: =ColorFade(iconPrevMonth1.Color, 20%)
+        HoverFill: =iconPrevMonth1.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: |-
+            =/*changes month view to previous month*/
+            Set(
+                _firstDayOfMonth,
+                DateAdd(
+                    _firstDayOfMonth,
+                    -1,
+                    TimeUnit.Months
+                )
+            );
+            Set(
+                _firstDayInView,
+                DateAdd(
+                    _firstDayOfMonth,
+                    -(Weekday(_firstDayOfMonth) - 2 + 1),
+                    TimeUnit.Days
+                )
+            );
+            Set(
+                _lastDayOfMonth,
+                DateAdd(
+                    DateAdd(
+                        _firstDayOfMonth,
+                        1,
+                        TimeUnit.Months
+                    ),
+                    -1,
+                    TimeUnit.Days
+                )
+            );
+            /*collects calendar events for all days in current month view. Updates _minDate to prevent duplicate data collection if user returns to this month view*/
+            If(
+                _minDate > _firstDayOfMonth,
+                Set(
+                    _minDate,
+                    _firstDayOfMonth
+                );
+                ClearCollect(
+                    MyCalendarEvents,
+                    'Time Off Calendar'
+                )
+            )
+        PaddingBottom: =7
+        PaddingLeft: =7
+        PaddingRight: =7
+        PaddingTop: =7
+        PressedBorderColor: =ColorFade(iconPrevMonth1.BorderColor, -20%)
+        PressedColor: =ColorFade(iconPrevMonth1.Color, -20%)
+        PressedFill: =iconPrevMonth1.Fill
+        TabIndex: =0
+        Tooltip: ="View previous month"
+        Visible: =_calendarVisible
+        Width: =59
+        Y: =LblMonthSelected1.Y
+        ZIndex: =8
+
+    iconNextMonth1 As icon.ChevronRight:
+        AccessibleLabel: ="Next Month"
+        DisabledFill: =iconNextMonth1.Fill
+        FocusedBorderColor: =iconNextMonth1.BorderColor
+        Height: =50
+        HoverBorderColor: =ColorFade(iconNextMonth1.BorderColor, 20%)
+        HoverColor: =ColorFade(iconNextMonth1.Color, 20%)
+        HoverFill: =iconNextMonth1.Fill
+        Icon: =Icon.ChevronRight
+        OnSelect: |-
+            =/*changes month view to next month*/
+            Set(
+                _firstDayOfMonth,
+                DateAdd(
+                    _firstDayOfMonth,
+                    1,
+                    TimeUnit.Months
+                )
+            );
+            Set(
+                _firstDayInView,
+                DateAdd(
+                    _firstDayOfMonth,
+                    -(Weekday(_firstDayOfMonth) - 2 + 1),
+                    TimeUnit.Days
+                )
+            );
+            /*collects calendar events for all days in current month view. Updates _maxDate to prevent duplicate data collection if user returns to this month view*/
+            Set(
+                _lastDayOfMonth,
+                DateAdd(
+                    DateAdd(
+                        _firstDayOfMonth,
+                        1,
+                        TimeUnit.Months
+                    ),
+                    -1,
+                    TimeUnit.Days
+                )
+            );
+            If(
+                _lastDayOfMonth > _maxDate,
+                Set(
+                    _maxDate,
+                    _lastDayOfMonth
+                );
+                ClearCollect(
+                    MyCalendarEvents,
+                    'Time Off Calendar'
+                )
+            )
+        PaddingBottom: =7
+        PaddingLeft: =7
+        PaddingRight: =7
+        PaddingTop: =7
+        PressedBorderColor: =ColorFade(iconNextMonth1.BorderColor, -20%)
+        PressedColor: =ColorFade(iconNextMonth1.Color, -20%)
+        PressedFill: =iconNextMonth1.Fill
+        TabIndex: =0
+        Tooltip: ="View next month"
+        Visible: =_calendarVisible
+        Width: =59
+        X: =419 - iconNextMonth1.Width
+        Y: =LblMonthSelected1.Y
+        ZIndex: =9
+
+    WeekdayGallery1 As gallery.WeekdayGallery:
+        AccessibleLabel: ="Days of the week"
+        DisabledBorderColor: =WeekdayGallery1.BorderColor
+        DisabledFill: =WeekdayGallery1.Fill
+        Height: =45
+        HoverBorderColor: =WeekdayGallery1.BorderColor
+        HoverFill: =WeekdayGallery1.Fill
+        Items: =Calendar.WeekdaysShort()
+        LoadingSpinnerColor: =WeekdayGallery1.BorderColor
+        PressedBorderColor: =WeekdayGallery1.BorderColor
+        PressedFill: =WeekdayGallery1.Fill
+        ShowScrollbar: =false
+        TabIndex: =4
+        TemplatePadding: =0
+        TemplateSize: =60
+        Visible: =_calendarVisible
+        Width: =420
+        Y: =LblMonthSelected1.Y + LblMonthSelected1.Height + 10
+        ZIndex: =10
+
+        Title5 As label:
+            Align: =Align.Center
+            FocusedBorderColor: =Title5.BorderColor
+            Height: =WeekdayGallery1.TemplateHeight
+            HoverBorderColor: =Title5.BorderColor
+            HoverColor: =Title5.Color
+            HoverFill: =Title5.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Title5.BorderColor
+            PressedColor: =Title5.Color
+            PressedFill: =Title5.Fill
+            Size: =17 * WeekdayGallery1.TemplateWidth / 77
+            Text: =ThisItem.Value
+            Width: =WeekdayGallery1.TemplateWidth
+            Wrap: =false
+            X: =WeekdayGallery1.TemplateWidth / 2 - Title5.Width / 2
+            Y: =WeekdayGallery1.TemplateHeight / 2 - Title5.Height / 2
+            ZIndex: =1
+
+    MonthDayGallery1 As gallery.MonthDayGallery:
+        AccessibleLabel: ="Days of selected month"
+        DisabledBorderColor: =MonthDayGallery1.BorderColor
+        DisabledFill: =MonthDayGallery1.Fill
+        Height: =425
+        HoverBorderColor: =MonthDayGallery1.BorderColor
+        HoverFill: =MonthDayGallery1.Fill
+        Items: =[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =MonthDayGallery1.BorderColor
+        PressedBorderColor: =MonthDayGallery1.BorderColor
+        PressedFill: =MonthDayGallery1.Fill
+        ShowScrollbar: =false
+        TabIndex: =5
+        TemplatePadding: =0
+        TemplateSize: =60
+        Visible: =_calendarVisible
+        Width: =420
+        WrapCount: =7
+        Y: =WeekdayGallery1.Y + WeekdayGallery1.Height
+        ZIndex: =11
+
+        Circle1 As circle:
+            DisabledFill: =Circle1.Fill
+            FocusedBorderColor: =Circle1.BorderColor
+            Height: =Circle1.Width
+            HoverFill: =Circle1.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Circle1.Fill
+            Visible: |-
+                =/*Visible if calendar events are found on this day*/               
+                CountRows(
+                    Filter(
+                        MyCalendarEvents,
+                        DateValue(Text(Start)) = DateAdd(
+                            _firstDayInView,
+                            ThisItem.Value,
+                            TimeUnit.Days
+                        )
+                    )
+                ) > 0 && !Subcircle1.Visible && Title7.Visible
+            Width: =6.5
+            X: =MonthDayGallery1.TemplateWidth / 2 - Circle1.Width / 2
+            Y: =MonthDayGallery1.TemplateHeight * (0.75)
+            ZIndex: =1
+
+        Subcircle1 As circle:
+            DisabledFill: =Subcircle1.Fill
+            FocusedBorderColor: =Subcircle1.BorderColor
+            Height: =3 * Title7.Size
+            HoverFill: =Subcircle1.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Subcircle1.Fill
+            Visible: =And(DateAdd(_firstDayInView, ThisItem.Value) = _dateSelected, Title7.Visible)
+            Width: =Subcircle1.Height
+            X: =MonthDayGallery1.TemplateWidth/2 - Subcircle1.Width/2
+            Y: =MonthDayGallery1.TemplateHeight / 2 - Subcircle1.Height / 2
+            ZIndex: =2
+
+        Title7 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =If(DateAdd(_firstDayInView, ThisItem.Value) = _dateSelected, RGBA(255, 255, 255, 1), DateAdd(_firstDayInView, ThisItem.Value) = Today(), RGBA(47, 41, 43, 1), LblMonthSelected1.Color)
+            Fill: |-
+                =/*Fill value changes if the gallery item day = today, or if it lies outside of the current month*/             
+                If(
+                    /*Date selected is today*/
+                    DateAdd(_firstDayInView, ThisItem.Value) = Today() && DateAdd(_firstDayInView, ThisItem.Value) = _dateSelected, RGBA(0,0,0,0),
+                    /*Today when it is not selected*/
+                    DateAdd(_firstDayInView, ThisItem.Value) = Today(), ColorFade(Subcircle1.Fill, 0.67), 
+                    /*The day is outside the range of the currently selected month*/
+                    Abs(Title7.Text - ThisItem.Value) > 10,RGBA(200, 200, 200, 0.3), RGBA(0, 0, 0, 0))
+            FocusedBorderColor: =Title7.Color
+            FocusedBorderThickness: =2
+            Height: =MonthDayGallery1.TemplateHeight
+            HoverBorderColor: =Title7.BorderColor
+            HoverColor: =Title7.Color
+            HoverFill: =Title7.Fill
+            OnSelect: =Set(_dateSelected, DateAdd(_firstDayInView, ThisItem.Value, TimeUnit.Days))
+            PressedBorderColor: =Title7.BorderColor
+            PressedColor: =Title7.Color
+            PressedFill: =Title7.Fill
+            Size: =17 * MonthDayGallery1.TemplateWidth / 91
+            TabIndex: =0
+            Text: =Day(DateAdd(_firstDayInView,ThisItem.Value,TimeUnit.Days))
+            Visible: |-
+                =/*This item is in a row containing no days of the visible month. It is in the row after the row where the last day of the month occurs*/ 
+                 !(DateAdd(_firstDayInView,ThisItem.Value,TimeUnit.Days) - Weekday(DateAdd(_firstDayInView,ThisItem.Value,TimeUnit.Days)) + 1 > _lastDayOfMonth)
+            Width: =MonthDayGallery1.TemplateWidth
+            Wrap: =false
+            ZIndex: =3
+
+    LblDateSelected1 As label:
+        FocusedBorderColor: =LblDateSelected1.BorderColor
+        Height: =RectMeetingBkg1.Height
+        HoverBorderColor: =LblDateSelected1.BorderColor
+        HoverColor: =LblDateSelected1.Color
+        HoverFill: =LblDateSelected1.Fill
+        PressedBorderColor: =LblDateSelected1.BorderColor
+        PressedColor: =LblDateSelected1.Color
+        PressedFill: =LblDateSelected1.Fill
+        Size: =13
+        Text: =Text(_dateSelected, DateTimeFormat.LongDate)
+        Visible: =_calendarVisible
+        Width: =Parent.Width / 3 - 60
+        Wrap: =false
+        X: =451
+        Y: =RectQuickActionBar3.Height
+        ZIndex: =12
+
+    CalendarEventsGallery1 As gallery.CalendarEventsGallery:
+        AccessibleLabel: ="Calendar events for selected day"
+        DisabledBorderColor: =CalendarEventsGallery1.BorderColor
+        DisabledFill: =CalendarEventsGallery1.Fill
+        Height: =Parent.Height - CalendarEventsGallery1.Y
+        HoverBorderColor: =CalendarEventsGallery1.BorderColor
+        HoverFill: =CalendarEventsGallery1.Fill
+        Items: |-
+            =/*Shows events only on selected date*/
+            SortByColumns(
+                Filter(
+                    MyCalendarEvents,
+                    Text(
+                        Start,
+                        DateTimeFormat.ShortDate
+                    ) = Text(
+                        _dateSelected,
+                        DateTimeFormat.ShortDate
+                    )
+                ),
+                "Start"
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =CalendarEventsGallery1.BorderColor
+        PressedBorderColor: =CalendarEventsGallery1.BorderColor
+        PressedFill: =CalendarEventsGallery1.Fill
+        ShowScrollbar: =false
+        TabIndex: =7
+        TemplatePadding: =0
+        TemplateSize: =85
+        Visible: =_calendarVisible
+        Width: =Parent.Width - CalendarEventsGallery1.X
+        X: =422
+        Y: =LblDateSelected1.Y + LblDateSelected1.Height
+        ZIndex: =13
+
+        Rectangle4 As rectangle:
+            AccessibleLabel: ="Line seperator"
+            BorderThickness: =If(ThisItem.ID = _selectedCalendarEvent.ID, 2, 0)
+            DisabledFill: =Rectangle4.Fill
+            Fill: =RGBA(0,0,0,0)
+            FocusedBorderColor: =Rectangle4.BorderColor
+            Height: =63
+            HoverFill: =RGBA(0,0,0,0)
+            OnSelect: =Select(Title8)
+            PressedFill: =Rectangle4.Fill
+            TabIndex: =0
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Title8 As label:
+            BorderColor: =Title8.Color
+            FocusedBorderColor: =Title8.BorderColor
+            FocusedBorderThickness: =2
+            FontWeight: =FontWeight.Semibold
+            Height: =Title8.Size * 1.8
+            HoverBorderColor: =Title8.BorderColor
+            HoverColor: =Title8.Color
+            HoverFill: =Title8.Fill
+            OnSelect: =Set(_selectedCalendarEvent, ThisItem)
+            PressedBorderColor: =Title8.BorderColor
+            PressedColor: =Title8.Color
+            PressedFill: =Title8.Fill
+            Size: =19 * CalendarEventsGallery1.TemplateHeight / 105
+            TabIndex: =0
+            Text: =ThisItem.Title
+            Tooltip: =ThisItem.Title
+            Width: =CalendarEventsGallery1.TemplateWidth - Title8.X - 10
+            Wrap: =false
+            X: =Body2.X + Body2.Width + 10
+            Y: =CalendarEventsGallery1.TemplateHeight / 4 - Title8.Height / 2 + 5
+            ZIndex: =3
+
+        Body2 As label:
+            FocusedBorderColor: =Body2.BorderColor
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =Body2.BorderColor
+            HoverColor: =Body2.Color
+            HoverFill: =Body2.Fill
+            OnSelect: =Select(Title8)
+            PressedBorderColor: =Body2.BorderColor
+            PressedColor: =Body2.Color
+            PressedFill: =Body2.Fill
+            Size: =17 * CalendarEventsGallery1.TemplateHeight / 105
+            TabIndex: =8
+            Text: =Text(ThisItem.Start, DateTimeFormat.ShortTime)
+            Visible: =false
+            Width: =34
+            Wrap: =false
+            Y: =12
+            ZIndex: =5
+
+        Separator1 As rectangle:
+            DisabledFill: =Separator1.Fill
+            FocusedBorderColor: =Separator1.BorderColor
+            Height: =1
+            HoverFill: =Separator1.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator1.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =7
+
+    iconEmptyState1 As icon.CalendarBlank:
+        DisabledFill: =iconEmptyState1.Fill
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =iconEmptyState1.BorderColor
+        HoverBorderColor: =ColorFade(iconEmptyState1.BorderColor, 20%)
+        HoverColor: =ColorFade(iconEmptyState1.Color, 20%)
+        HoverFill: =iconEmptyState1.Fill
+        Icon: =Icon.CalendarBlank
+        PressedBorderColor: =ColorFade(iconEmptyState1.BorderColor, -20%)
+        PressedColor: =ColorFade(iconEmptyState1.Color, -20%)
+        PressedFill: =iconEmptyState1.Fill
+        Visible: =IsBlank(_userDomain)
+        X: =2* Parent.Width/3 - iconEmptyState1.Width / 2
+        Y: =LblNoEvents1.Y - iconEmptyState1.Height
+        ZIndex: =14
+
+    LblNoEvents1 As label:
+        Align: =Align.Center
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =LblNoEvents1.BorderColor
+        Height: =220
+        HoverBorderColor: =LblNoEvents1.BorderColor
+        HoverColor: =LblNoEvents1.Color
+        HoverFill: =LblNoEvents1.Fill
+        PressedBorderColor: =LblNoEvents1.BorderColor
+        PressedColor: =LblNoEvents1.Color
+        PressedFill: =LblNoEvents1.Fill
+        Size: =15
+        Text: =If(IsBlank(_userDomain), "Select a calendar from the drop down to begin", _showLoading, "Loading events...", "No events scheduled")
+        Visible: =IsBlank(_userDomain) || _showLoading || And(CountRows(CalendarEventsGallery1.AllItems) = 0 && _calendarVisible)
+        Width: =600
+        X: =2* Parent.Width/3 - LblNoEvents1.Width / 2
+        Y: =CalendarEventsGallery1.Y + CalendarEventsGallery1.Height/2 - LblNoEvents1.Height/2
+        ZIndex: =15
+
+    RectCalendarSeparator1 As rectangle:
+        DisabledFill: =RectCalendarSeparator1.Fill
+        FocusedBorderColor: =RectCalendarSeparator1.BorderColor
+        Height: =Parent.Height - RectCalendarSeparator1.Y
+        HoverFill: =RectCalendarSeparator1.Fill
+        PressedFill: =RectCalendarSeparator1.Fill
+        Width: =2
+        X: =420
+        Y: =RectQuickActionBar3.Height
+        ZIndex: =16
+
+    "'Back Button Container_7' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =25
+        Y: =5
+        ZIndex: =19
+
+        Button6_14 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_14.Fill, -15%)
+            Color: =If(btn_Overlay_14.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_14.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_14.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_14.Fill
+            PressedColor: =Button6_14.Fill
+            PressedFill: =Button6_14.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_14 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_14.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_14.Fill
+            Fill: =If(btn_Overlay_14.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_14.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_14.Color, 20%)
+            HoverFill: =Icon15_14.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_14.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_14.Color, -20%)
+            PressedFill: =Icon15_14.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_14 As button:
+            BorderColor: =ColorFade(btn_Overlay_14.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_14.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(managerScreen)
+            PressedBorderColor: =btn_Overlay_14.Fill
+            PressedColor: =btn_Overlay_14.Fill
+            PressedFill: =btn_Overlay_14.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+

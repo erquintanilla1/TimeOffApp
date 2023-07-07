@@ -1,0 +1,2894 @@
+"HR_Portal As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =Refresh('Employee List');ClearCollect(EmployeeList,'Employee List')
+    Orientation: =If(HR_Portal.Width < HR_Portal.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= HR_Portal.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Button17 As button:
+        BorderColor: =RGBA(56, 96, 178, 1)
+        DisplayMode: =DisplayMode.View
+        Height: =60
+        HoverBorderColor: =ColorFade(Button17.BorderColor, 20%)
+        PressedBorderColor: =Button17.Fill
+        PressedColor: =Button17.Fill
+        PressedFill: =Button17.Color
+        RadiusBottomLeft: =20
+        RadiusBottomRight: =20
+        RadiusTopLeft: =20
+        RadiusTopRight: =20
+        Text: =""
+        Width: =HR_Portal.Width-40
+        X: =20  
+        Y: =83
+        ZIndex: =2
+
+    RectQuickActionBar2_1 As rectangle:
+        DisabledFill: =RectQuickActionBar2_1.Fill
+        FocusedBorderColor: =RectQuickActionBar2_1.BorderColor
+        Height: =64
+        HoverFill: =RectQuickActionBar2_1.Fill
+        PressedFill: =RectQuickActionBar2_1.Fill
+        Width: =Parent.Width
+        ZIndex: =7
+
+    Title1_1 As label:
+        Align: =Align.Center
+        FocusedBorderColor: =Title1_1.BorderColor
+        Height: =64
+        HoverBorderColor: =Title1_1.BorderColor
+        HoverColor: =Title1_1.Color
+        HoverFill: =Title1_1.Fill
+        PaddingRight: =10
+        PressedBorderColor: =Title1_1.BorderColor
+        PressedColor: =Title1_1.Color
+        PressedFill: =Title1_1.Fill
+        Text: ="HR Portal"
+        Width: =Parent.Width
+        ZIndex: =8
+
+    Button14 As button:
+        BorderColor: =ColorFade(Button14.Fill, -15%)
+        Color: =RGBA(56, 96, 178, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =ColorFade(Button14.BorderColor, 20%)
+        HoverFill: =ColorFade(RGBA(230, 230, 230, 1), -20%)
+        OnSelect: |-
+            =Set(varEmployeeListScreen,false);
+            Set(varApprovers,false);
+            Set(varVacationTypes,false);
+            Set(varMolexHolidays,true)
+        PressedBorderColor: =Button14.Fill
+        PressedColor: =Button14.Fill
+        PressedFill: =Button14.Color
+        Text: ="Molex Holidays"
+        X: =(Button17.X+Button17.Width)-Button14.Width-190
+        Y: =Button17.Y+10
+        ZIndex: =21
+
+    Button14_1 As button:
+        BorderColor: =ColorFade(Button14_1.Fill, -15%)
+        Color: =RGBA(56, 96, 178, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =ColorFade(Button14_1.BorderColor, 20%)
+        HoverFill: =ColorFade(RGBA(230, 230, 230, 1), -20%)
+        OnSelect: |-
+            =Set(varEmployeeListScreen,false);
+            Set(varApprovers,false);
+            Set(varVacationTypes,true);
+            Set(varMolexHolidays,false)
+        PressedBorderColor: =Button14_1.Fill
+        PressedColor: =Button14_1.Fill
+        PressedFill: =Button14_1.Color
+        Text: ="Time Off Types / Balances"
+        Width: =284
+        X: =Button17.X+(Button17.Width/2)-(Button14_1.Width/2)
+        Y: =Button17.Y+10
+        ZIndex: =22
+
+    Button14_2 As button:
+        BorderColor: =ColorFade(Button14_2.Fill, -15%)
+        Color: =RGBA(56, 96, 178, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =ColorFade(Button14_2.BorderColor, 20%)
+        HoverFill: =ColorFade(RGBA(230, 230, 230, 1), -20%)
+        OnSelect: |
+            =Set(varEmployeeListScreen,true);
+            Set(varApprovers,false);
+            Set(varVacationTypes,false);
+            Set(varMolexHolidays,false)
+        PressedBorderColor: =Button14_2.Fill
+        PressedColor: =Button14_2.Fill
+        PressedFill: =Button14_2.Color
+        Text: ="Employee List"
+        X: =Button17.X+190
+        Y: =Button17.Y+10
+        ZIndex: =23
+
+    Button14_3 As button:
+        BorderColor: =ColorFade(Button14_3.Fill, -15%)
+        Color: =RGBA(56, 96, 178, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        HoverBorderColor: =ColorFade(Button14_3.BorderColor, 20%)
+        HoverFill: =ColorFade(RGBA(230, 230, 230, 1), -20%)
+        OnSelect: |-
+            =Set(varEmployeeListScreen,false);
+            Set(varApprovers,true);
+            Set(varVacationTypes,false);
+            Set(varMolexHolidays,false)
+        PressedBorderColor: =Button14_3.Fill
+        PressedColor: =Button14_3.Fill
+        PressedFill: =Button14_3.Color
+        Text: ="Approvers List"
+        Visible: =false
+        X: =1126
+        Y: =Button17.Y+10
+        ZIndex: =24
+
+    DeleteUserMessage As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =26
+
+        Rectangle10 As rectangle:
+            DisabledFill: =Rectangle10.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10.Fill
+            PressedFill: =Rectangle10.Fill
+            Visible: =varShowDelete
+            Width: =1366
+            ZIndex: =63
+
+        Rectangle11 As rectangle:
+            DisabledFill: =Rectangle11.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =295
+            HoverFill: =Rectangle11.Fill
+            PressedFill: =Rectangle11.Fill
+            Visible: =varShowDelete
+            Width: =522
+            X: =424
+            Y: =233
+            ZIndex: =64
+
+        Label11 As label:
+            Align: =Align.Center
+            Height: =153
+            Size: =20
+            Text: |-
+                =If(
+                    varEmployeeListScreen = true,
+                    "Are you sure you want to delete the user: " & varItemToDelete.Employee.DisplayName & "?",
+                    If(
+                        varMolexHolidays = true,
+                        "Are you sure you want to delete the holiday: " & varItemToDeleteHoly.Title & "?",
+                        If(
+                            varVacationTypes = true,
+                            "Are you sure you want to delete the vacation type: " & varItemToDeleteVac.Title & "?"
+                        )
+                    )
+                )
+            Visible: =varShowDelete
+            Width: =378
+            X: =561
+            Y: =245
+            ZIndex: =65
+
+        Image4 As image:
+            Height: =102
+            HoverBorderColor: =ColorFade(Image4.BorderColor, 20%)
+            HoverFill: =ColorFade(Image4.Fill, 20%)
+            Image: |-
+                ="data:image/svg+xml," & 
+                 EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                  <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                   <path fill='red'
+                d='M1920 128h-1920l960 1920zM207 256h1506l-753 1506zM1024 1280v-640h-128v640h128zM896 512h128v-128h-128v128z' />
+                  </g>
+                
+                </svg>"
+                )
+            PressedBorderColor: =ColorFade(Image4.BorderColor, -20%)
+            PressedFill: =ColorFade(Image4.Fill, -20%)
+            Visible: =varShowDelete
+            Width: =118
+            X: =443
+            Y: =250
+            ZIndex: =66
+
+        Button11 As button:
+            BorderColor: =ColorFade(Button11.Fill, -15%)
+            Fill: =RGBA(255, 0, 0, 1)
+            HoverBorderColor: =ColorFade(Button11.BorderColor, 20%)
+            OnSelect: |-
+                =Set(
+                    varSpinner,
+                    true
+                );
+                If(
+                    varEmployeeListScreen = true,
+                    RemoveIf(
+                        'Employee List',
+                        Title = varItemToDelete.Title
+                    ),
+                    If(
+                        varMolexHolidays = true,
+                        Remove(
+                            MolexUSAHolidaySchedule,
+                            LookUp(
+                                MolexUSAHolidaySchedule,
+                                Title = varItemToDeleteHoly.Title
+                            )
+                        ),
+                        If(
+                            varVacationTypes = true,
+                            Remove(
+                                'Time Off Types',
+                                LookUp(
+                                    'Time Off Types',
+                                    Title = varItemToDeleteVac.Title
+                                )
+                            )
+                        )
+                    )
+                );
+                Refresh('Employee List');
+                If(
+                    varEmployeeListScreen = true,
+                    RemoveIf(
+                        'Time Off Balances',
+                        Title = varItemToDelete.Title
+                    )
+                );
+                Set(
+                    varShowDelete,
+                    false
+                );
+                Set(
+                    varSpinner,
+                    false
+                );
+                Set(
+                    varGalDefaultEmployee,
+                    EmployeeForm.LastSubmit
+                )
+            PressedBorderColor: =Button11.Fill
+            PressedColor: =Button11.Fill
+            PressedFill: =Button11.Color
+            Text: ="Delete"
+            Visible: =varShowDelete
+            X: =489
+            Y: =470
+            ZIndex: =67
+
+        Button12 As button:
+            BorderColor: =ColorFade(Button12.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button12.BorderColor, 20%)
+            OnSelect: =Set(varShowDelete,false)
+            PressedBorderColor: =Button12.Fill
+            PressedColor: =Button12.Fill
+            PressedFill: =Button12.Color
+            Text: ="Cancel"
+            Visible: =varShowDelete
+            X: =711
+            Y: =470
+            ZIndex: =68
+
+    EmployeeListHR As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =26
+
+        Button7_1 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_1.BorderColor, 20%)
+            PressedBorderColor: =Button7_1.Fill
+            PressedColor: =Button7_1.Fill
+            PressedFill: =Button7_1.Color
+            Text: =""
+            Visible: =varEmployeeListScreen
+            Width: =653
+            X: =693
+            Y: =165
+            ZIndex: =3
+
+        Button7 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7.BorderColor, 20%)
+            PressedBorderColor: =Button7.Fill
+            PressedColor: =Button7.Fill
+            PressedFill: =Button7.Color
+            Text: =""
+            Visible: =varEmployeeListScreen
+            Width: =653
+            X: =20
+            Y: =165
+            ZIndex: =4
+
+        "EmployeeGallery As gallery.'BrowseLayout_Vertical_OneTextOneImageVariant_ver4.0'":
+            BorderThickness: =3
+            Default: =//varGalDefaultEmployee
+            DelayItemLoading: =true
+            Height: =490
+            Items: |-
+                =Sort(
+                    Filter(
+                        EmployeeList,
+                        StartsWith(
+                            Employee.DisplayName,
+                            TxtSearch.Text
+                        ) || StartsWith(
+                            Title,
+                            TxtSearch.Text
+                        ) || StartsWith(
+                            Employee.Email,
+                            TxtSearch.Text
+                        ),
+                        ('Residency State'.Value = Dropdown4.Selected.Value || Dropdown4.Selected.Value = Blank())
+                    ),
+                    Employee.DisplayName,
+                    SortOrder.Ascending
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =ResetForm(EmployeeForm);ViewForm(EmployeeForm)
+            TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(56, 96, 178, 1),-2%),RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =Min(128, Self.Height - 60)
+            Transition: =Transition.Pop
+            Visible: =varEmployeeListScreen
+            Width: =653
+            X: =20
+            Y: =230
+            ZIndex: =5
+
+            Image6 As image:
+                BorderThickness: =1
+                Height: =96
+                HoverBorderColor: =ColorFade(Image6.BorderColor, 20%)
+                HoverFill: =ColorFade(Image6.Fill, 20%)
+                Image: =ThisItem.Employee.Picture
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(Image6.BorderColor, -20%)
+                PressedFill: =ColorFade(Image6.Fill, -20%)
+                RadiusBottomLeft: =64
+                RadiusBottomRight: =64
+                RadiusTopLeft: =64
+                RadiusTopRight: =64
+                Width: =96
+                X: =16
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            Title13 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Employee.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - Image6.Width - 104
+                X: =Image6.X + Image6.Width + 24
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =2
+
+            NextArrow4 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                DisabledFill: =NextArrow4.Fill
+                Height: =60
+                HoverBorderColor: =ColorFade(NextArrow4.BorderColor, 20%)
+                HoverColor: =ColorFade(NextArrow4.Color, 20%)
+                HoverFill: =NextArrow4.Fill
+                Icon: =Icon.ChevronRight
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingRight: =10
+                PaddingTop: =10
+                PressedBorderColor: =ColorFade(NextArrow4.BorderColor, -20%)
+                PressedColor: =ColorFade(NextArrow4.Color, -20%)
+                PressedFill: =NextArrow4.Fill
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =60
+                X: =570
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =3
+
+            Separator8 As rectangle:
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =4
+
+        Rectangle7 As rectangle:
+            BorderThickness: =2
+            DisabledFill: =Rectangle7.Fill
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =EmployeeForm.Height
+            HoverFill: =Rectangle7.Fill
+            PressedFill: =Rectangle7.Fill
+            Visible: =varEmployeeListScreen
+            Width: =EmployeeForm.Width
+            X: =EmployeeForm.X
+            Y: =EmployeeForm.Y
+            ZIndex: =6
+
+        EmployeeForm As form:
+            DataSource: ='Employee List'
+            DefaultMode: =FormMode.New
+            Height: =EmployeeGallery.Height
+            Item: =EmployeeGallery.Selected
+            NumberOfColumns: =1
+            OnSuccess: =ResetForm(EmployeeForm);ViewForm(EmployeeForm);Set(varGalDefault,EmployeeForm.LastSubmit)
+            Visible: =varEmployeeListScreen
+            Width: =EmployeeGallery.Width
+            X: =693
+            Y: =EmployeeGallery.Y
+            ZIndex: =9
+
+            Title_DataCard4 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Title"
+                Default: =ThisItem.Title
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Title")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                MaxLength: =DataSourceInfo([@'Employee List'], DataSourceInfo.MaxLength, "Title")
+                Required: =true
+                Update: =DataCardValue30.Text
+                Width: =653
+                X: =0
+                Y: =0
+                ZIndex: =8
+
+                DataCardKey30 As label:
+                    Text: ="Employee ID"
+                    Width: =157
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue30 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue30.HoverBorderColor
+                    PressedColor: =DataCardValue30.Color
+                    PressedFill: =DataCardValue30.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =430
+                    X: =DataCardKey30.X+DataCardKey30.Width
+                    Y: =DataCardKey30.Y
+                    ZIndex: =2
+
+                ErrorMessage19 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue30.Y + DataCardValue30.Height
+                    ZIndex: =3
+
+                StarVisible19 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey30.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey30.Y
+                    ZIndex: =4
+
+            Employee_DataCard3 As typedDataCard.comboBoxEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Employee"
+                Default: =ThisItem.Employee
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Employee")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue31.Selected
+                Width: =653
+                X: =0
+                Y: =1
+                ZIndex: =8
+
+                DataCardKey31 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue31 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["DisplayName","Email","Picture"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue31.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].Employee)
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue31.HoverBorderColor
+                    SearchFields: =["DisplayName"]
+                    SearchItems: =Choices('Employee List'.Employee,DataCardValue31.SearchText)
+                    SelectMultiple: =false
+                    Template: =ListItemTemplate.Person
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30.Width
+                    X: =DataCardKey31.X+DataCardKey31.Width
+                    Y: =DataCardKey31.Y
+                    ZIndex: =2
+
+                ErrorMessage20 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue31.Y + DataCardValue31.Height
+                    ZIndex: =3
+
+                StarVisible20 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey31.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey31.Y
+                    ZIndex: =4
+
+            Manager_DataCard3 As typedDataCard.comboBoxEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Manager"
+                Default: =ThisItem.Manager
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Manager")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue32.Selected
+                Width: =653
+                X: =0
+                Y: =2
+                ZIndex: =8
+
+                DataCardKey32 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue32 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["DisplayName","Email","Picture"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue32.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].Manager)
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue32.HoverBorderColor
+                    SearchFields: =["DisplayName"]
+                    SearchItems: =Choices('Employee List'.Manager,DataCardValue32.SearchText)
+                    SelectMultiple: =false
+                    Template: =ListItemTemplate.Person
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30.Width
+                    X: =DataCardKey32.X+DataCardKey32.Width
+                    Y: =DataCardKey32.Y
+                    ZIndex: =2
+
+                ErrorMessage21 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue32.Y + DataCardValue32.Height
+                    ZIndex: =3
+
+                StarVisible21 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey32.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey32.Y
+                    ZIndex: =4
+
+            "'Residency State_DataCard3' As typedDataCard.comboBoxEditCard":
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="ResidencyLocation"
+                Default: =ThisItem.'Residency State'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"ResidencyLocation")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue33.Selected
+                Width: =653
+                X: =0
+                Y: =3
+                ZIndex: =8
+
+                DataCardKey33 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue33 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["Value"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue33.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].'Residency State')
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue33.HoverBorderColor
+                    SearchFields: =["Value"]
+                    SearchItems: =Choices('Employee List'.'Residency State',DataCardValue33.SearchText)
+                    SelectMultiple: =false
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30.Width
+                    X: =DataCardKey33.X+DataCardKey33.Width
+                    Y: =DataCardKey33.Y
+                    ZIndex: =2
+
+                ErrorMessage22 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue33.Y + DataCardValue33.Height
+                    ZIndex: =3
+
+                StarVisible22 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey33.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey33.Y
+                    ZIndex: =4
+
+            "'Hire Date_DataCard3' As typedDataCard.dateEditCard":
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="HireDate"
+                Default: =ThisItem.'Hire Date'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"HireDate")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue34.SelectedDate
+                Width: =653
+                X: =0
+                Y: =4
+                ZIndex: =8
+
+                DataCardKey34 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue34 As datepicker:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultDate: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    EndYear: =Year(Today())+100
+                    IsEditable: =true
+                    PaddingBottom: =0
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    StartYear: =1899
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30.Width
+                    X: =DataCardKey34.X+DataCardKey34.Width
+                    Y: =DataCardKey34.Y
+                    ZIndex: =2
+
+                ErrorMessage23 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue34.Y + DataCardValue34.Height
+                    ZIndex: =3
+
+                StarVisible23 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey34.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey34.Y
+                    ZIndex: =4
+
+        Button1 As button:
+            BorderColor: =ColorFade(Button1.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button1.BorderColor, 20%)
+            OnSelect: |-
+                =If(
+                    EmployeeForm.Mode = FormMode.Edit,
+                    SubmitForm(EmployeeForm),
+                    If(
+                        EmployeeForm.Mode = FormMode.New,
+                        ForAll(
+                            'Time Off Types',
+                            Patch(
+                                'Time Off Balances',
+                                {
+                                    Title: DataCardValue30.Text,
+                                    Employee:{
+                           '@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                           Claims: DataCardValue31.Selected.Email,
+                           Department: "",
+                           DisplayName: "Nagalingam Ravishankar",
+                           Email: "ravishankar.nagalingam@companyname.com",
+                           JobTitle: "",
+                           Picture: ""
+                        },
+                                    TimeOffTypes: {
+                                        Id: ThisRecord.ID,
+                                        Value: ThisRecord.Title
+                                    }
+                                }
+                            )
+                        )
+                    )
+                );
+                If(
+                    EmployeeForm.Mode = FormMode.New,
+                    SubmitForm(EmployeeForm)
+                );
+                Set(
+                    varGalDefaultEmployee,
+                    EmployeeForm.LastSubmit
+                );
+                Refresh('Employee List');
+                ClearCollect(
+                    EmployeeList,
+                    'Employee List'
+                )
+            PressedBorderColor: =Button1.Fill
+            PressedColor: =Button1.Fill
+            PressedFill: =Button1.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Submit"
+            Visible: =If(varEmployeeListScreen=true,EmployeeForm.Mode <> FormMode.View,varEmployeeListScreen)
+            X: =939
+            Y: =648
+            ZIndex: =10
+
+        Icon1 As icon.AddUser:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon1.Fill
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon1.Color, 20%)
+            HoverFill: =Icon1.Fill
+            Icon: =Icon.AddUser
+            OnSelect: =ResetForm(EmployeeForm);NewForm(EmployeeForm);Set(varGalDefaultEmployee,Blank());Set(varGalDefaultEmployee,{})
+            PressedBorderColor: =ColorFade(Icon1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon1.Color, -20%)
+            PressedFill: =Icon1.Fill
+            Visible: =varEmployeeListScreen
+            Width: =50
+            X: =(EmployeeGallery.X+EmployeeGallery.Width)-Icon1.Width-10
+            Y: =Button7.Y+5
+            ZIndex: =11
+
+        TxtSearch As text:
+            BorderThickness: =1
+            Default: =""
+            HoverBorderColor: =RGBA(215, 223, 240, 1)
+            HoverFill: =RGBA(215, 223, 240, 1)
+            PaddingLeft: =44
+            PressedBorderColor: =TxtSearch.HoverBorderColor
+            PressedColor: =TxtSearch.Color
+            PressedFill: =TxtSearch.Fill
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Visible: =varEmployeeListScreen
+            Width: =350
+            X: =Button7.X+10
+            Y: =(Button7.Y+(Button7.Height/2))-(TxtSearch.Height/2)
+            ZIndex: =12
+
+        Image3 As image:
+            Height: =36
+            HoverBorderColor: =ColorFade(Image3.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3.Fill, 20%)
+            Image: |-
+                ="data:image/svg+xml," & 
+                 EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                  <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                   <path fill=''
+                d='M1468 909q-52 -43 -89 -96q-83 42 -173.5 62.5t-183.5 20.5q-108 0 -206.5 -27t-183.5 -76.5t-154.5 -119t-118.5 -155t-76 -184.5t-27 -206h-128q0 146 43.5 281t123.5 247t193.5 196t253.5 129q-54 36 -96.5 83t-72 102t-45.5 116t-16 126q0 106 40.5 199t110 162.5t162.5 110t199 40.5t199 -40.5t162.5 -110t110 -162.5t40.5 -199q0 -65 -16 -126.5t-45.5 -116.5t-72.5 -102t-97 -83q43 -14 83.5 -31.5t79.5 -39.5zM640 1408q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM1730 897q66 0 125 -25.5t102.5 -69t69 -102t25.5 -124.5t-25.5 -124.5t-69 -102t-102.5 -69t-125 -25.5q-97 0 -177 54l-292 -292q-19 -19 -45 -19t-45 19t-19 45t19 45l292 292q-54 80 -54 177q0 66 25.5 124.5t69 102t102 69t124.5 25.5zM1730 383q40 0 75 15t61.5 41.5t42 61.5t15.5 75t-15.5 75t-41.5 61.5t-61.5 41.5t-75.5 15t-75 -15.5t-61.5 -41.5t-41.5 -61t-15 -75t15 -75t41.5 -61.5t61.5 -41.5t75 -15z' />
+                  </g>
+                
+                </svg>"
+                )
+            PressedBorderColor: =ColorFade(Image3.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3.Fill, -20%)
+            Visible: =varEmployeeListScreen
+            Width: =36
+            X: =TxtSearch.X
+            Y: =TxtSearch.Y+2
+            ZIndex: =13
+
+        Dropdown4 As dropdown:
+            AllowEmptySelection: =true
+            BorderColor: =RGBA(136, 160, 209, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =ColorFade(Dropdown4.BorderColor, 15%)
+            HoverBorderColor: =ColorFade(Dropdown4.BorderColor, 15%)
+            Items: =Choices([@'Employee List'].'Residency State')
+            PressedBorderColor: =Dropdown4.HoverBorderColor
+            Visible: =varEmployeeListScreen
+            Width: =130
+            X: =390
+            Y: =(Button7.Y+(Button7.Height/2))-(TxtSearch.Height/2)
+            ZIndex: =14
+
+        Icon3 As icon.Reset:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon3.Fill
+            Height: =40
+            HoverBorderColor: =ColorFade(Icon3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon3.Color, 20%)
+            HoverFill: =Icon3.Fill
+            Icon: =Icon.Reset
+            OnSelect: =Reset(Dropdown4);Reset(TxtSearch)
+            PressedBorderColor: =ColorFade(Icon3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon3.Color, -20%)
+            PressedFill: =Icon3.Fill
+            Visible: =varEmployeeListScreen
+            Width: =40
+            X: =531
+            Y: =Button7.Y+10
+            ZIndex: =15
+
+        EditForm As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =varEmployeeListScreen
+            Width: =50
+            X: |
+                =EmployeeForm.X+10
+            Y: =Button7_1.Y+5
+            ZIndex: =16
+
+            Image7 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1243 812q-45 51 -99.5 90.5t-115.5 66.5t-126.5 41t-133.5 14q-88 0 -170 -23t-153 -64.5t-129.5 -100t-100 -129.5t-64.5 -153t-23 -170h-128q0 120 35.5 231t100.5 205t156.5 167t203.5 115q-113 74 -176.5 186t-63.5 248q0 106 40 199.5t109.5 163t163 109.5t199.5 40t199.5 -40t163 -109.5t109.5 -163t40 -199.5q0 -66 -16.5 -129t-47.5 -119t-75.5 -103.5t-100.5 -82.5q84 -32 158 -82.5t135 -116.5zM384 1536q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM1848 1152q42 0 78.5 -15t63.5 -41.5t42.5 -63t15.5 -78.5q0 -39 -15 -76t-43 -65l-717 -717l-377 -94l94 377l717 716q29 29 65 43t76 14zM1899 903q21 21 21 51q0 31 -20.5 50.5t-51.5 19.5q-14 0 -27 -4.5t-23 -14.5l-692 -692l-34 -135l135 34z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4 As button:
+                BorderColor: =ColorFade(Button4.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: =ResetForm(EmployeeForm);EditForm(EmployeeForm)
+                PressedBorderColor: =Button4.Fill
+                PressedColor: =Button4.Fill
+                PressedFill: =Button4.Color
+                Text: =""
+                Width: =50
+                ZIndex: =2
+
+        RemoveUser As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =If(varEmployeeListScreen=true,EmployeeForm.Mode <> FormMode.View,varEmployeeListScreen)
+            Width: =50
+            X: =(EmployeeForm.X+EmployeeForm.Width)-RemoveUser.Width-10
+            Y: =Button7_1.Y+5
+            ZIndex: =17
+
+            Image7_1 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_1.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_1.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1040 1102q119 -46 217 -128t164 -191l-93 -93q-42 77 -102 138.5t-132.5 105t-155 67t-170.5 23.5t-170 -23t-153 -64.5t-129.5 -100t-100 -129.5t-64.5 -153t-23 -170h-128q0 120 35.5 231t100.5 205t156.5 167t203.5 115q-113 74 -176.5 186t-63.5 248q0 106 40 199.5t109.5 163t163 109.5t199.5 40t199.5 -40t163 -109.5t109.5 -163t40 -199.5q0 -66 -16.5 -129t-47.5 -119t-75.5 -103.5t-100.5 -82.5zM384 1536q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM2045 546l-226 -226l226 -227l-90 -90l-227 226l-227 -227l-90 91l227 227l-227 227l90 90l227 -227l227 227z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_1.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_1.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_1 As button:
+                BorderColor: =ColorFade(Button4_1.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_1.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: |-
+                    =Set(varItemToDelete,EmployeeGallery.Selected);
+                    Set(varShowDelete, true)
+                PressedBorderColor: =Button4_1.Fill
+                PressedColor: =Button4_1.Fill
+                PressedFill: =Button4_1.Color
+                Text: =""
+                Visible: =VacationTypesForm.Mode <> FormMode.View
+                Width: =50
+                ZIndex: =2
+
+        Label9 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =20
+            Text: |-
+                =If(
+                    EmployeeForm.Mode = FormMode.New,
+                    "Adding a new Employee",
+                    If(
+                        EmployeeForm.Mode = FormMode.Edit,
+                        "Editting Displayed Employee"
+                    )
+                )
+            Visible: =varEmployeeListScreen
+            Width: =533
+            X: =753
+            Y: =Button7_1.Y
+            ZIndex: =18
+
+    Spinner As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =26
+
+        Rectangle10_1 As rectangle:
+            DisabledFill: =Rectangle10_1.Fill
+            Fill: =RGBA(169,169,169,.75)
+            Height: =768
+            HoverFill: =Rectangle10_1.Fill
+            PressedFill: =Rectangle10_1.Fill
+            Visible: =varSpinner
+            Width: =1366
+            ZIndex: =19
+
+        Image5 As image:
+            Height: =534
+            HoverBorderColor: =ColorFade(Image5.BorderColor, 20%)
+            HoverFill: =ColorFade(Image5.Fill, 20%)
+            Image: =preloader
+            PressedBorderColor: =ColorFade(Image5.BorderColor, -20%)
+            PressedFill: =ColorFade(Image5.Fill, -20%)
+            Visible: =varSpinner
+            Width: =522
+            X: =424
+            Y: =114
+            ZIndex: =20
+
+    VacationTypes As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =48
+        ZIndex: =60
+
+        "VacationTypesGallery As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+            BorderThickness: =3
+            Default: =varGalDefaultVacType
+            DelayItemLoading: =true
+            Height: =490
+            Items: ='Time Off Types'
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =ResetForm(VacationTypesForm);ViewForm(VacationTypesForm)
+            TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(56, 96, 178, 1),-2%),RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =Min(96, Self.Height - 60)
+            Transition: =Transition.Pop
+            Visible: =varVacationTypes
+            Width: =653
+            X: =20
+            Y: =230
+            ZIndex: =1
+
+            Title11 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Title
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 104
+                X: =32
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            NextArrow1 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                DisabledFill: =NextArrow1.Fill
+                Height: =60
+                HoverBorderColor: =ColorFade(NextArrow1.BorderColor, 20%)
+                HoverColor: =ColorFade(NextArrow1.Color, 20%)
+                HoverFill: =NextArrow1.Fill
+                Icon: =Icon.ChevronRight
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingRight: =10
+                PaddingTop: =10
+                PressedBorderColor: =ColorFade(NextArrow1.BorderColor, -20%)
+                PressedColor: =ColorFade(NextArrow1.Color, -20%)
+                PressedFill: =NextArrow1.Fill
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =60
+                X: =Parent.TemplateWidth - Self.Width - 5
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =2
+
+            Separator6 As rectangle:
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =3
+
+        Button7_4 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_4.BorderColor, 20%)
+            PressedBorderColor: =Button7_4.Fill
+            PressedColor: =Button7_4.Fill
+            PressedFill: =Button7_4.Color
+            Text: =""
+            Visible: =varVacationTypes
+            Width: =653
+            X: =693
+            Y: =165
+            ZIndex: =25
+
+        Button7_5 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_5.BorderColor, 20%)
+            PressedBorderColor: =Button7_5.Fill
+            PressedColor: =Button7_5.Fill
+            PressedFill: =Button7_5.Color
+            Text: =""
+            Visible: =varVacationTypes
+            Width: =653
+            X: =20
+            Y: =165
+            ZIndex: =26
+
+        Rectangle7_2 As rectangle:
+            BorderThickness: =2
+            DisabledFill: =Rectangle7_2.Fill
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =VacationTypesForm.Height
+            HoverFill: =Rectangle7_2.Fill
+            PressedFill: =Rectangle7_2.Fill
+            Visible: =varVacationTypes
+            Width: =VacationTypesForm.Width
+            X: =693
+            Y: =230
+            ZIndex: =28
+
+        VacationTypesForm As form:
+            DataSource: ='Time Off Types'
+            DefaultMode: =FormMode.New
+            Height: =VacationTypesGallery.Height
+            Item: =VacationTypesGallery.Selected
+            NumberOfColumns: =1
+            OnSuccess: =ResetForm(VacationTypesForm);ViewForm(VacationTypesForm);Set(varGalDefault,VacationTypesForm.LastSubmit)
+            Visible: =varVacationTypes
+            Width: =VacationTypesGallery.Width
+            X: =693
+            Y: =230
+            ZIndex: =29
+
+            Title_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Title"
+                Default: =ThisItem.Title
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Time Off Types'],DataSourceInfo.DisplayName,"Title")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@'Time Off Types'], DataSourceInfo.MaxLength, "Title")
+                Required: =true
+                Update: =DataCardValue1.Text
+                Width: =653
+                X: =0
+                Y: =0
+                ZIndex: =1
+
+                DataCardKey1 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 30) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue1.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue1 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue1.HoverBorderColor
+                    PressedColor: =DataCardValue1.Color
+                    PressedFill: =DataCardValue1.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey1.X + DataCardKey1.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage1 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue1.Y + DataCardValue1.Height
+                    ZIndex: =3
+
+                StarVisible1 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey1.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey1.Y
+                    ZIndex: =4
+
+            AllottedTime_DataCard1 As typedDataCard.numberEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="AllottedTime"
+                Default: =ThisItem.AllottedHrs
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Time Off Types'],DataSourceInfo.DisplayName,"AllottedTime")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =Value(DataCardValue2.Text)
+                Width: =653
+                X: =0
+                Y: =1
+                ZIndex: =30
+
+                DataCardKey2 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 30) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue2.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue2 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Format: =TextFormat.Number
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue2.HoverBorderColor
+                    PressedColor: =DataCardValue2.Color
+                    PressedFill: =DataCardValue2.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey2.X + DataCardKey2.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage2 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue2.Y + DataCardValue2.Height
+                    ZIndex: =3
+
+                StarVisible2 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey2.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey2.Y
+                    ZIndex: =4
+
+            AllottedTime_10_DataCard1 As typedDataCard.numberEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="AllottedTime_10"
+                Default: =ThisItem.AllottedHrs_10yr_Employee
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Time Off Types'],DataSourceInfo.DisplayName,"AllottedTime_10")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =Value(DataCardValue3.Text)
+                Width: =653
+                X: =0
+                Y: =2
+                ZIndex: =30
+
+                DataCardKey3 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 30) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue3.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue3 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Format: =TextFormat.Number
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue3.HoverBorderColor
+                    PressedColor: =DataCardValue3.Color
+                    PressedFill: =DataCardValue3.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey3.X + DataCardKey3.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue3.Y + DataCardValue3.Height
+                    ZIndex: =3
+
+                StarVisible3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey3.Y
+                    ZIndex: =4
+
+            AllottedTime_20_DataCard1 As typedDataCard.numberEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="AllottedTime_20"
+                Default: =ThisItem.AllottedHrs_20yr_Employee
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Time Off Types'],DataSourceInfo.DisplayName,"AllottedTime_20")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =Value(DataCardValue6.Text)
+                Width: =653
+                X: =0
+                Y: =3
+                ZIndex: =30
+
+                DataCardKey6 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 30) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue6.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue6 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Format: =TextFormat.Number
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue6.HoverBorderColor
+                    PressedColor: =DataCardValue6.Color
+                    PressedFill: =DataCardValue6.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey6.X + DataCardKey6.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage6 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue6.Y + DataCardValue6.Height
+                    ZIndex: =3
+
+                StarVisible6 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey6.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey6.Y
+                    ZIndex: =4
+
+            AllottedTime_30_DataCard1 As typedDataCard.numberEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="AllottedTime_30"
+                Default: =ThisItem.AllottedHrs_30yr_Employee
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Time Off Types'],DataSourceInfo.DisplayName,"AllottedTime_30")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =Value(DataCardValue8.Text)
+                Width: =653
+                X: =0
+                Y: =4
+                ZIndex: =30
+
+                DataCardKey8 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 30) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue8.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue8 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Format: =TextFormat.Number
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue8.HoverBorderColor
+                    PressedColor: =DataCardValue8.Color
+                    PressedFill: =DataCardValue8.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey8.X + DataCardKey8.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage8 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue8.Y + DataCardValue8.Height
+                    ZIndex: =3
+
+                StarVisible8 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey8.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey8.Y
+                    ZIndex: =4
+
+        Button1_2 As button:
+            BorderColor: =ColorFade(Button1_2.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button1_2.BorderColor, 20%)
+            OnSelect: =SubmitForm(VacationTypesForm)
+            PressedBorderColor: =Button1_2.Fill
+            PressedColor: =Button1_2.Fill
+            PressedFill: =Button1_2.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Submit"
+            Visible: =varVacationTypes
+            X: =939
+            Y: =648
+            ZIndex: =30
+
+        Icon1_2 As icon.AddUser:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon1_2.Fill
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon1_2.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon1_2.Color, 20%)
+            HoverFill: =Icon1_2.Fill
+            Icon: =Icon.AddLibrary
+            OnSelect: =ResetForm(VacationTypesForm);NewForm(VacationTypesForm);Set(varGalDefaultVacType,Blank());Set(varGalDefaultVacType,{})
+            PressedBorderColor: =ColorFade(Icon1_2.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon1_2.Color, -20%)
+            PressedFill: =Icon1_2.Fill
+            Visible: =varVacationTypes
+            Width: =50
+            X: =613
+            Y: =170
+            ZIndex: =31
+
+        EditForm_2 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =varVacationTypes
+            Width: =50
+            X: =703
+            Y: =170
+            ZIndex: =36
+
+            Image7_4 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_4.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_4.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1848 1152q42 0 78.5 -15t63.5 -42t42.5 -63t15.5 -78q0 -39 -15 -76t-43 -65l-717 -719l-377 -94l94 377l717 718q28 28 65 42.5t76 14.5zM1899 903q21 21 21 51q0 31 -20.5 50.5t-51.5 19.5q-14 0 -27 -4.5t-23 -14.5l-692 -694l-34 -135l135 34zM256 128h507l-32 -128h-603v2048h1115l549 -549v-194q-67 -10 -128 -44v147h-512v512h-896v-1792zM1280 1536h293l-293 293v-293z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_4.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_4.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_4 As button:
+                BorderColor: =ColorFade(Button4_4.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_4.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: =ResetForm(VacationTypesForm);EditForm(VacationTypesForm)
+                PressedBorderColor: =Button4_4.Fill
+                PressedColor: =Button4_4.Fill
+                PressedFill: =Button4_4.Color
+                Text: =""
+                Width: =50
+                ZIndex: =2
+
+        RemoveUser_2 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =If(varVacationTypes = true,VacationTypesForm.Mode <> FormMode.View,varVacationTypes)
+            Width: =50
+            X: =1286
+            Y: =170
+            ZIndex: =37
+
+            Image7_5 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_5.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_5.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1819 320l226 -227l-90 -90l-227 226l-227 -227l-90 91l227 227l-227 227l90 90l227 -227l227 227l90 -91zM256 128h1024v-128h-1152v2048h1115l549 -549v-731h-128v640h-512v512h-896v-1792zM1280 1536h293l-293 293v-293z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_5.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_5.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_5 As button:
+                BorderColor: =ColorFade(Button4_5.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_5.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: |-
+                    =Set(varItemToDeleteVac,VacationTypesGallery.Selected);
+                    Set(varShowDelete, true)
+                PressedBorderColor: =Button4_5.Fill
+                PressedColor: =Button4_5.Fill
+                PressedFill: =Button4_5.Color
+                Text: =""
+                Visible: =VacationTypesForm.Mode <> FormMode.View
+                Width: =50
+                ZIndex: =2
+
+        Label9_2 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =20
+            Text: |-
+                =If(
+                    VacationTypesForm.Mode = FormMode.New,
+                    "Adding a new Time Off Type",
+                    If(
+                        VacationTypesForm.Mode = FormMode.Edit,
+                        "Editing Displayed Time Off Type"
+                    )
+                )
+            Visible: =varVacationTypes
+            Width: =533
+            X: =753
+            Y: =165
+            ZIndex: =38
+
+    "'Back Button Container_8' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =62
+
+        Button6_16 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_16.Fill, -15%)
+            Color: =If(btn_Overlay_16.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_16.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6_16.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_16.Fill
+            PressedColor: =Button6_16.Fill
+            PressedFill: =Button6_16.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15_16 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_16.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_16.Fill
+            Fill: =If(btn_Overlay_16.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15_16.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_16.Color, 20%)
+            HoverFill: =Icon15_16.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15_16.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_16.Color, -20%)
+            PressedFill: =Icon15_16.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay_16 As button:
+            BorderColor: =ColorFade(btn_Overlay_16.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay_16.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Navigate(Welcome_Screen);
+                Set(varEmployeeListScreen,false);
+                Set(varApprovers,false);
+                Set(varVacationTypes,false);
+                Set(varMolexHolidays,false)
+            PressedBorderColor: =btn_Overlay_16.Fill
+            PressedColor: =btn_Overlay_16.Fill
+            PressedFill: =btn_Overlay_16.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    ApproversList As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =48
+        ZIndex: =74
+
+        Button7_6 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_6.BorderColor, 20%)
+            PressedBorderColor: =Button7_6.Fill
+            PressedColor: =Button7_6.Fill
+            PressedFill: =Button7_6.Color
+            Text: =""
+            Visible: =varApprovers
+            Width: =653
+            X: =693
+            Y: =165
+            ZIndex: =39
+
+        Button7_7 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_7.BorderColor, 20%)
+            PressedBorderColor: =Button7_7.Fill
+            PressedColor: =Button7_7.Fill
+            PressedFill: =Button7_7.Color
+            Text: =""
+            Visible: =varApprovers
+            Width: =653
+            X: =20
+            Y: =165
+            ZIndex: =40
+
+        "EmployeeGallery_3 As gallery.'BrowseLayout_Vertical_OneTextOneImageVariant_ver4.0'":
+            BorderThickness: =3
+            DelayItemLoading: =true
+            Height: =490
+            Items: |-
+                =Sort(
+                    Filter(
+                        'Employee List',
+                        StartsWith(
+                            Employee.DisplayName,
+                            TxtSearch_3.Text
+                        ) || StartsWith(
+                            Title,
+                            TxtSearch_3.Text
+                        ) || StartsWith(
+                            Employee.Email,
+                            TxtSearch_3.Text
+                        ),
+                        ('Residency State'.Value = Dropdown4_3.Selected.Value || Dropdown4_3.Selected.Value = Blank())
+                    ),
+                    Created,
+                    SortOrder.Descending
+                )
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =ResetForm(EmployeeForm_3);ViewForm(EmployeeForm_3)
+            TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(56, 96, 178, 1),-2%),RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =Min(128, Self.Height - 60)
+            Transition: =Transition.Pop
+            Visible: =varApprovers
+            Width: =653
+            X: =20
+            Y: =230
+            ZIndex: =41
+
+            Image6_3 As image:
+                BorderThickness: =1
+                Height: =96
+                HoverBorderColor: =ColorFade(Image6_3.BorderColor, 20%)
+                HoverFill: =ColorFade(Image6_3.Fill, 20%)
+                Image: =ThisItem.Employee.Picture
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(Image6_3.BorderColor, -20%)
+                PressedFill: =ColorFade(Image6_3.Fill, -20%)
+                RadiusBottomLeft: =64
+                RadiusBottomRight: =64
+                RadiusTopLeft: =64
+                RadiusTopRight: =64
+                Width: =96
+                X: =16
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =1
+
+            Title13_3 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Employee.DisplayName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - Image6_3.Width - 104
+                X: =Image6_3.X + Image6_3.Width + 24
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =2
+
+            NextArrow4_3 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                DisabledFill: =NextArrow4_3.Fill
+                Height: =60
+                HoverBorderColor: =ColorFade(NextArrow4_3.BorderColor, 20%)
+                HoverColor: =ColorFade(NextArrow4_3.Color, 20%)
+                HoverFill: =NextArrow4_3.Fill
+                Icon: =Icon.ChevronRight
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingRight: =10
+                PaddingTop: =10
+                PressedBorderColor: =ColorFade(NextArrow4_3.BorderColor, -20%)
+                PressedColor: =ColorFade(NextArrow4_3.Color, -20%)
+                PressedFill: =NextArrow4_3.Fill
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =60
+                X: =Parent.TemplateWidth - Self.Width - 5
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =3
+
+            Separator8_3 As rectangle:
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =4
+
+        Rectangle7_3 As rectangle:
+            BorderThickness: =2
+            DisabledFill: =Rectangle7_3.Fill
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =EmployeeForm_3.Height
+            HoverFill: =Rectangle7_3.Fill
+            PressedFill: =Rectangle7_3.Fill
+            Visible: =varApprovers
+            Width: =EmployeeForm_3.Width
+            X: =693
+            Y: =230
+            ZIndex: =42
+
+        EmployeeForm_3 As form:
+            DataSource: ='Employee List'
+            DefaultMode: =FormMode.New
+            Height: =EmployeeGallery_3.Height
+            Item: =EmployeeGallery_3.Selected
+            NumberOfColumns: =1
+            OnSuccess: =ResetForm(EmployeeForm_3);ViewForm(EmployeeForm_3);Set(varGalDefault,EmployeeForm_3.LastSubmit)
+            Visible: =varApprovers
+            Width: =EmployeeGallery_3.Width
+            X: =693
+            Y: =230
+            ZIndex: =43
+
+            Title_DataCard4_3 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Title"
+                Default: =ThisItem.Title
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Title")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                MaxLength: =DataSourceInfo([@'Employee List'], DataSourceInfo.MaxLength, "Title")
+                Required: =true
+                Update: =DataCardValue30_3.Text
+                Width: =653
+                X: =0
+                Y: =0
+                ZIndex: =8
+
+                DataCardKey30_3 As label:
+                    Text: ="Employee ID"
+                    Width: =157
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue30_3 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue30_3.HoverBorderColor
+                    PressedColor: =DataCardValue30_3.Color
+                    PressedFill: =DataCardValue30_3.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =430
+                    X: =DataCardKey30_3.X+DataCardKey30_3.Width
+                    Y: =DataCardKey30_3.Y
+                    ZIndex: =2
+
+                ErrorMessage19_3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue30_3.Y + DataCardValue30_3.Height
+                    ZIndex: =3
+
+                StarVisible19_3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey30_3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey30_3.Y
+                    ZIndex: =4
+
+            Employee_DataCard3_3 As typedDataCard.comboBoxEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Employee"
+                Default: =ThisItem.Employee
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Employee")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue31_3.Selected
+                Width: =653
+                X: =0
+                Y: =1
+                ZIndex: =8
+
+                DataCardKey31_3 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30_3.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue31_3 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["DisplayName","Email","Picture"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue31_3.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].Employee)
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue31_3.HoverBorderColor
+                    SearchFields: =["DisplayName"]
+                    SearchItems: =Choices('Employee List'.Employee,DataCardValue31_3.SearchText)
+                    SelectMultiple: =false
+                    Template: =ListItemTemplate.Person
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30_3.Width
+                    X: =DataCardKey31_3.X+DataCardKey31_3.Width
+                    Y: =DataCardKey31_3.Y
+                    ZIndex: =2
+
+                ErrorMessage20_3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue31_3.Y + DataCardValue31_3.Height
+                    ZIndex: =3
+
+                StarVisible20_3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey31_3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey31_3.Y
+                    ZIndex: =4
+
+            Manager_DataCard3_3 As typedDataCard.comboBoxEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Manager"
+                Default: =ThisItem.Manager
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"Manager")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue32_3.Selected
+                Width: =653
+                X: =0
+                Y: =2
+                ZIndex: =8
+
+                DataCardKey32_3 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30_3.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue32_3 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["DisplayName","Email","Picture"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue32_3.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].Manager)
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue32_3.HoverBorderColor
+                    SearchFields: =["DisplayName"]
+                    SearchItems: =Choices('Employee List'.Manager,DataCardValue32_3.SearchText)
+                    SelectMultiple: =false
+                    Template: =ListItemTemplate.Person
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30_3.Width
+                    X: =DataCardKey32_3.X+DataCardKey32_3.Width
+                    Y: =DataCardKey32_3.Y
+                    ZIndex: =2
+
+                ErrorMessage21_3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue32_3.Y + DataCardValue32_3.Height
+                    ZIndex: =3
+
+                StarVisible21_3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey32_3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey32_3.Y
+                    ZIndex: =4
+
+            "'Residency State_DataCard3_3' As typedDataCard.comboBoxEditCard":
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="ResidencyLocation"
+                Default: =ThisItem.'Residency State'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"ResidencyLocation")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue33_3.Selected
+                Width: =653
+                X: =0
+                Y: =3
+                ZIndex: =8
+
+                DataCardKey33_3 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30_3.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue33_3 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultSelectedItems: =Parent.Default
+                    DisplayFields: =["Value"]
+                    DisplayMode: =Parent.DisplayMode
+                    HoverBorderColor: =ColorFade(DataCardValue33_3.BorderColor, 15%)
+                    Items: =Choices([@'Employee List'].'Residency State')
+                    MoreItemsButtonColor: =Self.ChevronBackground
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =DataCardValue33_3.HoverBorderColor
+                    SearchFields: =["Value"]
+                    SearchItems: =Choices('Employee List'.'Residency State',DataCardValue33_3.SearchText)
+                    SelectMultiple: =false
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30_3.Width
+                    X: =DataCardKey33_3.X+DataCardKey33_3.Width
+                    Y: =DataCardKey33_3.Y
+                    ZIndex: =2
+
+                ErrorMessage22_3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue33_3.Y + DataCardValue33_3.Height
+                    ZIndex: =3
+
+                StarVisible22_3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey33_3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey33_3.Y
+                    ZIndex: =4
+
+            "'Hire Date_DataCard3_3' As typedDataCard.dateEditCard":
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="HireDate"
+                Default: =ThisItem.'Hire Date'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@'Employee List'],DataSourceInfo.DisplayName,"HireDate")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =80
+                Required: =false
+                Update: =DataCardValue34_3.SelectedDate
+                Width: =653
+                X: =0
+                Y: =4
+                ZIndex: =8
+
+                DataCardKey34_3 As label:
+                    Text: =Parent.DisplayName
+                    Width: =DataCardKey30_3.Width
+                    Wrap: =false
+                    X: =30
+                    Y: =20
+                    ZIndex: =1
+
+                DataCardValue34_3 As datepicker:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultDate: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    EndYear: =Year(Today())+100
+                    IsEditable: =true
+                    PaddingBottom: =0
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    StartYear: =1899
+                    Tooltip: =Parent.DisplayName
+                    Width: =DataCardValue30_3.Width
+                    X: =DataCardKey34_3.X+DataCardKey34_3.Width
+                    Y: =DataCardKey34_3.Y
+                    ZIndex: =2
+
+                ErrorMessage23_3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue34_3.Y + DataCardValue34_3.Height
+                    ZIndex: =3
+
+                StarVisible23_3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey34_3.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey34_3.Y
+                    ZIndex: =4
+
+        Button1_3 As button:
+            BorderColor: =ColorFade(Button1_3.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button1_3.BorderColor, 20%)
+            OnSelect: =SubmitForm(EmployeeForm_3)
+            PressedBorderColor: =Button1_3.Fill
+            PressedColor: =Button1_3.Fill
+            PressedFill: =Button1_3.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Submit"
+            Visible: =varApprovers
+            X: =939
+            Y: =648
+            ZIndex: =44
+
+        Icon1_3 As icon.AddUser:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon1_3.Fill
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon1_3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon1_3.Color, 20%)
+            HoverFill: =Icon1_3.Fill
+            Icon: =Icon.AddUser
+            OnSelect: =ResetForm(EmployeeForm_3);NewForm(EmployeeForm_3);Set(varGalDefault,Blank());Set(varGalDefault,{})
+            PressedBorderColor: =ColorFade(Icon1_3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon1_3.Color, -20%)
+            PressedFill: =Icon1_3.Fill
+            Visible: =varApprovers
+            Width: =50
+            X: =613
+            Y: =170
+            ZIndex: =45
+
+        TxtSearch_3 As text:
+            BorderThickness: =1
+            Default: =""
+            HoverBorderColor: =RGBA(215, 223, 240, 1)
+            HoverFill: =RGBA(215, 223, 240, 1)
+            PaddingLeft: =44
+            PressedBorderColor: =TxtSearch_3.HoverBorderColor
+            PressedColor: =TxtSearch_3.Color
+            PressedFill: =TxtSearch_3.Fill
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Visible: =varApprovers
+            Width: =350
+            X: =30
+            Y: =175
+            ZIndex: =46
+
+        Image3_3 As image:
+            Height: =36
+            HoverBorderColor: =ColorFade(Image3_3.BorderColor, 20%)
+            HoverFill: =ColorFade(Image3_3.Fill, 20%)
+            Image: |-
+                ="data:image/svg+xml," & 
+                 EncodeUrl(
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                  <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                   <path fill=''
+                d='M1468 909q-52 -43 -89 -96q-83 42 -173.5 62.5t-183.5 20.5q-108 0 -206.5 -27t-183.5 -76.5t-154.5 -119t-118.5 -155t-76 -184.5t-27 -206h-128q0 146 43.5 281t123.5 247t193.5 196t253.5 129q-54 36 -96.5 83t-72 102t-45.5 116t-16 126q0 106 40.5 199t110 162.5t162.5 110t199 40.5t199 -40.5t162.5 -110t110 -162.5t40.5 -199q0 -65 -16 -126.5t-45.5 -116.5t-72.5 -102t-97 -83q43 -14 83.5 -31.5t79.5 -39.5zM640 1408q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM1730 897q66 0 125 -25.5t102.5 -69t69 -102t25.5 -124.5t-25.5 -124.5t-69 -102t-102.5 -69t-125 -25.5q-97 0 -177 54l-292 -292q-19 -19 -45 -19t-45 19t-19 45t19 45l292 292q-54 80 -54 177q0 66 25.5 124.5t69 102t102 69t124.5 25.5zM1730 383q40 0 75 15t61.5 41.5t42 61.5t15.5 75t-15.5 75t-41.5 61.5t-61.5 41.5t-75.5 15t-75 -15.5t-61.5 -41.5t-41.5 -61t-15 -75t15 -75t41.5 -61.5t61.5 -41.5t75 -15z' />
+                  </g>
+                
+                </svg>"
+                )
+            PressedBorderColor: =ColorFade(Image3_3.BorderColor, -20%)
+            PressedFill: =ColorFade(Image3_3.Fill, -20%)
+            Visible: =varApprovers
+            Width: =36
+            X: =30
+            Y: =177
+            ZIndex: =47
+
+        Dropdown4_3 As dropdown:
+            AllowEmptySelection: =true
+            BorderColor: =RGBA(136, 160, 209, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronFill: =RGBA(0, 0, 0, 1)
+            ChevronHoverBackground: =ColorFade(Dropdown4_3.BorderColor, 15%)
+            HoverBorderColor: =ColorFade(Dropdown4_3.BorderColor, 15%)
+            Items: =Choices([@'Employee List'].'Residency State')
+            PressedBorderColor: =Dropdown4_3.HoverBorderColor
+            Visible: =varApprovers
+            Width: =130
+            X: =390
+            Y: =175
+            ZIndex: =48
+
+        Icon3_3 As icon.Reset:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon3_3.Fill
+            Height: =40
+            HoverBorderColor: =ColorFade(Icon3_3.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon3_3.Color, 20%)
+            HoverFill: =Icon3_3.Fill
+            Icon: =Icon.Reset
+            OnSelect: =Reset(Dropdown4_3);Reset(TxtSearch_3)
+            PressedBorderColor: =ColorFade(Icon3_3.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon3_3.Color, -20%)
+            PressedFill: =Icon3_3.Fill
+            Visible: =varApprovers
+            Width: =40
+            X: =531
+            Y: =175
+            ZIndex: =49
+
+        EditForm_3 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =varApprovers
+            Width: =50
+            X: =703
+            Y: =170
+            ZIndex: =50
+
+            Image7_6 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_6.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_6.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1243 812q-45 51 -99.5 90.5t-115.5 66.5t-126.5 41t-133.5 14q-88 0 -170 -23t-153 -64.5t-129.5 -100t-100 -129.5t-64.5 -153t-23 -170h-128q0 120 35.5 231t100.5 205t156.5 167t203.5 115q-113 74 -176.5 186t-63.5 248q0 106 40 199.5t109.5 163t163 109.5t199.5 40t199.5 -40t163 -109.5t109.5 -163t40 -199.5q0 -66 -16.5 -129t-47.5 -119t-75.5 -103.5t-100.5 -82.5q84 -32 158 -82.5t135 -116.5zM384 1536q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM1848 1152q42 0 78.5 -15t63.5 -41.5t42.5 -63t15.5 -78.5q0 -39 -15 -76t-43 -65l-717 -717l-377 -94l94 377l717 716q29 29 65 43t76 14zM1899 903q21 21 21 51q0 31 -20.5 50.5t-51.5 19.5q-14 0 -27 -4.5t-23 -14.5l-692 -692l-34 -135l135 34z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_6.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_6.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_6 As button:
+                BorderColor: =ColorFade(Button4_6.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_6.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: =ResetForm(EmployeeForm_3);EditForm(EmployeeForm_3)
+                PressedBorderColor: =Button4_6.Fill
+                PressedColor: =Button4_6.Fill
+                PressedFill: =Button4_6.Color
+                Text: =""
+                Width: =50
+                ZIndex: =2
+
+        RemoveUser_3 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =varApprovers
+            Width: =50
+            X: =1286
+            Y: =170
+            ZIndex: =51
+
+            Image7_7 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_7.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_7.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1040 1102q119 -46 217 -128t164 -191l-93 -93q-42 77 -102 138.5t-132.5 105t-155 67t-170.5 23.5t-170 -23t-153 -64.5t-129.5 -100t-100 -129.5t-64.5 -153t-23 -170h-128q0 120 35.5 231t100.5 205t156.5 167t203.5 115q-113 74 -176.5 186t-63.5 248q0 106 40 199.5t109.5 163t163 109.5t199.5 40t199.5 -40t163 -109.5t109.5 -163t40 -199.5q0 -66 -16.5 -129t-47.5 -119t-75.5 -103.5t-100.5 -82.5zM384 1536q0 -80 30 -149.5t82.5 -122t122 -82.5t149.5 -30q79 0 149 30t122.5 82.5t82.5 122t30 149.5q0 79 -30 149t-82.5 122.5t-122.5 82.5t-149 30q-80 0 -149.5 -30t-122 -82.5t-82.5 -122.5t-30 -149zM2045 546l-226 -226l226 -227l-90 -90l-227 226l-227 -227l-90 91l227 227l-227 227l90 90l227 -227l227 227z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_7.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_7.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_7 As button:
+                BorderColor: =ColorFade(Button4_7.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_7.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: |-
+                    =Set(varItemToDelete,EmployeeGallery_3.Selected);
+                    Set(varShowDelete, true)
+                PressedBorderColor: =Button4_7.Fill
+                PressedColor: =Button4_7.Fill
+                PressedFill: =Button4_7.Color
+                Text: =""
+                Visible: =EmployeeForm_3.Mode <> FormMode.View
+                Width: =50
+                ZIndex: =2
+
+        Label9_3 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =20
+            Text: |-
+                =If(
+                    EmployeeForm_3.Mode = FormMode.New,
+                    "Adding a new Employee",
+                    If(
+                        EmployeeForm_3.Mode = FormMode.Edit,
+                        "Editting Displayed Employee"
+                    )
+                )
+            Visible: =varApprovers
+            Width: =533
+            X: =753
+            Y: =165
+            ZIndex: =52
+
+    MolexHolidays As group:
+        Height: =5
+        Width: =5
+        X: =20
+        Y: =40
+        ZIndex: =88
+
+        "MolexHolidaysGallery As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+            BorderThickness: =3
+            Default: =varGalDefaultHoliday
+            DelayItemLoading: =true
+            Height: =490
+            Items: =Sort(MolexUSAHolidaySchedule,'Holiday Date',SortOrder.Ascending)
+            Layout: =Layout.Vertical
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =ResetForm(MolexHolidaysForm);ViewForm(MolexHolidaysForm)
+            TemplateFill: =If(ThisItem.IsSelected,ColorFade(RGBA(56, 96, 178, 1),-2%),RGBA(0,0,0,0))
+            TemplatePadding: =0
+            TemplateSize: =Min(104, Self.Height - 60)
+            Transition: =Transition.Pop
+            Visible: =varMolexHolidays
+            Width: =653
+            X: =20
+            Y: =230
+            ZIndex: =1
+
+            Title14 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Title
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 104
+                X: =32
+                Y: =16
+                ZIndex: =1
+
+            Subtitle6 As label:
+                Height: =Self.Size * 1.8
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.'Holiday Date'
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.TemplateWidth - 104
+                X: =32
+                Y: =Title14.Y + Title14.Height + 4
+                ZIndex: =2
+
+            NextArrow6 As icon.ChevronRight:
+                AccessibleLabel: =Self.Tooltip
+                DisabledFill: =NextArrow6.Fill
+                Height: =60
+                HoverBorderColor: =ColorFade(NextArrow6.BorderColor, 20%)
+                HoverColor: =ColorFade(NextArrow6.Color, 20%)
+                HoverFill: =NextArrow6.Fill
+                Icon: =Icon.ChevronRight
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingRight: =10
+                PaddingTop: =10
+                PressedBorderColor: =ColorFade(NextArrow6.BorderColor, -20%)
+                PressedColor: =ColorFade(NextArrow6.Color, -20%)
+                PressedFill: =NextArrow6.Fill
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =60
+                X: =Parent.TemplateWidth - Self.Width - 5
+                Y: =(Parent.TemplateHeight / 2) - (Self.Height / 2)
+                ZIndex: =3
+
+            Separator9 As rectangle:
+                Height: =1
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 1
+                ZIndex: =4
+
+        Button7_2 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_2.BorderColor, 20%)
+            PressedBorderColor: =Button7_2.Fill
+            PressedColor: =Button7_2.Fill
+            PressedFill: =Button7_2.Color
+            Text: =""
+            Visible: =varMolexHolidays
+            Width: =653
+            X: =693
+            Y: =165
+            ZIndex: =53
+
+        Button7_3 As button:
+            BorderColor: =ColorFade(RGBA(56, 96, 178, 100), -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =60
+            HoverBorderColor: =ColorFade(Button7_3.BorderColor, 20%)
+            PressedBorderColor: =Button7_3.Fill
+            PressedColor: =Button7_3.Fill
+            PressedFill: =Button7_3.Color
+            Text: =""
+            Visible: =varMolexHolidays
+            Width: =653
+            X: =20
+            Y: =165
+            ZIndex: =54
+
+        Rectangle7_1 As rectangle:
+            BorderThickness: =2
+            DisabledFill: =Rectangle7_1.Fill
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =MolexHolidaysForm.Height
+            HoverFill: =Rectangle7_1.Fill
+            PressedFill: =Rectangle7_1.Fill
+            Visible: =varMolexHolidays
+            Width: =MolexHolidaysForm.Width
+            X: =693
+            Y: =230
+            ZIndex: =55
+
+        MolexHolidaysForm As form:
+            DataSource: =MolexUSAHolidaySchedule
+            DefaultMode: =FormMode.New
+            Height: =MolexHolidaysGallery.Height
+            Item: =MolexHolidaysGallery.Selected
+            NumberOfColumns: =1
+            OnSuccess: =ResetForm(MolexHolidaysForm);ViewForm(MolexHolidaysForm);Set(varGalDefault,MolexHolidaysForm.LastSubmit)
+            Visible: =varMolexHolidays
+            Width: =MolexHolidaysGallery.Width
+            X: =693
+            Y: =230
+            ZIndex: =56
+
+            Title_DataCard2 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Title"
+                Default: =ThisItem.Title
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@MolexUSAHolidaySchedule],DataSourceInfo.DisplayName,"Title")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@MolexUSAHolidaySchedule], DataSourceInfo.MaxLength, "Title")
+                Required: =true
+                Update: =DataCardValue4.Text
+                Width: =653
+                X: =0
+                Y: =0
+                ZIndex: =79
+
+                DataCardKey4 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: ="Holiday Name"
+                    Width: =(Parent.Width - 60) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue4.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue4 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    PressedBorderColor: =DataCardValue4.HoverBorderColor
+                    PressedColor: =DataCardValue4.Color
+                    PressedFill: =DataCardValue4.Fill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey4.X + DataCardKey4.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage4 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue4.Y + DataCardValue4.Height
+                    ZIndex: =3
+
+                StarVisible4 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey4.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey4.Y
+                    ZIndex: =4
+
+            "'Holiday Date_DataCard2' As typedDataCard.dateEditCard":
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Date"
+                Default: =ThisItem.'Holiday Date'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@MolexUSAHolidaySchedule],DataSourceInfo.DisplayName,"Date")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue5.SelectedDate
+                Width: =653
+                X: =0
+                Y: =1
+                ZIndex: =79
+
+                DataCardKey5 As label:
+                    AutoHeight: =true
+                    Height: =34
+                    Text: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.4
+                    Wrap: =false
+                    X: =30
+                    Y: =10 + (DataCardValue5.Height / 2) - (Self.Height / 2)
+                    ZIndex: =1
+
+                DataCardValue5 As datepicker:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    DefaultDate: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    EndYear: =Year(Today())+100
+                    IsEditable: =true
+                    PaddingBottom: =0
+                    PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                    StartYear: =1899
+                    Tooltip: =Parent.DisplayName
+                    Width: =(Parent.Width - 60) * 0.6
+                    X: =DataCardKey5.X + DataCardKey5.Width
+                    Y: =10
+                    ZIndex: =2
+
+                ErrorMessage5 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue5.Y + DataCardValue5.Height
+                    ZIndex: =3
+
+                StarVisible5 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey5.Height
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey5.Y
+                    ZIndex: =4
+
+        Button1_1 As button:
+            BorderColor: =ColorFade(Button1_1.Fill, -15%)
+            HoverBorderColor: =ColorFade(Button1_1.BorderColor, 20%)
+            OnSelect: =SubmitForm(MolexHolidaysForm)
+            PressedBorderColor: =Button1_1.Fill
+            PressedColor: =Button1_1.Fill
+            PressedFill: =Button1_1.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Text: ="Submit"
+            Visible: =varMolexHolidays
+            X: =939
+            Y: =648
+            ZIndex: =57
+
+        Icon1_1 As icon.AddUser:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon1_1.Fill
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon1_1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon1_1.Color, 20%)
+            HoverFill: =Icon1_1.Fill
+            Icon: =Icon.AddToCalendar
+            OnSelect: =ResetForm(MolexHolidaysForm);NewForm(MolexHolidaysForm);Set(varGalDefaultHoliday,Blank());Set(varGalDefaultHoliday,{})
+            PressedBorderColor: =ColorFade(Icon1_1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon1_1.Color, -20%)
+            PressedFill: =Icon1_1.Fill
+            Visible: =varMolexHolidays
+            Width: =50
+            X: =613
+            Y: =170
+            ZIndex: =58
+
+        EditForm_1 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =varMolexHolidays
+            Width: =50
+            X: =703
+            Y: =170
+            ZIndex: =59
+
+            Image7_2 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_2.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_2.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M2048 1920v-640h-128v128h-1792v-1024h640v-128h-768v1664h2048zM1920 1792h-1792v-256h1792v256zM1848 1152q42 0 78.5 -15t63.5 -42t42.5 -63t15.5 -78q0 -39 -15 -76t-43 -65l-717 -719l-377 -94l94 377l717 718q28 28 65 42.5t76 14.5zM1899 903q21 21 21 51q0 31 -20.5 50.5t-51.5 19.5q-14 0 -27 -4.5t-23 -14.5l-692 -694l-34 -135l135 34z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_2.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_2.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_2 As button:
+                BorderColor: =ColorFade(Button4_2.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_2.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: =ResetForm(MolexHolidaysForm);EditForm(MolexHolidaysForm)
+                PressedBorderColor: =Button4_2.Fill
+                PressedColor: =Button4_2.Fill
+                PressedFill: =Button4_2.Color
+                Text: =""
+                Width: =50
+                ZIndex: =2
+
+        RemoveUser_1 As groupContainer.manualLayoutContainer:
+            Height: =50
+            Visible: =If(varMolexHolidays = true,MolexHolidaysForm.Mode <> FormMode.View,varMolexHolidays)
+            Width: =50
+            X: =1286
+            Y: =170
+            ZIndex: =60
+
+            Image7_3 As image:
+                Height: =50
+                HoverBorderColor: =ColorFade(Image7_3.BorderColor, 20%)
+                HoverFill: =ColorFade(Image7_3.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & 
+                     EncodeUrl(
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' viewBox='-10 0 2068 2048'>
+                      <g transform='matrix(1 0 0 -1 0 2048),rotate(0,1034,1024)'>
+                       <path fill='white'
+                    d='M1664 1920h384v-1792h-2048v1792h384v128h128v-128h1024v128h128v-128zM384 1792h-256v-256h1792v256h-256v-128h-128v128h-1024v-128h-128v128zM128 256h1792v1152h-1792v-1152zM1299 1197l90 -90l-274 -275l274 -275l-90 -90l-275 275l-275 -275l-90 90l274 275l-274 275l90 90l275 -275z' />
+                      </g>
+                    
+                    </svg>"
+                    )
+                PressedBorderColor: =ColorFade(Image7_3.BorderColor, -20%)
+                PressedFill: =ColorFade(Image7_3.Fill, -20%)
+                Width: =50
+                ZIndex: =1
+
+            Button4_3 As button:
+                BorderColor: =ColorFade(Button4_3.Fill, -15%)
+                Color: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                HoverBorderColor: =ColorFade(Button4_3.BorderColor, 20%)
+                HoverFill: =ColorFade(RGBA(0, 0, 0, 0), -20%)
+                OnSelect: |-
+                    =Set(varItemToDeleteHoly,MolexHolidaysGallery.Selected);
+                    Set(varShowDelete, true)
+                PressedBorderColor: =Button4_3.Fill
+                PressedColor: =Button4_3.Fill
+                PressedFill: =Button4_3.Color
+                Text: =""
+                Visible: =MolexHolidaysForm.Mode <> FormMode.View
+                Width: =50
+                ZIndex: =2
+
+        Label9_1 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =60
+            Size: =20
+            Text: |-
+                =If(
+                    MolexHolidaysForm.Mode = FormMode.New,
+                    "Adding a new Holiday",
+                    If(
+                        MolexHolidaysForm.Mode = FormMode.Edit,
+                        "Editing Displayed Holiday"
+                    )
+                )
+            Visible: =varMolexHolidays
+            Width: =533
+            X: =753
+            Y: =165
+            ZIndex: =61
+

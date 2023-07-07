@@ -1,0 +1,464 @@
+Welcome_Screen As screen:
+    BackgroundImage: ='pexels-photo-457882'
+    Height: =Max(App.Height, App.DesignHeight)
+    ImagePosition: =ImagePosition.Fill
+    Orientation: =If(Welcome_Screen.Width < Welcome_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Welcome_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    lblHeader_1 As label:
+        Align: =LayoutAlignItems.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =lblHeader_1.BorderColor
+        FocusedBorderThickness: =5
+        FontWeight: =FontWeight.Bold
+        Height: =71
+        HoverBorderColor: =lblHeader_1.BorderColor
+        HoverColor: =lblHeader_1.Color
+        HoverFill: =lblHeader_1.Fill
+        PressedBorderColor: =lblHeader_1.BorderColor
+        PressedColor: =lblHeader_1.Color
+        PressedFill: =lblHeader_1.Fill
+        Size: =40
+        TabIndex: =3
+        Text: ="Time Off Request"
+        Width: =547
+        X: =411
+        Y: =9
+        ZIndex: =2
+
+    rectFooter_1 As rectangle:
+        DisabledFill: =rectFooter_1.Fill
+        FocusedBorderColor: =rectFooter_1.BorderColor
+        Height: =72
+        HoverFill: =rectFooter_1.Fill
+        PressedFill: =rectFooter_1.Fill
+        Width: =1366
+        Y: =696
+        ZIndex: =3
+
+    imgProfile_1 As image:
+        AccessibleLabel: ="Profile Picture"
+        FocusedBorderColor: =imgProfile_1.BorderColor
+        Height: =60
+        HoverBorderColor: =ColorFade(imgProfile_1.BorderColor, 20%)
+        HoverFill: =ColorFade(imgProfile_1.Fill, 20%)
+        Image: =curUserPhoto
+        PressedBorderColor: =ColorFade(imgProfile_1.BorderColor, -20%)
+        PressedFill: =ColorFade(imgProfile_1.Fill, -20%)
+        RadiusBottomLeft: =50
+        RadiusBottomRight: =50
+        RadiusTopLeft: =50
+        RadiusTopRight: =50
+        TabIndex: =5
+        Width: =60
+        X: =1272
+        Y: =19
+        ZIndex: =4
+
+    lblWelcome_1 As label:
+        Align: =Align.Right
+        BorderColor: =RGBA(255, 102, 102, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+        FocusedBorderColor: =lblWelcome_1.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =49
+        HoverBorderColor: =lblWelcome_1.BorderColor
+        HoverColor: =lblWelcome_1.Color
+        HoverFill: =lblWelcome_1.Fill
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =lblWelcome_1.BorderColor
+        PressedColor: =lblWelcome_1.Color
+        PressedFill: =lblWelcome_1.Fill
+        Size: =20
+        TabIndex: =4
+        Text: =curUser.FullName
+        Width: =500
+        X: =759
+        Y: =22
+        ZIndex: =5
+
+    lblVersion_1 As label:
+        Color: =RGBA(255, 255, 255, 1)
+        FocusedBorderThickness: =5
+        Height: =36
+        TabIndex: =1
+        Text: ="V1"
+        Width: =43
+        X: =7
+        Y: =7
+        ZIndex: =6
+
+    "'Manager Container' As groupContainer.manualLayoutContainer":
+        Height: =50
+        Visible: |-
+            =If(
+                isApprover = true,
+                true,
+                false
+            )
+        Width: =200
+        X: =434
+        Y: =705
+        ZIndex: =7
+
+        Button6_7 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_7.Fill, -15%)
+            Color: =If(btn_Overlay_7.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_7.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            HoverBorderColor: =ColorFade(Button6_7.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_7.Fill
+            PressedColor: =Button6_7.Fill
+            PressedFill: =Button6_7.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Size: =20
+            Text: ="Manager"
+            Width: =157
+            X: =31
+            ZIndex: =1
+
+        Icon15_7 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_7.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_7.Fill
+            Fill: =If(btn_Overlay_7.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon15_7.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_7.Color, 20%)
+            HoverFill: =Icon15_7.Fill
+            Icon: =Icon.People
+            PressedBorderColor: =ColorFade(Icon15_7.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_7.Color, -20%)
+            PressedFill: =Icon15_7.Fill
+            Width: =50
+            ZIndex: =2
+
+        btn_Overlay_7 As button:
+            BorderColor: =ColorFade(btn_Overlay_7.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            HoverBorderColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(managerScreen)
+            PressedBorderColor: =btn_Overlay_7.Fill
+            PressedColor: =btn_Overlay_7.Fill
+            PressedFill: =btn_Overlay_7.Color
+            Text: =""
+            Width: =200
+            ZIndex: =3
+
+    "'Employee Container' As groupContainer.manualLayoutContainer":
+        Height: =50
+        Width: =200
+        X: =99
+        Y: =705
+        ZIndex: =8
+
+        Button6_8 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_8.Fill, -15%)
+            Color: =If(btn_Overlay_8.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_8.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            HoverBorderColor: =ColorFade(Button6_8.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_8.Fill
+            PressedColor: =Button6_8.Fill
+            PressedFill: =Button6_8.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Size: =20
+            Text: ="Employee"
+            Width: =157
+            X: =31
+            ZIndex: =1
+
+        Icon15_8 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_8.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_8.Fill
+            Fill: =If(btn_Overlay_8.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon15_8.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_8.Color, 20%)
+            HoverFill: =Icon15_8.Fill
+            Icon: =Icon.LogJournal
+            PressedBorderColor: =ColorFade(Icon15_8.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_8.Color, -20%)
+            PressedFill: =Icon15_8.Fill
+            Width: =50
+            ZIndex: =2
+
+        btn_Overlay_8 As button:
+            BorderColor: =ColorFade(btn_Overlay_8.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            HoverBorderColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(Landing)
+            PressedBorderColor: =btn_Overlay_8.Fill
+            PressedColor: =btn_Overlay_8.Fill
+            PressedFill: =btn_Overlay_8.Color
+            Text: =""
+            Width: =200
+            ZIndex: =3
+
+    "'HR Container' As groupContainer.manualLayoutContainer":
+        Height: =50
+        Visible: |-
+            =If(
+                isApprover = true,
+                true,
+                false
+            )
+        Width: =200
+        X: =796
+        Y: =705
+        ZIndex: =9
+
+        Button6_9 As button:
+            BorderColor: =ColorFade(Button6_9.Fill, -15%)
+            Color: =If(btn_Overlay_9.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_9.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            HoverBorderColor: =ColorFade(Button6_9.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_9.Fill
+            PressedColor: =Button6_9.Fill
+            PressedFill: =Button6_9.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Size: =20
+            Text: ="HR"
+            Width: =157
+            X: =31
+            ZIndex: =1
+
+        Icon15_9 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_9.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_9.Fill
+            Fill: =If(btn_Overlay_9.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon15_9.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_9.Color, 20%)
+            HoverFill: =Icon15_9.Fill
+            Icon: =Icon.Support
+            PressedBorderColor: =ColorFade(Icon15_9.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_9.Color, -20%)
+            PressedFill: =Icon15_9.Fill
+            Width: =50
+            ZIndex: =2
+
+        btn_Overlay_9 As button:
+            BorderColor: =ColorFade(btn_Overlay_9.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            HoverBorderColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(HR_Portal)
+            PressedBorderColor: =btn_Overlay_9.Fill
+            PressedColor: =btn_Overlay_9.Fill
+            PressedFill: =btn_Overlay_9.Color
+            Text: =""
+            Width: =200
+            ZIndex: =3
+
+    ResourcesButton As groupContainer.manualLayoutContainer:
+        Height: =50
+        Width: =221
+        X: =1087
+        Y: =707
+        ZIndex: =10
+
+        Button6_18 As button:
+            BorderColor: =ColorFade(Button6_18.Fill, -15%)
+            Color: =If(btn_Overlay_18.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_18.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =50
+            HoverBorderColor: =ColorFade(Button6_18.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_18.Fill
+            PressedColor: =Button6_18.Fill
+            PressedFill: =Button6_18.Color
+            RadiusBottomLeft: =20
+            RadiusBottomRight: =20
+            RadiusTopLeft: =20
+            RadiusTopRight: =20
+            Size: =20
+            Text: ="Resources"
+            Width: =190
+            X: =31
+            ZIndex: =1
+
+        Icon15_18 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_18.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_18.Fill
+            Fill: =If(btn_Overlay_18.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon15_18.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_18.Color, 20%)
+            HoverFill: =Icon15_18.Fill
+            Icon: =Icon.DocumentPDF
+            PressedBorderColor: =ColorFade(Icon15_18.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_18.Color, -20%)
+            PressedFill: =Icon15_18.Fill
+            Width: =50
+            ZIndex: =2
+
+        btn_Overlay_18 As button:
+            BorderColor: =ColorFade(btn_Overlay_18.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            HoverBorderColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: |-
+                =Set(
+                    _resources,
+                    true
+                )
+            PressedBorderColor: =btn_Overlay_18.Fill
+            PressedColor: =btn_Overlay_18.Fill
+            PressedFill: =btn_Overlay_18.Color
+            Text: =""
+            Width: =221
+            ZIndex: =3
+
+    ResourcesScreen As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =20
+
+        Button18 As button:
+            BorderColor: =ColorFade(Button18.Fill, -15%)
+            DisplayMode: =DisplayMode.View
+            Height: =350
+            HoverBorderColor: =ColorFade(Button18.BorderColor, 20%)
+            PressedBorderColor: =Button18.Fill
+            PressedColor: =Button18.Fill
+            PressedFill: =Button18.Color
+            RadiusBottomLeft: =25
+            RadiusBottomRight: =25
+            RadiusTopLeft: =25
+            RadiusTopRight: =25
+            Text: ="Button"
+            Visible: =_resources
+            Width: =602
+            X: =383
+            Y: =129
+            ZIndex: =1
+
+        Button5_11 As button:
+            BorderColor: =ColorFade(Button5_11.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_11.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Launch(
+                    "https://kochprod.service-now.com/compass?id=kb_article&table=kb_knowledge&sysparm_article=KB0032353&sys_kb_id=1e7464874732e55024fd8e87536d4327",
+                    {},
+                    LaunchTarget.New
+                )
+            PressedBorderColor: =Button5_11.Fill
+            PressedColor: =Button5_11.Fill
+            PressedFill: =Button5_11.Color
+            Text: ="Molex Vacation Policy"
+            Visible: =_resources
+            Width: =539
+            X: =414
+            Y: =229
+            ZIndex: =12
+
+        Button5_10 As button:
+            BorderColor: =ColorFade(Button5_10.Fill, -15%)
+            Color: =RGBA(0, 0, 0, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =43
+            HoverBorderColor: =ColorFade(Button5_10.BorderColor, 20%)
+            HoverFill: =ColorFade(RGBA(237, 241, 242, 100), -20%)
+            OnSelect: |-
+                =Download("https://kochind.sharepoint.com/:b:/r/sites/SalesImprovement/Shared%20Documents/Time%20Off%20App/Time%20Off%20App%20Instructions.pdf?csf=1&web=1&e=Zfmmun")
+            PressedBorderColor: =Button5_10.Fill
+            PressedColor: =Button5_10.Fill
+            PressedFill: =Button5_10.Color
+            Text: ="User's Manual"
+            Visible: =_resources
+            Width: =540
+            X: =414
+            Y: =296
+            ZIndex: =13
+
+        Label1_1 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =48
+            Size: =20
+            Text: ="Resources"
+            Visible: =_resources
+            Width: =180
+            X: =594
+            Y: =148
+            ZIndex: =14
+
+        Icon9_1 As icon.BackArrow:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Icon9_1.Fill
+            Height: =50
+            HoverBorderColor: =ColorFade(Icon9_1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon9_1.Color, 20%)
+            HoverFill: =Icon9_1.Fill
+            Icon: =Icon.BackArrow
+            OnSelect: =Set(_resources,false)
+            PressedBorderColor: =ColorFade(Icon9_1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon9_1.Color, -20%)
+            PressedFill: =Icon9_1.Fill
+            Visible: =_resources
+            Width: =50
+            X: =396
+            Y: =144
+            ZIndex: =15
+

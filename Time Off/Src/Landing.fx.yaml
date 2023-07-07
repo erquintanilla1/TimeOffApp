@@ -1,0 +1,625 @@
+Landing As screen:
+    BackgroundImage: ='pexels-photo-457882'
+    Height: =Max(App.Height, App.DesignHeight)
+    ImagePosition: =ImagePosition.Fill
+    OnVisible: =
+    Orientation: =If(Landing.Width < Landing.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Landing.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    BackgroundDim As rectangle:
+        BorderColor: =RGBA(255, 102, 102, 1)
+        DisabledFill: =BackgroundDim.Fill
+        Fill: =RGBA(37, 37, 37, 0.8)
+        FocusedBorderColor: =BackgroundDim.BorderColor
+        Height: =App.Height
+        HoverFill: =BackgroundDim.Fill
+        PressedFill: =BackgroundDim.Fill
+        Width: =1366
+        ZIndex: =1
+
+    rectFooter As rectangle:
+        DisabledFill: =rectFooter.Fill
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =rectFooter.BorderColor
+        Height: =72
+        HoverFill: =rectFooter.Fill
+        PressedFill: =rectFooter.Fill
+        Width: =1366
+        Y: =696
+        ZIndex: =2
+
+    lblHeader As label:
+        Align: =LayoutAlignItems.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =lblHeader.BorderColor
+        FocusedBorderThickness: =5
+        FontWeight: =FontWeight.Bold
+        Height: =71
+        HoverBorderColor: =lblHeader.BorderColor
+        HoverColor: =lblHeader.Color
+        HoverFill: =lblHeader.Fill
+        PressedBorderColor: =lblHeader.BorderColor
+        PressedColor: =lblHeader.Color
+        PressedFill: =lblHeader.Fill
+        Size: =40
+        TabIndex: =3
+        Text: ="Balances"
+        Width: =547
+        X: =411
+        ZIndex: =3
+
+    "galleryMyBalances As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+        AccessibleLabel: ="My Balance Summary Gallery"
+        DisabledBorderColor: =galleryMyBalances.BorderColor
+        DisabledFill: =galleryMyBalances.Fill
+        Height: =523
+        HoverBorderColor: =galleryMyBalances.BorderColor
+        HoverFill: =galleryMyBalances.Fill
+        Items: |-
+            =With(
+                {
+                    myEmployee: LookUp(
+                        'Employee List',
+                        Employee.Email = curUserEmail
+                    )
+                },
+                If(//Evaluating if user was hired after June 30th.
+                    myEmployee.'Hire Date' > Date(
+                        Year(Now()),
+                        6,
+                        30
+                    ),
+                    If(//If true, exclude Floating Holiday
+                        //myEmployee.'Residency State'.Value = "Idaho",
+                        LookUp(TimeOffStates,Title = myEmployee.'Residency State'.Value,ShowSickTime), //Delegation warning would be in reference to the TimeOffStates list which has a max of 50 reocords, thus should be fine. 
+                        Filter(
+                            'Time Off Balances',
+                            EmployeeID = Title,
+                            TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "*Bereavement" || TimeOffTypes.Value = "Sick Leave"
+                        ),
+                        Filter(//If true exclude Sick Day
+                            'Time Off Balances',
+                            EmployeeID = Title,
+                            TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "*Bereavement"
+                        )
+                        
+                    ),
+                    If(//If false include Floating Holiday.
+                        myEmployee.'Residency State'.Value = "Idaho",
+                        Filter(//If true exclude Sick Day
+                            'Time Off Balances',
+                            EmployeeID = Title,
+                            TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "Floating Holiday" || TimeOffTypes.Value = "*Bereavement"
+                        ),
+                        Filter(
+                            'Time Off Balances',
+                            EmployeeID = Title,
+                            TimeOffTypes.Value = "Vacation" || TimeOffTypes.Value = "*Jury Duty" || TimeOffTypes.Value = "Floating Holiday" || TimeOffTypes.Value = "*Bereavement" || TimeOffTypes.Value = "Sick Leave"
+                        )
+                    )
+                )
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =galleryMyBalances.BorderColor
+        PressedBorderColor: =galleryMyBalances.BorderColor
+        PressedFill: =galleryMyBalances.Fill
+        TabIndex: =6
+        TemplatePadding: =0
+        TemplateSize: =297
+        Width: =1365
+        WrapCount: =5
+        Y: =138
+        ZIndex: =4
+
+        hoursAvailable As label:
+            Align: =LayoutAlignItems.Center
+            Color: =RGBA(0, 18, 107, 1)
+            FocusedBorderColor: =hoursAvailable.BorderColor
+            FocusedBorderThickness: =.5
+            Height: =61
+            HoverBorderColor: =hoursAvailable.BorderColor
+            HoverColor: =hoursAvailable.Color
+            HoverFill: =hoursAvailable.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =hoursAvailable.BorderColor
+            PressedColor: =hoursAvailable.Color
+            PressedFill: =hoursAvailable.Fill
+            Size: =15
+            TabIndex: =9
+            Text: |-
+                =If(//Evaluating if user was hired current year.
+                    Year(
+                        LookUp(
+                            'Employee List',
+                            Employee.Email = curUserEmail
+                        ).'Hire Date'
+                    ) = Year(Now()),
+                    ((12 - Month(//if true user receive a prorated amount of hours for vacation
+                        LookUp(
+                            'Employee List',
+                            Employee.Email = curUserEmail
+                        ).'Hire Date'
+                    ) + 1)) * 10,
+                    Round(
+                        If(
+                    /*Evaluating how many years old in the company current user is.*/
+                            DateDiff(
+                                DateValue(
+                                    LookUp(
+                                        'Employee List',
+                                        Employee.Email = curUserEmail
+                                    ).'Hire Date'
+                                ),
+                                Today(),
+                                TimeUnit.Years
+                            ) + 1 < 10,
+                    //If less than 10 years
+                            LookUp(
+                                'Time Off Types',
+                                Title = ThisItem.TimeOffTypes.Value
+                            ).AllottedHrs +/*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                            If(
+                    /*Evaluating how many years old in the company current user is.*/
+                                DateDiff(
+                                    DateValue(
+                                        LookUp(
+                                            'Employee List',
+                                            Employee.Email = curUserEmail
+                                        ).'Hire Date'
+                                    ),
+                                    Today(),
+                                    TimeUnit.Years
+                                ) + 1 < 20,
+                    //If less than 20 years
+                                LookUp(
+                                    'Time Off Types',
+                                    Title = ThisItem.TimeOffTypes.Value
+                                ).AllottedHrs_10yr_Employee +/*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                                If(
+                    /*Evaluating how many years old in the company current user is.*/
+                                    DateDiff(
+                                        DateValue(
+                                            LookUp(
+                                                'Employee List',
+                                                Employee.Email = curUserEmail
+                                            ).'Hire Date'
+                                        ),
+                                        Today(),
+                                        TimeUnit.Years
+                                    ) + 1 < 30,
+                    //If less than 30 years
+                                    LookUp(
+                                        'Time Off Types',
+                                        Title = ThisItem.TimeOffTypes.Value
+                                    ).AllottedHrs_20yr_Employee +/*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time',
+                    //Over 30 years
+                                    LookUp(
+                                        'Time Off Types',
+                                        Title = ThisItem.TimeOffTypes.Value
+                                    ).AllottedHrs_30yr_Employee +/*Adding any accrued time from last year ->>*/ ThisItem.'Rollover Time'
+                                )
+                            )
+                        ),
+                        1
+                    )
+                )
+            Visible: =false
+            Width: =144
+            X: =43
+            Y: =122
+            ZIndex: =5
+
+        Group2 As group:
+            Height: =5
+            Width: =5
+            X: =40
+            Y: =40
+            ZIndex: =6
+
+            Image2 As image:
+                AccessibleLabel: ="SVG Balance Circle"
+                FocusedBorderColor: =Image2.BorderColor
+                Height: =203
+                HoverBorderColor: =ColorFade(Image2.BorderColor, 20%)
+                HoverFill: =ColorFade(Image2.Fill, 20%)
+                Image: |-
+                    ="data:image/svg+xml," & EncodeUrl(
+                        "<svg width='100%' height='100%' viewBox='0 0 42 42' class='donut' xmlns='http://www.w3.org/2000/svg'>
+                      <circle class='donut-hole' cx='21' cy='21' r='15.91549430918954' fill='#fff'></circle>
+                      <circle class='donut-ring' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#ce4b99' stroke-width='3'></circle>
+                      <circle class='donut-segment' cx='21' cy='21' r='15.91549430918954' fill='transparent' stroke='#d2d3d4' stroke-width='3' stroke-dasharray='" & If(
+                            Or(
+                                ThisItem.TimeOffTypes.Value = "*Bereavement",
+                                ThisItem.TimeOffTypes.Value = "*Jury Duty"
+                            ),
+                            ThisItem.RequestedTimeOff & " " & 0,
+                            IfError(
+                                ThisItem.RequestedTimeOff / hoursAvailable * 100,
+                                0
+                            ) & " " & hoursAvailable
+                        ) & "' stroke-dashoffset='0'></circle>
+                    </svg>"
+                    )
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(Image2.BorderColor, -20%)
+                PressedFill: =ColorFade(Image2.Fill, -20%)
+                TabIndex: =8
+                Width: =225
+                X: =24
+                ZIndex: =1
+
+            Title2 As label:
+                Align: =LayoutAlignItems.Center
+                Color: =RGBA(255, 255, 255, 1)
+                FocusedBorderColor: =Title2.BorderColor
+                FocusedBorderThickness: =.5
+                Height: =95
+                HoverBorderColor: =Title2.BorderColor
+                HoverColor: =Title2.Color
+                HoverFill: =Title2.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title2.BorderColor
+                PressedColor: =Title2.Color
+                PressedFill: =Title2.Fill
+                Size: =24
+                TabIndex: =7
+                Text: =ThisItem.TimeOffTypes.Value
+                VerticalAlign: =VerticalAlign.Top
+                Width: =237
+                X: =18
+                Y: =202
+                ZIndex: =2
+
+            Title2_1 As label:
+                Align: =LayoutAlignItems.Center
+                Color: =RGBA(0, 18, 107, 1)
+                FocusedBorderColor: =Title2_1.BorderColor
+                FocusedBorderThickness: =.5
+                Height: =61
+                HoverBorderColor: =Title2_1.BorderColor
+                HoverColor: =Title2_1.Color
+                HoverFill: =Title2_1.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title2_1.BorderColor
+                PressedColor: =Title2_1.Color
+                PressedFill: =Title2_1.Fill
+                Size: =28
+                TabIndex: =9
+                Text: |-
+                    =If(
+                        Or(
+                            ThisItem.TimeOffTypes.Value = "*Bereavement",
+                            ThisItem.TimeOffTypes.Value = "*Jury Duty"
+                        ),
+                        If(
+                            IsBlank(ThisItem.RequestedTimeOff),
+                            0,
+                            ThisItem.RequestedTimeOff
+                        ),
+                        hoursAvailable - ThisItem.RequestedTimeOff
+                    )
+                VerticalAlign: =VerticalAlign.Top
+                Width: =144
+                X: =61
+                Y: =71
+                ZIndex: =3
+
+            Label2 As label:
+                Align: =LayoutAlignItems.Center
+                FocusedBorderColor: =Label2.BorderColor
+                FocusedBorderThickness: =.5
+                Height: =35
+                HoverBorderColor: =Label2.BorderColor
+                HoverColor: =Label2.Color
+                HoverFill: =Label2.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label2.BorderColor
+                PressedColor: =Label2.Color
+                PressedFill: =Label2.Fill
+                Size: =12
+                TabIndex: =10
+                Text: |-
+                    =If(
+                        ThisItem.TimeOffTypes.Value = "*Bereavement"|| ThisItem.TimeOffTypes.Value = "*Jury Duty",
+                        "Hours Used",
+                        //ThisItem.TimeOffTypes.Value = "*Jury Duty",
+                        //"Hours Used",
+                        "Hours Available"
+                    )
+                Width: =187
+                X: =43
+                Y: =110
+                ZIndex: =4
+
+    imgProfile As image:
+        AccessibleLabel: ="Profile Picture"
+        FocusedBorderColor: =imgProfile.BorderColor
+        Height: =60
+        HoverBorderColor: =ColorFade(imgProfile.BorderColor, 20%)
+        HoverFill: =ColorFade(imgProfile.Fill, 20%)
+        Image: =curUserPhoto
+        PressedBorderColor: =ColorFade(imgProfile.BorderColor, -20%)
+        PressedFill: =ColorFade(imgProfile.Fill, -20%)
+        RadiusBottomLeft: =50
+        RadiusBottomRight: =50
+        RadiusTopLeft: =50
+        RadiusTopRight: =50
+        TabIndex: =5
+        Width: =60
+        X: =1272
+        Y: =7
+        ZIndex: =5
+
+    lblWelcome As label:
+        Align: =Align.Right
+        BorderColor: =RGBA(255, 102, 102, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+        FocusedBorderColor: =lblWelcome.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =49
+        HoverBorderColor: =lblWelcome.BorderColor
+        HoverColor: =lblWelcome.Color
+        HoverFill: =lblWelcome.Fill
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =lblWelcome.BorderColor
+        PressedColor: =lblWelcome.Color
+        PressedFill: =lblWelcome.Fill
+        Size: =20
+        TabIndex: =4
+        Text: =curUser.FullName
+        Width: =500
+        X: =759
+        Y: =10
+        ZIndex: =6
+
+    lblVersion As label:
+        Color: =RGBA(255, 255, 255, 1)
+        FocusedBorderThickness: =5
+        Height: =36
+        TabIndex: =1
+        Text: ="V1"
+        Width: =43
+        Y: =647
+        ZIndex: =7
+
+    iconRefresh As icon.Reload:
+        AccessibleLabel: ="Refresh"
+        Color: =RGBA(255, 255, 255, 1)
+        DisabledFill: =iconRefresh.Fill
+        Height: =30
+        HoverBorderColor: =ColorFade(iconRefresh.BorderColor, 20%)
+        HoverColor: =ColorFade(iconRefresh.Color, 20%)
+        HoverFill: =iconRefresh.Fill
+        Icon: =Icon.Reload
+        OnSelect: =Refresh('Time Off Balances');Refresh('Time Off Calendar');Refresh('Time Off Requests')
+        PressedBorderColor: =ColorFade(iconRefresh.BorderColor, -20%)
+        PressedColor: =ColorFade(iconRefresh.Color, -20%)
+        PressedFill: =iconRefresh.Fill
+        TabIndex: =2
+        Width: =30
+        X: =1319
+        Y: =647
+        ZIndex: =8
+
+    lblVersion_2 As label:
+        Color: =RGBA(255, 255, 255, 1)
+        FocusedBorderThickness: =5
+        Height: =33
+        TabIndex: =1
+        Text: ="*Jury Duty and Bereavement only accumulate time."
+        Width: =426
+        X: =862
+        Y: =649
+        ZIndex: =9
+
+    "'Back Button Container' As groupContainer.manualLayoutContainer":
+        Height: =53
+        Width: =123
+        X: =15
+        Y: =5
+        ZIndex: =10
+
+        Button6 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6.Fill, -15%)
+            Color: =If(btn_Overlay.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =53
+            HoverBorderColor: =ColorFade(Button6.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6.Fill
+            PressedColor: =Button6.Fill
+            PressedFill: =Button6.Color
+            Size: =20
+            Text: ="Back"
+            Width: =120
+            ZIndex: =1
+
+        Icon15 As icon.ChevronLeft:
+            Color: =If(btn_Overlay.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15.Fill
+            Fill: =If(btn_Overlay.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            Height: =35
+            HoverBorderColor: =ColorFade(Icon15.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15.Color, 20%)
+            HoverFill: =Icon15.Fill
+            Icon: =Icon.ChevronLeft
+            PressedBorderColor: =ColorFade(Icon15.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15.Color, -20%)
+            PressedFill: =Icon15.Fill
+            Width: =46
+            Y: =9
+            ZIndex: =2
+
+        btn_Overlay As button:
+            BorderColor: =ColorFade(btn_Overlay.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =53
+            HoverBorderColor: =ColorFade(btn_Overlay.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(Welcome_Screen)
+            PressedBorderColor: =btn_Overlay.Fill
+            PressedColor: =btn_Overlay.Fill
+            PressedFill: =btn_Overlay.Color
+            Text: =""
+            Width: =120
+            ZIndex: =3
+
+    "'NewRequest. Container' As groupContainer.manualLayoutContainer":
+        BorderColor: =RGBA(56, 96, 178, 1)
+        BorderThickness: =10
+        Fill: =RGBA(56, 96, 178, 1)
+        Height: =64
+        RadiusBottomLeft: =30
+        RadiusBottomRight: =30
+        RadiusTopLeft: =30
+        RadiusTopRight: =30
+        Width: =337
+        X: =230
+        Y: =692
+        ZIndex: =13
+
+        Button6_10 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_10.Fill, -15%)
+            Color: =If(btn_Overlay_10.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_10.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =64
+            HoverBorderColor: =ColorFade(Button6_10.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            PressedBorderColor: =Button6_10.Fill
+            PressedColor: =Button6_10.Fill
+            PressedFill: =Button6_10.Color
+            Size: =24
+            Text: ="New Request"
+            Width: =229
+            X: =82
+            ZIndex: =1
+
+        Icon15_10 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_10.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_10.Fill
+            Fill: =If(btn_Overlay_10.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            HoverBorderColor: =ColorFade(Icon15_10.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_10.Color, 20%)
+            HoverFill: =Icon15_10.Fill
+            Icon: =Icon.Add
+            PressedBorderColor: =ColorFade(Icon15_10.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_10.Color, -20%)
+            PressedFill: =Icon15_10.Fill
+            X: =12
+            ZIndex: =2
+
+        btn_Overlay_10 As button:
+            BorderColor: =ColorFade(btn_Overlay_10.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =64
+            HoverBorderColor: =ColorFade(btn_Overlay_10.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(Type)
+            PressedBorderColor: =btn_Overlay_10.Fill
+            PressedColor: =btn_Overlay_10.Fill
+            PressedFill: =btn_Overlay_10.Color
+            Text: =""
+            Tooltip: ="Click Here to Create a new Request."
+            Width: =337
+            ZIndex: =3
+
+    "'ExistingRequests Container' As groupContainer.manualLayoutContainer":
+        BorderColor: =RGBA(56, 96, 178, 1)
+        BorderThickness: =10
+        Fill: =RGBA(56, 96, 178, 1)
+        Height: =64
+        RadiusBottomLeft: =30
+        RadiusBottomRight: =30
+        RadiusTopLeft: =30
+        RadiusTopRight: =30
+        Width: =389
+        X: =758
+        Y: =692
+        ZIndex: =14
+
+        Button6_11 As button:
+            Align: =Align.Right
+            BorderColor: =ColorFade(Button6_11.Fill, -15%)
+            Color: =If(btn_Overlay_11.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            Fill: =If(btn_Overlay_11.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            FontWeight: =FontWeight.Bold
+            Height: =64
+            HoverBorderColor: =ColorFade(Button6_10.BorderColor, 20%)
+            HoverColor: =
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 80%)
+            OnSelect: =
+            PressedBorderColor: =Button6_11.Fill
+            PressedColor: =Button6_11.Fill
+            PressedFill: =Button6_11.Color
+            Size: =24
+            Text: ="Existing Requests"
+            Width: =291
+            X: =64
+            ZIndex: =1
+
+        Icon15_11 As icon.ChevronLeft:
+            Color: =If(btn_Overlay_11.Pressed,RGBA(39,119,194,1),RGBA(255,255,255,1))
+            DisabledFill: =Icon15_11.Fill
+            Fill: =If(btn_Overlay_11.Pressed,RGBA(255,255,255,1),RGBA(0,0,0,0))
+            HoverBorderColor: =ColorFade(Icon15_11.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon15_11.Color, 20%)
+            HoverFill: =Icon15_11.Fill
+            Icon: =Icon.Bell
+            PressedBorderColor: =ColorFade(Icon15_11.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon15_11.Color, -20%)
+            PressedFill: =Icon15_11.Fill
+            ZIndex: =2
+
+        btn_Overlay_11 As button:
+            BorderColor: =ColorFade(btn_Overlay_11.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =64
+            HoverBorderColor: =ColorFade(btn_Overlay_11.BorderColor, 20%)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 0), 10%)
+            OnSelect: =Navigate(HistoryScreen)
+            PressedBorderColor: =btn_Overlay_11.Fill
+            PressedColor: =btn_Overlay_11.Fill
+            PressedFill: =btn_Overlay_11.Color
+            Text: =""
+            Tooltip: ="Click here to view all your requests"
+            Width: =389
+            ZIndex: =3
+

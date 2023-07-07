@@ -1,0 +1,212 @@
+{
+  "37eddf09-9829-4ae2-917e-180072d3d409": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Microsoft Teams",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/anladwig/releases/teamsRetryLogic/1.0.1646.3350/teams/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_teams",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "3cc579b5-5197-4eee-a014-981416197e9c"
+    ],
+    "id": "37eddf09-9829-4ae2-917e-180072d3d409"
+  },
+  "3cc579b5-5197-4eee-a014-981416197e9c": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1636/1.0.1636.3297/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "37eddf09-9829-4ae2-917e-180072d3d409": {
+          "value": "shared_teams"
+        },
+        "59d4a1c4-dd55-449d-bdda-fe36e98d9e6a": {
+          "value": "shared_sharepointonline"
+        },
+        "64852b16-4509-4d34-be4c-adfa1f496b3a": {
+          "value": "shared_office365users"
+        },
+        "a2bce355-bbe7-4e41-a24a-d72ab2b7766f": {
+          "value": "shared_office365"
+        },
+        "beebd26f-9b84-40a4-a4ba-623ac62cc72c": {
+          "value": "shared_approvals"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "d92dc592-ab04-4494-8907-06d3a920bf95"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_approvals": {
+          "value": "beebd26f-9b84-40a4-a4ba-623ac62cc72c"
+        },
+        "shared_office365": {
+          "value": "a2bce355-bbe7-4e41-a24a-d72ab2b7766f"
+        },
+        "shared_office365users": {
+          "value": "64852b16-4509-4d34-be4c-adfa1f496b3a"
+        },
+        "shared_sharepointonline": {
+          "value": "59d4a1c4-dd55-449d-bdda-fe36e98d9e6a"
+        },
+        "shared_teams": {
+          "value": "37eddf09-9829-4ae2-917e-180072d3d409"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "d92dc592-ab04-4494-8907-06d3a920bf95"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "LeaveRequest_ApprovalProcess"
+    ],
+    "dependencies": {
+      "shared_approvals": "beebd26f-9b84-40a4-a4ba-623ac62cc72c",
+      "shared_office365": "a2bce355-bbe7-4e41-a24a-d72ab2b7766f",
+      "shared_office365users": "64852b16-4509-4d34-be4c-adfa1f496b3a",
+      "shared_sharepointonline": "59d4a1c4-dd55-449d-bdda-fe36e98d9e6a",
+      "shared_teams": "37eddf09-9829-4ae2-917e-180072d3d409"
+    },
+    "dependents": [],
+    "id": "3cc579b5-5197-4eee-a014-981416197e9c"
+  },
+  "59d4a1c4-dd55-449d-bdda-fe36e98d9e6a": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/shgogna/globalperconnector-train1/1.0.1639.3312/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://kochind.sharepoint.com/sites/LeaveRequest": {
+        "dataSources": {
+          "Employee List": {
+            "tableName": "718f1f4f-5e13-4a6f-9e95-09be1ab65cc1"
+          },
+          "MolexUSAHolidaySchedule": {
+            "tableName": "d7341365-7212-442f-a8e8-f96c2cad0d78"
+          },
+          "Time Off Balances": {
+            "tableName": "1dd9842a-fa65-4b2c-8c7c-84dc7e0a4881"
+          },
+          "Time Off Calendar": {
+            "tableName": "a1dd798e-47b1-49aa-9dd9-bbcd92c6ccda"
+          },
+          "Time Off Requests": {
+            "tableName": "3f5d55fe-3bdb-4331-870a-d2963a6d39f6"
+          },
+          "TimeOffApprovers": {
+            "tableName": "9b202d63-c82a-4d20-a81b-344c2bd26d13"
+          },
+          "TimeOffStates": {
+            "tableName": "122cc4d4-7b52-487c-b253-a4206d8ab385"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Time Off Requests",
+      "Time Off Balances",
+      "Time Off Calendar",
+      "TimeOffApprovers",
+      "Time Off Types",
+      "MolexUSAHolidaySchedule",
+      "Employee List",
+      "TimeOffStates"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "3cc579b5-5197-4eee-a014-981416197e9c"
+    ],
+    "id": "59d4a1c4-dd55-449d-bdda-fe36e98d9e6a"
+  },
+  "64852b16-4509-4d34-be4c-adfa1f496b3a": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/laborbol/partial-builds/390724148/1.0.1641.3327/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "3cc579b5-5197-4eee-a014-981416197e9c"
+    ],
+    "id": "64852b16-4509-4d34-be4c-adfa1f496b3a"
+  },
+  "a2bce355-bbe7-4e41-a24a-d72ab2b7766f": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/laborbol/partial-builds/390724148/1.0.1641.3327/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "3cc579b5-5197-4eee-a014-981416197e9c"
+    ],
+    "id": "a2bce355-bbe7-4e41-a24a-d72ab2b7766f"
+  },
+  "b8d84cb3-30bc-41df-af9f-dfd1f2d00ee8": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/u/shgogna/globalperconnector-train1/1.0.1639.3312/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://kochind.sharepoint.com/sites/LeaveRequest": {
+        "dataSources": {
+          "Time Off Types": {
+            "tableName": "7d85c26c-61dd-4d37-a2a5-78e3bcc56e42"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Time Off Types"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "b8d84cb3-30bc-41df-af9f-dfd1f2d00ee8"
+  },
+  "beebd26f-9b84-40a4-a4ba-623ac62cc72c": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Approvals",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1638/1.0.1638.3308/approvals/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_approvals",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "3cc579b5-5197-4eee-a014-981416197e9c"
+    ],
+    "id": "beebd26f-9b84-40a4-a4ba-623ac62cc72c"
+  }
+}

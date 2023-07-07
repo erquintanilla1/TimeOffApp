@@ -1,0 +1,115 @@
+"SuccessScreen As screen.'tabletLayout_Success_ver3.0'":
+    Height: =Max(App.Height, App.DesignHeight)
+    Orientation: =If(SuccessScreen.Width < SuccessScreen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= SuccessScreen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    iconCircle1 As circle.Circle:
+        AccessibleLabel: ="Success Circle"
+        DisabledFill: =iconCircle1.Fill
+        FocusedBorderColor: =iconCircle1.BorderColor
+        HoverFill: =iconCircle1.Fill
+        OnSelect: =Navigate(Landing)
+        PressedFill: =iconCircle1.Fill
+        TabIndex: =2
+        X: =Parent.Width/2 - iconCircle1.Width/2
+        Y: =(Parent.Height/2 - iconCircle1.Height/2) * .7
+        ZIndex: =1
+
+    iconCheck1 As icon.Check:
+        AccessibleLabel: ="Success Icon"
+        DisabledFill: =iconCheck1.Fill
+        FocusedBorderColor: =iconCheck1.BorderColor
+        Height: =iconCircle1.Height
+        HoverBorderColor: =ColorFade(iconCheck1.BorderColor, 20%)
+        HoverColor: =ColorFade(iconCheck1.Color, 20%)
+        HoverFill: =iconCheck1.Fill
+        Icon: =Icon.Check
+        OnSelect: =Navigate(Landing)
+        PaddingBottom: =iconCheck1.PaddingTop
+        PaddingLeft: =iconCheck1.PaddingTop
+        PaddingRight: =iconCheck1.PaddingTop
+        PaddingTop: =24
+        PressedBorderColor: =ColorFade(iconCheck1.BorderColor, -20%)
+        PressedColor: =ColorFade(iconCheck1.Color, -20%)
+        TabIndex: =1
+        Width: =iconCircle1.Width
+        X: =Parent.Width/2 - iconCheck1.Width/2
+        Y: =(Parent.Height/2 - iconCheck1.Height/2) * .7
+        ZIndex: =2
+
+    LblSuccessMsg1 As label:
+        Align: =Align.Center
+        AutoHeight: =true
+        FocusedBorderColor: =LblSuccessMsg1.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =iconCircle1.Height
+        HoverBorderColor: =LblSuccessMsg1.BorderColor
+        HoverColor: =LblSuccessMsg1.Color
+        HoverFill: =LblSuccessMsg1.Fill
+        PressedBorderColor: =LblSuccessMsg1.BorderColor
+        PressedColor: =LblSuccessMsg1.Color
+        PressedFill: =LblSuccessMsg1.Fill
+        Size: =20
+        TabIndex: =3
+        Text: ="Time Off Successfully Submitted"
+        Width: =Parent.Width * 0.75
+        X: =Parent.Width/2 - LblSuccessMsg1.Width/2
+        Y: =iconCheck1.Y + iconCheck1.Height + 100
+        ZIndex: =3
+
+    Icon2 As icon.Cancel:
+        AccessibleLabel: ="Cancel"
+        DisabledFill: =Icon2.Fill
+        FocusedBorderColor: =Icon2.BorderColor
+        HoverBorderColor: =ColorFade(Icon2.BorderColor, 20%)
+        HoverColor: =ColorFade(Icon2.Color, 20%)
+        HoverFill: =Icon2.Fill
+        Icon: =Icon.Cancel
+        OnSelect: =Navigate(Landing)
+        PressedBorderColor: =ColorFade(Icon2.BorderColor, -20%)
+        PressedColor: =ColorFade(Icon2.Color, -20%)
+        PressedFill: =Icon2.Fill
+        TabIndex: =4
+        X: =1275
+        Y: =27
+        ZIndex: =4
+
+    Timer1 As timer:
+        AutoStart: =true
+        BorderColor: =ColorFade(Timer1.Fill, -15%)
+        DisabledBorderColor: =ColorFade(Timer1.BorderColor, 70%)
+        DisabledColor: =ColorFade(Timer1.Fill, 90%)
+        DisabledFill: =ColorFade(Timer1.Fill, 70%)
+        Duration: =5000
+        HoverBorderColor: =ColorFade(Timer1.BorderColor, 20%)
+        OnTimerEnd: =Navigate(Landing)
+        PressedBorderColor: =Timer1.Fill
+        PressedColor: =Timer1.Fill
+        PressedFill: =Timer1.Color
+        Visible: =false
+        X: =1165
+        Y: =685
+        ZIndex: =5
+
+    LblSuccessMsg1_1 As label:
+        Align: =Align.Center
+        AutoHeight: =true
+        FocusedBorderColor: =LblSuccessMsg1_1.BorderColor
+        FocusedBorderThickness: =.5
+        Height: =iconCircle1.Height
+        HoverBorderColor: =LblSuccessMsg1_1.BorderColor
+        HoverColor: =LblSuccessMsg1_1.Color
+        HoverFill: =LblSuccessMsg1_1.Fill
+        PressedBorderColor: =LblSuccessMsg1_1.BorderColor
+        PressedColor: =LblSuccessMsg1_1.Color
+        PressedFill: =LblSuccessMsg1_1.Fill
+        Size: =20
+        TabIndex: =3
+        Text: |-
+            ="Redirecting to balances screen in: " & RoundUp(5-Timer1.Value/1000,0)
+        Width: =Parent.Width * 0.75
+        X: =171
+        Y: =477
+        ZIndex: =6
+
